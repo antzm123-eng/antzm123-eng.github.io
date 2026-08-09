@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>강윤구 — Portfolio</title>
+<link rel="preconnect" href="https://cdn.jsdelivr.net">
+<style>
+@font-face {
+  font-family: 'Paperlogy';
+  font-weight: 400;
+  src: url('https://cdn.jsdelivr.net/gh/fonts-archive/Paperlogy/Paperlogy-4Regular.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Paperlogy';
+  font-weight: 500;
+  src: url('https://cdn.jsdelivr.net/gh/fonts-archive/Paperlogy/Paperlogy-5Medium.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Paperlogy';
+  font-weight: 600;
+  src: url('https://cdn.jsdelivr.net/gh/fonts-archive/Paperlogy/Paperlogy-6SemiBold.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Paperlogy';
+  font-weight: 700;
+  src: url('https://cdn.jsdelivr.net/gh/fonts-archive/Paperlogy/Paperlogy-7Bold.woff2') format('woff2');
+}
+@font-face {
+  font-family: 'Paperlogy';
+  font-weight: 800;
+  src: url('https://cdn.jsdelivr.net/gh/fonts-archive/Paperlogy/Paperlogy-8ExtraBold.woff2') format('woff2');
+}
+/* Montserrat — Paperlogy's own Latin glyphs are built on Montserrat, so English text stays visually consistent with the Korean */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap');
+
+:root{
+  --bg: #1C1B19;
+  --bg-soft: #262421;
+  --bg-card: #2C2A26;
+  --line: #3A3733;
+  --ink: #ECE7DE;
+  --ink-dim: #A39D91;
+  --orange: #EE6A2F;
+  --orange-dim: #C2531F;
+  --orange-glow: rgba(238,106,47,0.14);
+}
+
+*{ margin:0; padding:0; box-sizing:border-box; }
+html{ scroll-behavior:smooth; }
+body{
+  background:var(--bg);
+  color:var(--ink);
+  font-family:'Paperlogy', -apple-system, sans-serif;
+  font-weight:450;
+  line-height:1.6;
+  overflow-x:hidden;
+  word-break:keep-all;      /* 한글은 어절 단위로만 줄바꿈 — 단어가 잘리는 것 방지 */
+  overflow-wrap:break-word; /* 이메일 등 긴 영문 문자열은 필요할 때만 예외적으로 줄바꿈 */
+  letter-spacing:-0.01em;
+}
+.hero h1{ word-break:keep-all; }
+.contact h2{ word-break:keep-all; }
+.eyebrow{
+  font-family:'Montserrat', sans-serif;
+  font-size:13px;
+  letter-spacing:0.14em;
+  text-transform:uppercase;
+  color:var(--orange);
+  font-weight:500;
+}
+::selection{ background:var(--orange); color:var(--bg); }
+
+/* progress line */
+.progress{
+  position:fixed; top:0; left:0; height:3px; width:0%;
+  background:var(--orange); z-index:100; transition:width .1s linear;
+}
+
+/* nav */
+nav{
+  position:fixed; top:0; left:0; right:0; z-index:90;
+  display:flex; justify-content:space-between; align-items:center;
+  padding:28px 6vw; mix-blend-mode:normal;
+  backdrop-filter: blur(6px);
+}
+nav .logo{ font-family:'Paperlogy','Montserrat'; font-weight:700; font-size:18px; letter-spacing:-0.02em; }
+nav .logo span{ color:var(--orange); }
+nav ul{ display:flex; gap:36px; list-style:none; }
+nav a{ color:var(--ink-dim); text-decoration:none; font-size:14px; transition:color .25s; }
+nav a:hover{ color:var(--ink); }
+
+/* hero */
+.hero{
+  min-height:100vh; min-height:100svh;
+  display:flex; flex-direction:column; justify-content:center;
+  padding:150px 6vw 110px; position:relative;
+}
+.hero .eyebrow{ margin-bottom:22px; }
+.hero h1{
+  font-size:clamp(48px, 9vw, 128px);
+  font-weight:700; letter-spacing:-0.03em; line-height:0.98;
+  color:var(--ink);
+}
+.hero h1 em{
+  font-style:normal; color:var(--orange);
+  position:relative;
+}
+.hero .role-line{
+  margin-top:28px; font-size:clamp(16px,2.2vw,22px); color:var(--ink-dim);
+  max-width:640px; font-weight:400;
+}
+.hero .role-line b{ color:var(--ink); font-weight:600; }
+
+/* role tabs — signature element */
+.role-tabs{
+  margin-top:56px; display:flex; gap:0; border-top:1px solid var(--line);
+}
+.role-tab{
+  position:relative; padding:18px 28px 18px 0; margin-right:28px;
+  font-family:'Montserrat','Paperlogy',sans-serif; font-size:14px; color:var(--ink-dim);
+  cursor:pointer; user-select:none; transition:color .25s;
+}
+.role-tab .num{ color:var(--orange-dim); margin-right:8px; }
+.role-tab.active{ color:var(--ink); }
+.role-tab.active .num{ color:var(--orange); }
+.role-tab::before{
+  content:''; position:absolute; top:-1px; left:0; height:2px; width:0;
+  background:var(--orange); transition:width .35s cubic-bezier(.4,0,.2,1);
+}
+.role-tab.active::before{ width:100%; }
+
+.scroll-cue{
+  position:absolute; bottom:40px; left:6vw; font-family:'Montserrat';
+  font-size:12px; color:var(--ink-dim); display:flex; align-items:center; gap:10px;
+}
+.scroll-cue .dot{ width:6px; height:6px; border-radius:50%; background:var(--orange); animation:pulse 1.8s infinite; }
+@keyframes pulse{ 0%,100%{opacity:.3} 50%{opacity:1} }
+
+/* section shell */
+section{ padding:130px 6vw; position:relative; }
+.section-head{ display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:64px; flex-wrap:wrap; gap:20px; }
+.section-head h2{ font-size:clamp(30px,4vw,48px); font-weight:700; letter-spacing:-0.02em; line-height:1.1; }
+.section-head p{ color:var(--ink-dim); max-width:360px; font-size:15px; }
+
+/* about */
+.about-grid{ display:flex; flex-direction:column; gap:56px; }
+.about-text p{ font-size:18px; color:var(--ink-dim); margin-bottom:20px; max-width:1100px; }
+.about-text p b{ color:var(--ink); font-weight:600; }
+.stat-list{ display:grid; grid-template-columns:repeat(4,1fr); gap:32px; border-top:1px solid var(--line); padding-top:28px; }
+.stat-row{
+  display:flex; flex-direction:column; gap:10px;
+}
+.stat-row .label{ color:var(--ink-dim); font-size:14px; }
+.stat-row .value{ font-family:'Montserrat','Paperlogy',sans-serif; font-size:15px; color:var(--ink); }
+
+/* work */
+.filter-bar{ display:flex; gap:10px; margin-bottom:48px; flex-wrap:wrap; }
+.filter-btn{
+  font-family:'Montserrat','Paperlogy',sans-serif; font-size:13px; padding:9px 18px; border-radius:999px;
+  border:1px solid var(--line); color:var(--ink-dim); background:transparent; cursor:pointer;
+  transition:all .25s;
+}
+.filter-btn:hover{ border-color:var(--orange-dim); color:var(--ink); }
+.filter-btn.active{ background:var(--orange); border-color:var(--orange); color:var(--bg); font-weight:600; }
+
+.work-grid{ display:grid; grid-template-columns:repeat(auto-fill,minmax(320px,1fr)); gap:24px; }
+.work-card{
+  background:var(--bg-card); border:1px solid var(--line); border-radius:4px;
+  padding:32px; transition:transform .3s, border-color .3s; cursor:pointer;
+  display:none;
+}
+.work-card.show{ display:block; animation:fadeUp .5s ease both; }
+@keyframes fadeUp{ from{opacity:0; transform:translateY(14px)} to{opacity:1; transform:translateY(0)} }
+.work-card:hover{ transform:translateY(-4px); border-color:var(--orange-dim); }
+.work-card .tag{ font-family:'Montserrat'; font-size:11px; color:var(--orange); letter-spacing:.08em; text-transform:uppercase; }
+.work-card h3{ font-size:21px; margin:14px 0 10px; font-weight:600; letter-spacing:-0.01em; }
+.work-card p{ font-size:14px; color:var(--ink-dim); }
+.work-card .meta{ margin-top:20px; padding-top:16px; border-top:1px solid var(--line); font-size:12px; color:var(--ink-dim); font-family:'Montserrat'; }
+
+/* gallery card */
+.gallery-preview{
+  display:grid; grid-template-columns:repeat(5,1fr); gap:6px; margin-top:16px;
+}
+.g-thumb{
+  width:100%; aspect-ratio:1/1; object-fit:cover; border-radius:3px;
+  cursor:pointer; transition:opacity .25s, transform .25s; display:block;
+}
+.g-thumb:hover{ opacity:0.82; transform:scale(1.02); }
+.g-more{
+  aspect-ratio:1/1; border-radius:3px; background:var(--bg-soft);
+  border:1px solid var(--line); display:flex; align-items:center; justify-content:center;
+  font-family:'Montserrat'; font-size:14px; color:var(--orange); cursor:pointer;
+  transition:background .25s;
+}
+.g-more:hover{ background:var(--orange-glow); }
+
+/* lightbox */
+.lightbox{
+  position:fixed; inset:0; background:rgba(28,27,25,0.94); z-index:200;
+  display:none; align-items:center; justify-content:center; padding:40px;
+}
+.lightbox.open{ display:flex; }
+.lightbox img{
+  max-width:min(1100px,88vw); max-height:82vh; object-fit:contain;
+  border-radius:2px; box-shadow:0 20px 60px rgba(0,0,0,0.5);
+}
+.lightbox-close{
+  position:absolute; top:24px; right:32px; background:none; border:none;
+  color:var(--ink); font-size:32px; line-height:1; cursor:pointer; font-family:'Montserrat';
+  transition:color .25s;
+}
+.lightbox-close:hover{ color:var(--orange); }
+.lightbox-nav{
+  position:absolute; top:50%; transform:translateY(-50%);
+  background:none; border:none; color:var(--ink-dim); font-size:44px; cursor:pointer;
+  padding:12px 18px; transition:color .25s;
+}
+.lightbox-nav:hover{ color:var(--orange); }
+.lightbox-nav.prev{ left:12px; }
+.lightbox-nav.next{ right:12px; }
+.lightbox-counter{
+  position:absolute; bottom:28px; left:50%; transform:translateX(-50%);
+  font-family:'Montserrat'; font-size:13px; color:var(--ink-dim); letter-spacing:.05em;
+}
+@media (max-width:800px){
+  .gallery-preview{ grid-template-columns:repeat(3,1fr); }
+  .lightbox-nav{ font-size:32px; padding:8px 12px; }
+  .lightbox{ padding:16px; }
+}
+
+/* contact */
+.contact{ text-align:left; }
+.contact h2{
+  font-size:clamp(36px,6vw,72px); font-weight:700; letter-spacing:-0.02em; line-height:1.08; max-width:1100px;
+}
+.contact h2 .orange{ color:var(--orange); }
+.contact-links{ display:flex; gap:32px; margin-top:48px; flex-wrap:wrap; }
+.contact-links a{
+  color:var(--ink); text-decoration:none; font-size:16px; border-bottom:1px solid var(--line);
+  padding-bottom:6px; transition:border-color .25s, color .25s;
+}
+.contact-links a:hover{ border-color:var(--orange); color:var(--orange); }
+
+footer{ padding:36px 6vw; border-top:1px solid var(--line); display:flex; justify-content:space-between; color:var(--ink-dim); font-size:13px; font-family:'Montserrat'; }
+
+@media (max-width:800px){
+  nav ul{ display:none; }
+  .role-tabs{ flex-wrap:wrap; }
+  section{ padding:90px 6vw; }
+  .hero{ padding:130px 6vw 90px; }
+  .stat-list{ grid-template-columns:repeat(2,1fr); gap:24px; }
+}
+@media (prefers-reduced-motion: reduce){
+  *{ animation:none !important; transition:none !important; }
+}
+</style>
+</head>
+<body>
+
+<div class="progress" id="progress"></div>
+
+<nav>
+  <div class="logo">강윤구<span>.</span></div>
+  <ul>
+    <li><a href="#about">ABOUT</a></li>
+    <li><a href="#work">WORK</a></li>
+    <li><a href="#contact">CONTACT</a></li>
+  </ul>
+</nav>
+
+<section class="hero">
+  <div class="eyebrow">MARKETING · SPACE · VISUAL</div>
+  <h1>공간을 기획하고,<br><em>순간</em>을 담습니다.</h1>
+  <p class="role-line">
+    마케팅과 홍보, 포토존과 공간 구성, 행사 컨셉까지 —<br>
+    <b>브랜드가 머무는 공간을 만듭니다.</b><br>
+    그리고 그 공간의 순간을 사진과 영상으로 담아 편집합니다.
+  </p>
+
+  <div class="role-tabs">
+    <div class="role-tab active" data-filter="all"><span class="num">00</span>ALL</div>
+    <div class="role-tab" data-filter="marketing"><span class="num">01</span>마케팅·홍보</div>
+    <div class="role-tab" data-filter="space"><span class="num">02</span>공간·포토존</div>
+    <div class="role-tab" data-filter="visual"><span class="num">03</span>사진·영상</div>
+  </div>
+
+  <div class="scroll-cue"><div class="dot"></div>SCROLL</div>
+</section>
+
+<section id="about">
+  <div class="section-head">
+    <h2>About</h2>
+    <p>마케팅과 공간, 그 사이에서<br>브랜드의 순간을 설계합니다.</p>
+  </div>
+  <div class="about-grid">
+    <div class="about-text">
+      <p>기획부에서 <b>마케팅·홍보, 포토존과 공간 구성, 행사 컨셉 기획</b>을 중심으로 업무를 진행하고 있습니다.<br>
+      브랜드가 사람들과 만나는 공간을 구성하고, 그 안에서 좋은 순간이 만들어지도록 설계합니다.</p>
+      <p>지금은 그 순간을 <b>사진과 영상으로 직접 촬영하고 편집</b>하는 일도 함께하고 있습니다.<br>
+      기획한 공간이 실제로 어떻게 기억되는지, 끝까지 책임지고 싶어서입니다.</p>
+    </div>
+    <div class="stat-list">
+      <div class="stat-row"><span class="label">Focus</span><span class="value">Marketing / Space Design</span></div>
+      <div class="stat-row"><span class="label">Tools</span><span class="value">포토존 구성, 행사 컨셉, 사진·영상 편집</span></div>
+      <div class="stat-row"><span class="label">Based in</span><span class="value">Gyeonggi, KR</span></div>
+      <div class="stat-row"><span class="label">Status</span><span class="value">Open to new projects</span></div>
+    </div>
+  </div>
+</section>
+
+<section id="work">
+  <div class="section-head">
+    <h2>Work</h2>
+    <p>마케팅·공간·영상 —<br>카테고리를 눌러 필터링해보세요.</p>
+  </div>
+
+  <div class="filter-bar">
+    <button class="filter-btn active" data-filter="all">전체</button>
+    <button class="filter-btn" data-filter="marketing">마케팅·홍보</button>
+    <button class="filter-btn" data-filter="space">공간·포토존</button>
+    <button class="filter-btn" data-filter="visual">사진·영상</button>
+  </div>
+
+  <div class="work-grid" id="workGrid">
+    <div class="work-card show" data-cat="marketing">
+      <div class="tag">Marketing</div>
+      <h3>[캠페인명]</h3>
+      <p>어떤 채널에서, 어떤 반응을 이끌어냈는지 간단한 성과를 적어주세요.</p>
+      <div class="meta">2025 · Marketing</div>
+    </div>
+    <div class="work-card show" data-cat="space">
+      <div class="tag">Space</div>
+      <h3>[포토존/공간명]</h3>
+      <p>어떤 컨셉으로 공간을 구성했는지 설명을 넣어주세요.</p>
+      <div class="meta">2025 · Space Design</div>
+    </div>
+    <div class="work-card show gallery-card" data-cat="visual">
+      <div class="tag">Photo & Video</div>
+      <h3>수련회 저녁집회 스냅</h3>
+      <p>찬양팀 연주와 기도, 회중의 순간들을 브라운·레드 톤으로 편집했습니다. 인스타그램 및 홍보 콘텐츠로 활용됐습니다.</p>
+      <div class="gallery-preview" data-gallery="ocsu">
+        <img class="g-thumb" data-gallery="ocsu" loading="lazy" src="images/thumb/ocsu_0.jpg" data-index="0" alt="">
+        <img class="g-thumb" data-gallery="ocsu" loading="lazy" src="images/thumb/ocsu_4.jpg" data-index="4" alt="">
+        <img class="g-thumb" data-gallery="ocsu" loading="lazy" src="images/thumb/ocsu_7.jpg" data-index="7" alt="">
+        <img class="g-thumb" data-gallery="ocsu" loading="lazy" src="images/thumb/ocsu_10.jpg" data-index="10" alt="">
+        <div class="g-more" data-gallery="ocsu" data-index="4">+9</div>
+      </div>
+      <div class="meta">2026.07 · Photo & Video · 개인 작업</div>
+    </div>
+    <div class="work-card show" data-cat="marketing">
+      <div class="tag">Marketing</div>
+      <h3>[캠페인명]</h3>
+      <p>운영했던 SNS 콘텐츠나 홍보 사례를 추가해주세요.</p>
+      <div class="meta">2024 · Marketing</div>
+    </div>
+    <div class="work-card show" data-cat="space">
+      <div class="tag">Space</div>
+      <h3>[행사/포토존명]</h3>
+      <p>또 다른 공간·행사 컨셉 프로젝트를 소개해주세요.</p>
+      <div class="meta">2024 · Event Concept</div>
+    </div>
+    <div class="work-card show gallery-card" data-cat="visual">
+      <div class="tag">Photo & Video</div>
+      <h3>NA ministry 성탄절 현장 스케치</h3>
+      <p>성탄절 기념 영상 촬영을 위해 공간을 조성하고, 그 현장을 브라운·레드 톤으로 편집했습니다. 인스타그램 및 홍보용으로 활용됐습니다.</p>
+      <div class="gallery-preview" data-gallery="xmas">
+        <img class="g-thumb" data-gallery="xmas" loading="lazy" src="images/thumb/xmas_0.jpg" data-index="0" alt="">
+        <img class="g-thumb" data-gallery="xmas" loading="lazy" src="images/thumb/xmas_1.jpg" data-index="1" alt="">
+        <img class="g-thumb" data-gallery="xmas" loading="lazy" src="images/thumb/xmas_3.jpg" data-index="3" alt="">
+        <img class="g-thumb" data-gallery="xmas" loading="lazy" src="images/thumb/xmas_5.jpg" data-index="5" alt="">
+        <div class="g-more" data-gallery="xmas" data-index="1">+4</div>
+      </div>
+      <div class="meta">2025.12 · Photo & Video · 개인 작업</div>
+    </div>
+    <div class="work-card show gallery-card" data-cat="visual">
+      <div class="tag">Photo & Video</div>
+      <h3>성서인의 밤 저녁집회</h3>
+      <p>찬양팀 연주, 텅 빈 예배당의 여백, 손을 들고 찬양하는 회중의 순간을 레드·브라운·오렌지 톤으로 편집했습니다.</p>
+      <div class="gallery-preview" data-gallery="seoul">
+        <img class="g-thumb" data-gallery="seoul" loading="lazy" src="images/thumb/seoul_0.jpg" data-index="0" alt="">
+        <img class="g-thumb" data-gallery="seoul" loading="lazy" src="images/thumb/seoul_1.jpg" data-index="1" alt="">
+        <img class="g-thumb" data-gallery="seoul" loading="lazy" src="images/thumb/seoul_2.jpg" data-index="2" alt="">
+        <img class="g-thumb" data-gallery="seoul" loading="lazy" src="images/thumb/seoul_3.jpg" data-index="3" alt="">
+        <div class="g-more" data-gallery="seoul" data-index="4">+4</div>
+      </div>
+      <div class="meta">2025.10 · Photo & Video · 개인 작업</div>
+    </div>
+    <div class="work-card show gallery-card" data-cat="visual">
+      <div class="tag">Photo & Video</div>
+      <h3>광은교회 저녁집회 1일차</h3>
+      <p>찬양팀의 연주와 회중의 기도, 텅 빈 예배당의 여백을 레드·브라운 톤으로 편집했습니다. 현장 분위기를 담아 홍보 콘텐츠로 활용했습니다.</p>
+      <div class="gallery-preview" data-gallery="gwangeun">
+        <img class="g-thumb" data-gallery="gwangeun" loading="lazy" src="images/thumb/gwangeun_0.jpg" data-index="0" alt="">
+        <img class="g-thumb" data-gallery="gwangeun" loading="lazy" src="images/thumb/gwangeun_1.jpg" data-index="1" alt="">
+        <img class="g-thumb" data-gallery="gwangeun" loading="lazy" src="images/thumb/gwangeun_2.jpg" data-index="2" alt="">
+        <img class="g-thumb" data-gallery="gwangeun" loading="lazy" src="images/thumb/gwangeun_3.jpg" data-index="3" alt="">
+        <div class="g-more" data-gallery="gwangeun" data-index="4">+4</div>
+      </div>
+      <div class="meta">2025.08.20 · Photo & Video · 개인 작업</div>
+    </div>
+    <div class="work-card show gallery-card" data-cat="visual">
+      <div class="tag">Photo & Video</div>
+      <h3>광은교회 저녁집회 2일차</h3>
+      <p>수련회 건물 내부의 무대와 조명, 현장의 공기를 담아낸 개인 작업 촬영·영상 콘텐츠입니다.</p>
+      <div class="gallery-preview" data-gallery="gwangeun2">
+        <img class="g-thumb" data-gallery="gwangeun2" loading="lazy" src="images/thumb/gwangeun2_0.jpg" data-index="0" alt="">
+        <img class="g-thumb" data-gallery="gwangeun2" loading="lazy" src="images/thumb/gwangeun2_1.jpg" data-index="1" alt="">
+        <img class="g-thumb" data-gallery="gwangeun2" loading="lazy" src="images/thumb/gwangeun2_2.jpg" data-index="2" alt="">
+        <img class="g-thumb" data-gallery="gwangeun2" loading="lazy" src="images/thumb/gwangeun2_3.jpg" data-index="3" alt="">
+        <div class="g-more" data-gallery="gwangeun2" data-index="4">+4</div>
+      </div>
+      <div class="meta">2025.08.21 · Photo & Video · 개인 작업</div>
+    </div>
+  </div>
+</section>
+
+<section id="contact" class="contact">
+  <div class="eyebrow" style="margin-bottom:20px;">CONTACT</div>
+  <h2>새로운 협업 제안은<br><span class="orange">언제나 환영</span>합니다.</h2>
+  <div class="contact-links">
+    <a href="mailto:antzm123@naver.com">antzm123@naver.com</a>
+    <a href="https://instagram.com/yun_9u" target="_blank" rel="noopener">@yun_9u</a>
+  </div>
+</section>
+
+<footer>
+  <span>© 2026 KANG YUNGU</span>
+  <span>Gyeonggi, KR</span>
+</footer>
+
+<div class="lightbox" id="lightbox">
+  <button class="lightbox-close" id="lightboxClose" aria-label="닫기">&times;</button>
+  <button class="lightbox-nav prev" id="lightboxPrev" aria-label="이전">&#8249;</button>
+  <img id="lightboxImg" src="" alt="">
+  <button class="lightbox-nav next" id="lightboxNext" aria-label="다음">&#8250;</button>
+  <div class="lightbox-counter" id="lightboxCounter"></div>
+</div>
+
+<script>
+// scroll progress
+window.addEventListener('scroll', () => {
+  const h = document.documentElement;
+  const scrolled = (h.scrollTop) / (h.scrollHeight - h.clientHeight) * 100;
+  document.getElementById('progress').style.width = scrolled + '%';
+});
+
+// filter logic — shared by hero tabs + work filter buttons
+function applyFilter(filter){
+  document.querySelectorAll('.role-tab').forEach(t => t.classList.toggle('active', t.dataset.filter === filter));
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.toggle('active', b.dataset.filter === filter));
+  document.querySelectorAll('.work-card').forEach(card => {
+    const match = filter === 'all' || card.dataset.cat === filter;
+    card.classList.toggle('show', match);
+  });
+}
+document.querySelectorAll('.role-tab').forEach(tab => {
+  tab.addEventListener('click', () => {
+    applyFilter(tab.dataset.filter);
+    document.getElementById('work').scrollIntoView({behavior:'smooth'});
+  });
+});
+document.querySelectorAll('.filter-btn').forEach(btn => {
+  btn.addEventListener('click', () => applyFilter(btn.dataset.filter));
+});
+
+// gallery lightbox — ocsu set (13 photos)
+const ocsuImages = [
+  "images/full/ocsu_0.jpg",
+  "images/full/ocsu_1.jpg",
+  "images/full/ocsu_2.jpg",
+  "images/full/ocsu_3.jpg",
+  "images/full/ocsu_4.jpg",
+  "images/full/ocsu_5.jpg",
+  "images/full/ocsu_6.jpg",
+  "images/full/ocsu_7.jpg",
+  "images/full/ocsu_8.jpg",
+  "images/full/ocsu_9.jpg",
+  "images/full/ocsu_10.jpg",
+  "images/full/ocsu_11.jpg",
+  "images/full/ocsu_12.jpg"
+];
+
+const xmasImages = [
+  "images/full/xmas_0.jpg",
+  "images/full/xmas_1.jpg",
+  "images/full/xmas_2.jpg",
+  "images/full/xmas_3.jpg",
+  "images/full/xmas_4.jpg",
+  "images/full/xmas_5.jpg",
+  "images/full/xmas_6.jpg",
+  "images/full/xmas_7.jpg"
+];
+
+
+const seoulImages = [
+  "images/full/seoul_0.jpg",
+  "images/full/seoul_1.jpg",
+  "images/full/seoul_2.jpg",
+  "images/full/seoul_3.jpg",
+  "images/full/seoul_4.jpg",
+  "images/full/seoul_5.jpg",
+  "images/full/seoul_6.jpg",
+  "images/full/seoul_7.jpg"
+];
+
+const gwangeunImages = [
+  "images/full/gwangeun_0.jpg",
+  "images/full/gwangeun_1.jpg",
+  "images/full/gwangeun_2.jpg",
+  "images/full/gwangeun_3.jpg",
+  "images/full/gwangeun_4.jpg",
+  "images/full/gwangeun_5.jpg",
+  "images/full/gwangeun_6.jpg",
+  "images/full/gwangeun_7.jpg",
+];
+
+const gwangeun2Images = [
+"images/full/gwangeun2_0.jpg",
+"images/full/gwangeun2_1.jpg",
+"images/full/gwangeun2_2.jpg",
+"images/full/gwangeun2_3.jpg",
+"images/full/gwangeun2_4.jpg",
+"images/full/gwangeun2_5.jpg",
+"images/full/gwangeun2_6.jpg",
+"images/full/gwangeun2_7.jpg"
+];
+
+const galleries = { ocsu: ocsuImages, xmas: xmasImages, seoul: seoulImages, gwangeun: gwangeunImages, gwangeun2: gwangeun2Images };
+
+const lightbox = document.getElementById('lightbox');
+const lightboxImg = document.getElementById('lightboxImg');
+const lightboxCounter = document.getElementById('lightboxCounter');
+let currentGallery = 'ocsu';
+let currentIndex = 0;
+
+function openLightbox(gallery, index){
+  currentGallery = gallery;
+  currentIndex = index;
+  showImage();
+  lightbox.classList.add('open');
+}
+function showImage(){
+  const imgs = galleries[currentGallery];
+  lightboxImg.src = imgs[currentIndex];
+  lightboxCounter.textContent = `${currentIndex + 1} / ${imgs.length}`;
+}
+function closeLightbox(){ lightbox.classList.remove('open'); }
+function nextImage(){ const imgs = galleries[currentGallery]; currentIndex = (currentIndex + 1) % imgs.length; showImage(); }
+function prevImage(){ const imgs = galleries[currentGallery]; currentIndex = (currentIndex - 1 + imgs.length) % imgs.length; showImage(); }
+
+document.querySelectorAll('.g-thumb').forEach(img => {
+  img.addEventListener('click', () => openLightbox(img.dataset.gallery, parseInt(img.dataset.index, 10)));
+});
+document.querySelectorAll('.g-more').forEach(el => {
+  el.addEventListener('click', () => openLightbox(el.dataset.gallery, parseInt(el.dataset.index, 10)));
+});
+document.getElementById('lightboxClose').addEventListener('click', closeLightbox);
+document.getElementById('lightboxNext').addEventListener('click', nextImage);
+document.getElementById('lightboxPrev').addEventListener('click', prevImage);
+lightbox.addEventListener('click', e => { if (e.target === lightbox) closeLightbox(); });
+document.addEventListener('keydown', e => {
+  if (!lightbox.classList.contains('open')) return;
+  if (e.key === 'Escape') closeLightbox();
+  if (e.key === 'ArrowRight') nextImage();
+  if (e.key === 'ArrowLeft') prevImage();
+});
+</script>
+
+</body>
+</html>
