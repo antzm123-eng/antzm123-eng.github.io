@@ -99,7 +99,7 @@ nav a:hover{ color:var(--ink); }
 .hero .eyebrow{ margin-bottom:22px; }
 .hero h1{
   font-size:clamp(48px, 9vw, 128px);
-  font-weight:700; letter-spacing:-0.03em; line-height:0.98;
+  font-weight:700; letter-spacing:-0.03em; line-height:1.08;
   color:var(--ink);
 }
 .hero h1 em{
@@ -270,19 +270,18 @@ footer{ padding:36px 6vw; border-top:1px solid var(--line); display:flex; justif
 </nav>
 
 <section class="hero">
-  <div class="eyebrow">MARKETING · SPACE · VISUAL</div>
-  <h1>공간을 기획하고,<br><em>순간</em>을 담습니다.</h1>
+  <div class="eyebrow">PHOTO · DESIGN</div>
+  <h1>좋아 보이면, <em>담습니다.</em><br>그게 전부입니다.</h1>
   <p class="role-line">
-    마케팅과 홍보, 포토존과 공간 구성, 행사 컨셉까지 —<br>
-    <b>브랜드가 머무는 공간을 만듭니다.</b><br>
-    그리고 그 공간의 순간을 사진과 영상으로 담아 편집합니다.
+    그 순간을 사진에 담고, 색감과 톤을 다듬습니다.<br>
+    그림 한 장에도 그렇게 담습니다.<br>
+    좋아 보였던 것을, 그대로 전합니다.
   </p>
 
   <div class="role-tabs">
     <div class="role-tab active" data-filter="all"><span class="num">00</span>ALL</div>
-    <div class="role-tab" data-filter="marketing"><span class="num">01</span>마케팅·홍보</div>
-    <div class="role-tab" data-filter="space"><span class="num">02</span>공간·포토존</div>
-    <div class="role-tab" data-filter="visual"><span class="num">03</span>사진·영상</div>
+    <div class="role-tab" data-filter="visual"><span class="num">01</span>사진</div>
+    <div class="role-tab" data-filter="design"><span class="num">02</span>포스터·디자인</div>
   </div>
 
   <div class="scroll-cue"><div class="dot"></div>SCROLL</div>
@@ -291,18 +290,18 @@ footer{ padding:36px 6vw; border-top:1px solid var(--line); display:flex; justif
 <section id="about">
   <div class="section-head">
     <h2>About</h2>
-    <p>마케팅과 공간, 그 사이에서<br>브랜드의 순간을 설계합니다.</p>
+    <p>촬영과 편집, 그리고 디자인 —<br>하나의 흐름으로 이어집니다.</p>
   </div>
   <div class="about-grid">
     <div class="about-text">
-      <p>기획부에서 <b>마케팅·홍보, 포토존과 공간 구성, 행사 컨셉 기획</b>을 중심으로 업무를 진행하고 있습니다.<br>
-      브랜드가 사람들과 만나는 공간을 구성하고, 그 안에서 좋은 순간이 만들어지도록 설계합니다.</p>
-      <p>지금은 그 순간을 <b>사진과 영상으로 직접 촬영하고 편집</b>하는 일도 함께하고 있습니다.<br>
-      기획한 공간이 실제로 어떻게 기억되는지, 끝까지 책임지고 싶어서입니다.</p>
+      <p>현장에서 <b>사진을 직접 촬영하고, 색감과 톤을 다듬어 편집</b>하는 일을 해왔습니다.<br>
+      그 순간이 사라지기 전에, 담아두고 싶어서입니다.</p>
+      <p><b>포스터·썸네일 디자인</b>도 사진과 함께 꾸준히 만들어왔습니다.<br>
+      제 생각을 표현하기에, 한 장의 이미지만 한 도구가 없어서입니다.</p>
     </div>
     <div class="stat-list">
-      <div class="stat-row"><span class="label">Focus</span><span class="value">Marketing / Space Design</span></div>
-      <div class="stat-row"><span class="label">Tools</span><span class="value">포토존 구성, 행사 컨셉, 사진·영상 편집</span></div>
+      <div class="stat-row"><span class="label">Focus</span><span class="value">Photo / Poster Design</span></div>
+      <div class="stat-row"><span class="label">Tools</span><span class="value">촬영·색보정, 포스터·썸네일 디자인</span></div>
       <div class="stat-row"><span class="label">Based in</span><span class="value">Gyeonggi, KR</span></div>
       <div class="stat-row"><span class="label">Status</span><span class="value">Open to new projects</span></div>
     </div>
@@ -312,33 +311,20 @@ footer{ padding:36px 6vw; border-top:1px solid var(--line); display:flex; justif
 <section id="work">
   <div class="section-head">
     <h2>Work</h2>
-    <p>마케팅·공간·영상 —<br>카테고리를 눌러 필터링해보세요.</p>
+    <p>사진과 포스터 디자인 —<br>카테고리를 눌러 필터링해보세요.</p>
   </div>
 
   <div class="filter-bar">
     <button class="filter-btn active" data-filter="all">전체</button>
-    <button class="filter-btn" data-filter="marketing">마케팅·홍보</button>
-    <button class="filter-btn" data-filter="space">공간·포토존</button>
-    <button class="filter-btn" data-filter="visual">사진·영상</button>
+    <button class="filter-btn" data-filter="visual">사진</button>
+    <button class="filter-btn" data-filter="design">포스터·디자인</button>
   </div>
 
   <div class="work-grid" id="workGrid">
-    <div class="work-card show" data-cat="marketing">
-      <div class="tag">Marketing</div>
-      <h3>[캠페인명]</h3>
-      <p>어떤 채널에서, 어떤 반응을 이끌어냈는지 간단한 성과를 적어주세요.</p>
-      <div class="meta">2025 · Marketing</div>
-    </div>
-    <div class="work-card show" data-cat="space">
-      <div class="tag">Space</div>
-      <h3>[포토존/공간명]</h3>
-      <p>어떤 컨셉으로 공간을 구성했는지 설명을 넣어주세요.</p>
-      <div class="meta">2025 · Space Design</div>
-    </div>
     <div class="work-card show gallery-card" data-cat="visual">
-      <div class="tag">Photo & Video</div>
+      <div class="tag">Photo</div>
       <h3>옥수중앙교회 청년부 저녁집회 스냅</h3>
-      <p>찬양팀 연주와 기도, 회중의 순간들을 브라운·레드 톤으로 편집했습니다. 인스타그램 및 홍보 콘텐츠로 활용됐습니다.</p>
+      <p>찬양팀 연주와 기도, 회중의 순간들을 브라운·레드 톤으로 편집했습니다.</p>
       <div class="gallery-preview" data-gallery="ocsu">
         <img class="g-thumb" data-gallery="ocsu" loading="lazy" src="images/thumb/ocsu_0.jpg" data-index="0" alt="">
         <img class="g-thumb" data-gallery="ocsu" loading="lazy" src="images/thumb/ocsu_4.jpg" data-index="4" alt="">
@@ -346,24 +332,12 @@ footer{ padding:36px 6vw; border-top:1px solid var(--line); display:flex; justif
         <img class="g-thumb" data-gallery="ocsu" loading="lazy" src="images/thumb/ocsu_10.jpg" data-index="10" alt="">
         <div class="g-more" data-gallery="ocsu" data-index="1">+9</div>
       </div>
-      <div class="meta">2026.07.17 · Photo & Video · 개인 작업 · Canon EOS 200D</div>
-    </div>
-    <div class="work-card show" data-cat="marketing">
-      <div class="tag">Marketing</div>
-      <h3>[캠페인명]</h3>
-      <p>운영했던 SNS 콘텐츠나 홍보 사례를 추가해주세요.</p>
-      <div class="meta">2024 · Marketing</div>
-    </div>
-    <div class="work-card show" data-cat="space">
-      <div class="tag">Space</div>
-      <h3>[행사/포토존명]</h3>
-      <p>또 다른 공간·행사 컨셉 프로젝트를 소개해주세요.</p>
-      <div class="meta">2024 · Event Concept</div>
+      <div class="meta">2026.07 · Photo · 개인 작업 · Canon EOS 200D</div>
     </div>
     <div class="work-card show gallery-card" data-cat="visual">
-      <div class="tag">Photo & Video</div>
+      <div class="tag">Photo</div>
       <h3>N/A Ministry 성탄절 현장 스케치</h3>
-      <p>성탄절 기념 영상 촬영을 위해 공간을 조성하고, 그 현장을 브라운·레드 톤으로 편집했습니다. 인스타그램 및 홍보용으로 활용됐습니다.</p>
+      <p>성탄절 기념 촬영을 위해 공간을 조성하고, 그 현장을 브라운·레드 톤으로 편집했습니다.</p>
       <div class="gallery-preview" data-gallery="xmas">
         <img class="g-thumb" data-gallery="xmas" loading="lazy" src="images/thumb/xmas_0.jpg" data-index="0" alt="">
         <img class="g-thumb" data-gallery="xmas" loading="lazy" src="images/thumb/xmas_1.jpg" data-index="1" alt="">
@@ -371,12 +345,12 @@ footer{ padding:36px 6vw; border-top:1px solid var(--line); display:flex; justif
         <img class="g-thumb" data-gallery="xmas" loading="lazy" src="images/thumb/xmas_5.jpg" data-index="5" alt="">
         <div class="g-more" data-gallery="xmas" data-index="2">+4</div>
       </div>
-      <div class="meta">2025.12 · Photo & Video · 개인 작업 · Canon EOS 200D</div>
+      <div class="meta">2025.12 · Photo · 개인 작업 · Canon EOS 200D</div>
     </div>
     <div class="work-card show gallery-card" data-cat="visual">
-      <div class="tag">Photo & Video</div>
+      <div class="tag">Photo</div>
       <h3>N/A Ministry 정기집회 11월 스냅</h3>
-      <p>붉은 벨벳과 나무 예배당이 만드는 공간감을 살려, 팀의 주 컬러에 맞춰 보정한 스냅입니다.</p>
+      <p>붉은 벨벳과 나무 예배당이 만드는 공간감을 살려, 팀의 주된 색에 맞춰 보정한 스냅입니다.</p>
       <div class="gallery-preview" data-gallery="jg5">
         <img class="g-thumb" data-gallery="jg5" loading="lazy" src="images/thumb/jg5_0.jpg" data-index="0" alt="">
         <img class="g-thumb" data-gallery="jg5" loading="lazy" src="images/thumb/jg5_1.jpg" data-index="1" alt="">
@@ -384,10 +358,10 @@ footer{ padding:36px 6vw; border-top:1px solid var(--line); display:flex; justif
         <img class="g-thumb" data-gallery="jg5" loading="lazy" src="images/thumb/jg5_3.jpg" data-index="3" alt="">
         <div class="g-more" data-gallery="jg5" data-index="4">+4</div>
       </div>
-      <div class="meta">2025.11.22 · Photo & Video · 개인 작업 · Canon EOS 200D</div>
+      <div class="meta">2025.11 · Photo · 개인 작업 · Canon EOS 200D</div>
     </div>
     <div class="work-card show gallery-card" data-cat="visual">
-      <div class="tag">Photo & Video</div>
+      <div class="tag">Photo</div>
       <h3>N/A Ministry 정기집회 10월 스냅</h3>
       <p>어두운 실내조명과 공간의 질감을 살려, 건물과 어울리는 톤으로 팀의 순간을 보정했습니다.</p>
       <div class="gallery-preview" data-gallery="jg4">
@@ -397,10 +371,10 @@ footer{ padding:36px 6vw; border-top:1px solid var(--line); display:flex; justif
         <img class="g-thumb" data-gallery="jg4" loading="lazy" src="images/thumb/jg4_3.jpg" data-index="3" alt="">
         <div class="g-more" data-gallery="jg4" data-index="4">+3</div>
       </div>
-      <div class="meta">2025.10.18 · Photo & Video · 개인 작업 · Canon EOS 200D</div>
+      <div class="meta">2025.10 · Photo · 개인 작업 · Canon EOS 200D</div>
     </div>
     <div class="work-card show gallery-card" data-cat="visual">
-      <div class="tag">Photo & Video</div>
+      <div class="tag">Photo</div>
       <h3>성서인의 밤 저녁집회</h3>
       <p>찬양팀 연주, 텅 빈 예배당의 여백, 손을 들고 찬양하는 회중의 순간을 레드·브라운·오렌지 톤으로 편집했습니다.</p>
       <div class="gallery-preview" data-gallery="seoul">
@@ -410,12 +384,12 @@ footer{ padding:36px 6vw; border-top:1px solid var(--line); display:flex; justif
         <img class="g-thumb" data-gallery="seoul" loading="lazy" src="images/thumb/seoul_3.jpg" data-index="3" alt="">
         <div class="g-more" data-gallery="seoul" data-index="4">+4</div>
       </div>
-      <div class="meta">2025.10 · Photo & Video · 개인 작업 · Canon EOS 200D</div>
+      <div class="meta">2025.10 · Photo · 개인 작업 · Canon EOS 200D</div>
     </div>
     <div class="work-card show gallery-card" data-cat="visual">
-      <div class="tag">Photo & Video</div>
+      <div class="tag">Photo</div>
       <h3>광은교회 저녁집회 2일차</h3>
-      <p>수련회 건물 내부의 무대와 조명, 현장의 공기를 담아낸 개인 작업 촬영·영상 콘텐츠입니다.</p>
+      <p>수련회 건물 내부의 무대와 조명, 현장의 공기를 담았습니다.</p>
       <div class="gallery-preview" data-gallery="gwangeun2">
         <img class="g-thumb" data-gallery="gwangeun2" loading="lazy" src="images/thumb/gwangeun2_0.jpg" data-index="0" alt="">
         <img class="g-thumb" data-gallery="gwangeun2" loading="lazy" src="images/thumb/gwangeun2_1.jpg" data-index="1" alt="">
@@ -423,12 +397,12 @@ footer{ padding:36px 6vw; border-top:1px solid var(--line); display:flex; justif
         <img class="g-thumb" data-gallery="gwangeun2" loading="lazy" src="images/thumb/gwangeun2_3.jpg" data-index="3" alt="">
         <div class="g-more" data-gallery="gwangeun2" data-index="4">+4</div>
       </div>
-      <div class="meta">2025.08.21 · Photo & Video · 개인 작업 · Canon EOS 200D</div>
+      <div class="meta">2025.08 · Photo · 개인 작업 · Canon EOS 200D</div>
     </div>
     <div class="work-card show gallery-card" data-cat="visual">
-      <div class="tag">Photo & Video</div>
+      <div class="tag">Photo</div>
       <h3>광은교회 저녁집회 1일차</h3>
-      <p>찬양팀의 연주와 회중의 기도, 텅 빈 예배당의 여백을 레드·브라운 톤으로 편집했습니다. 현장 분위기를 담아 홍보 콘텐츠로 활용했습니다.</p>
+      <p>찬양팀의 연주와 회중의 기도, 텅 빈 예배당의 여백을 레드·브라운 톤으로 편집했습니다.</p>
       <div class="gallery-preview" data-gallery="gwangeun">
         <img class="g-thumb" data-gallery="gwangeun" loading="lazy" src="images/thumb/gwangeun_0.jpg" data-index="0" alt="">
         <img class="g-thumb" data-gallery="gwangeun" loading="lazy" src="images/thumb/gwangeun_1.jpg" data-index="1" alt="">
@@ -436,12 +410,12 @@ footer{ padding:36px 6vw; border-top:1px solid var(--line); display:flex; justif
         <img class="g-thumb" data-gallery="gwangeun" loading="lazy" src="images/thumb/gwangeun_3.jpg" data-index="3" alt="">
         <div class="g-more" data-gallery="gwangeun" data-index="4">+4</div>
       </div>
-      <div class="meta">2025.08.20 · Photo & Video · 개인 작업 · Canon EOS 200D</div>
+      <div class="meta">2025.08 · Photo · 개인 작업 · Canon EOS 200D</div>
     </div>
     <div class="work-card show gallery-card" data-cat="visual">
-      <div class="tag">Photo & Video</div>
+      <div class="tag">Photo</div>
       <h3>광은교회 수련회 연습 실황</h3>
-      <p>무대 뒤편에서 이뤄진 악기 리허설과 장비 세팅 과정을, 기타·베이스·드럼의 디테일과 빈 벽면의 여백을 교차해 편집했습니다. SNS 홍보 콘텐츠로 활용됐습니다.</p>
+      <p>무대 뒤편에서 이뤄진 악기 리허설과 장비 세팅 과정을, 기타·베이스·드럼의 질감과 빈 벽면의 여백을 교차해 편집했습니다.</p>
       <div class="gallery-preview" data-gallery="gwangeun3">
         <img class="g-thumb" data-gallery="gwangeun3" loading="lazy" src="images/thumb/gwangeun3_0.jpg" data-index="0" alt="">
         <img class="g-thumb" data-gallery="gwangeun3" loading="lazy" src="images/thumb/gwangeun3_1.jpg" data-index="1" alt="">
@@ -449,12 +423,12 @@ footer{ padding:36px 6vw; border-top:1px solid var(--line); display:flex; justif
         <img class="g-thumb" data-gallery="gwangeun3" loading="lazy" src="images/thumb/gwangeun3_4.jpg" data-index="4" alt="">
         <div class="g-more" data-gallery="gwangeun3" data-index="3">+4</div>
       </div>
-      <div class="meta">2025.08.18 · Photo & Video · 개인 작업 · Canon EOS 200D</div>
+      <div class="meta">2025.08 · Photo · 개인 작업 · Canon EOS 200D</div>
     </div>
     <div class="work-card show gallery-card" data-cat="visual">
-      <div class="tag">Photo & Video</div>
+      <div class="tag">Photo</div>
       <h3>N/A Ministry 정기집회 8월 스냅</h3>
-      <p>무대 전경과 예배당 내부 인테리어를 함께 담아, 팀 컬러에 맞는 톤으로 보정했습니다.</p>
+      <p>무대 전경과 예배당 내부를 함께 담아, 팀 색에 맞는 톤으로 보정했습니다.</p>
       <div class="gallery-preview" data-gallery="jg3">
         <img class="g-thumb" data-gallery="jg3" loading="lazy" src="images/thumb/jg3_0.jpg" data-index="0" alt="">
         <img class="g-thumb" data-gallery="jg3" loading="lazy" src="images/thumb/jg3_1.jpg" data-index="1" alt="">
@@ -462,10 +436,21 @@ footer{ padding:36px 6vw; border-top:1px solid var(--line); display:flex; justif
         <img class="g-thumb" data-gallery="jg3" loading="lazy" src="images/thumb/jg3_4.jpg" data-index="3" alt="">
         <div class="g-more" data-gallery="jg3" data-index="4">+3</div>
       </div>
-      <div class="meta">2025.08.09 · Photo & Video · 개인 작업 · Canon EOS 200D</div>
+      <div class="meta">2025.08 · Photo · 개인 작업 · Canon EOS 200D</div>
+    </div>
+    <div class="work-card show gallery-card" data-cat="design">
+      <div class="tag">Poster & Thumbnail</div>
+      <h3>N/A Ministry 정기집회 8월 포스터</h3>
+      <p>그림자와 조명이 만드는 공기를 살려, 같은 방식으로 포스터에 담았습니다.</p>
+      <div class="gallery-preview" data-gallery="aug_poster">
+        <img class="g-thumb" data-gallery="aug_poster" loading="lazy" src="images/thumb/aug_poster_0.png" data-index="0" alt="">
+        <img class="g-thumb" data-gallery="aug_poster" loading="lazy" src="images/thumb/aug_poster_1.png" data-index="1" alt="">
+        <img class="g-thumb" data-gallery="aug_poster" loading="lazy" src="images/thumb/aug_poster_2.png" data-index="2" alt="">
+      </div>
+      <div class="meta">2025.08 · Poster & Thumbnail · 개인 작업</div>
     </div>
     <div class="work-card show gallery-card" data-cat="visual">
-      <div class="tag">Photo & Video</div>
+      <div class="tag">Photo</div>
       <h3>예수가온교회 청소년 여름 저녁집회</h3>
       <p>스크린 앞에 모여 찬양하고 기도하는 학생들의 모습과, 어두운 실내에서 홀로 조용히 기도하는 순간을 교차해 편집했습니다.</p>
       <div class="gallery-preview" data-gallery="ysg1">
@@ -475,12 +460,12 @@ footer{ padding:36px 6vw; border-top:1px solid var(--line); display:flex; justif
         <img class="g-thumb" data-gallery="ysg1" loading="lazy" src="images/thumb/ysg1_3.jpg" data-index="3" alt="">
         <div class="g-more" data-gallery="ysg1" data-index="4">+4</div>
       </div>
-      <div class="meta">2025.07.27 · Photo & Video · 개인 작업 · Canon EOS 200D</div>
+      <div class="meta">2025.07 · Photo · 개인 작업 · Canon EOS 200D</div>
     </div>
     <div class="work-card show gallery-card" data-cat="visual">
-      <div class="tag">Photo & Video</div>
+      <div class="tag">Photo</div>
       <h3>N/A Ministry 정기집회 7월 스냅</h3>
-      <p>골드톤 기타의 디테일과 벽에 드리운 그림자를 브라운·오렌지 톤으로 보정해, 팀의 색을 완성했습니다.</p>
+      <p>골드톤 기타의 질감과 벽에 드리운 그림자를 브라운·오렌지 톤으로 보정해, 팀의 색을 완성했습니다.</p>
       <div class="gallery-preview" data-gallery="jg2">
         <img class="g-thumb" data-gallery="jg2" loading="lazy" src="images/thumb/jg2_0.jpg" data-index="0" alt="">
         <img class="g-thumb" data-gallery="jg2" loading="lazy" src="images/thumb/jg2_1.jpg" data-index="1" alt="">
@@ -488,10 +473,21 @@ footer{ padding:36px 6vw; border-top:1px solid var(--line); display:flex; justif
         <img class="g-thumb" data-gallery="jg2" loading="lazy" src="images/thumb/jg2_3.jpg" data-index="3" alt="">
         <div class="g-more" data-gallery="jg2" data-index="4">+4</div>
       </div>
-      <div class="meta">2025.07.12 · Photo & Video · 개인 작업 · Canon EOS 200D</div>
+      <div class="meta">2025.07 · Photo · 개인 작업 · Canon EOS 200D</div>
+    </div>
+    <div class="work-card show gallery-card" data-cat="design">
+      <div class="tag">Poster & Thumbnail</div>
+      <h3>N/A Ministry 정기집회 7월 포스터</h3>
+      <p>제가 찍은 예배당 사진 위에 제목과 말씀을 얹어, 잡지처럼 읽히는 포스터로 담았습니다.</p>
+      <div class="gallery-preview" data-gallery="jul_poster">
+        <img class="g-thumb" data-gallery="jul_poster" loading="lazy" src="images/thumb/jul_poster_0.png" data-index="0" alt="">
+        <img class="g-thumb" data-gallery="jul_poster" loading="lazy" src="images/thumb/jul_poster_1.png" data-index="1" alt="">
+        <img class="g-thumb" data-gallery="jul_poster" loading="lazy" src="images/thumb/jul_poster_2.png" data-index="2" alt="">
+      </div>
+      <div class="meta">2025.07 · Poster & Thumbnail · 개인 작업</div>
     </div>
     <div class="work-card show gallery-card" data-cat="visual">
-      <div class="tag">Photo & Video</div>
+      <div class="tag">Photo</div>
       <h3>N/A Ministry 정기집회 4월 스냅</h3>
       <p>연주자의 손끝과 무대 바닥에 비친 밴드의 실루엣을 통해, 팀에 맞는 색감을 찾아가는 과정을 담았습니다.</p>
       <div class="gallery-preview" data-gallery="jg1">
@@ -501,10 +497,10 @@ footer{ padding:36px 6vw; border-top:1px solid var(--line); display:flex; justif
         <img class="g-thumb" data-gallery="jg1" loading="lazy" src="images/thumb/jg1_3.jpg" data-index="3" alt="">
         <div class="g-more" data-gallery="jg1" data-index="4">+4</div>
       </div>
-      <div class="meta">2025.04.12 · Photo & Video · 개인 작업 · Canon EOS 200D</div>
+      <div class="meta">2025.04 · Photo · 개인 작업 · Canon EOS 200D</div>
     </div>
     <div class="work-card show gallery-card" data-cat="visual">
-      <div class="tag">Photo & Video</div>
+      <div class="tag">Photo</div>
       <h3>한샘교회 청소년 겨울 수련회 저녁집회</h3>
       <p>통나무 벽과 따뜻한 조명이 어우러진 예배당에서, 서로 어깨를 맞대고 기도하는 학생들과 찬양 밴드의 순간을 브라운 톤으로 보정했습니다.</p>
       <div class="gallery-preview" data-gallery="hansam1">
@@ -514,10 +510,10 @@ footer{ padding:36px 6vw; border-top:1px solid var(--line); display:flex; justif
         <img class="g-thumb" data-gallery="hansam1" loading="lazy" src="images/thumb/hansam1_3.jpg" data-index="3" alt="">
         <div class="g-more" data-gallery="hansam1" data-index="4">+4</div>
       </div>
-      <div class="meta">2025.02.13 · Photo & Video · 개인 작업 · Canon EOS 200D</div>
+      <div class="meta">2025.02 · Photo · 개인 작업 · Canon EOS 200D</div>
     </div>
     <div class="work-card show gallery-card" data-cat="visual">
-      <div class="tag">Photo & Video</div>
+      <div class="tag">Photo</div>
       <h3>이어진교회 청소년부 저녁집회 스냅</h3>
       <p>보랏빛 조명이 낯설었던 그날의 현장을 색보정 없이 그대로 남긴 스냅입니다. 찬양팀의 연주와 무대 뒤 순간들을 자연스러운 톤 그대로 담았습니다.</p>
       <div class="gallery-preview" data-gallery="ears1">
@@ -527,14 +523,14 @@ footer{ padding:36px 6vw; border-top:1px solid var(--line); display:flex; justif
         <img class="g-thumb" data-gallery="ears1" loading="lazy" src="images/thumb/ears1_3.jpg" data-index="3" alt="">
         <div class="g-more" data-gallery="ears1" data-index="4">+1</div>
       </div>
-      <div class="meta">2025.01.11 · Photo & Video · 개인 작업 · Canon EOS 200D</div>
+      <div class="meta">2025.01 · Photo · 개인 작업 · Canon EOS 200D</div>
     </div>
   </div>
 </section>
 
 <section id="contact" class="contact">
   <div class="eyebrow" style="margin-bottom:20px;">CONTACT</div>
-  <h2>새로운 협업 제안은<br><span class="orange">언제나 환영</span>합니다.</h2>
+  <h2>놓치고 싶지 않은 순간이 있다면,<br><span class="orange">제가 담겠습니다.</span></h2>
   <div class="contact-links">
     <a href="mailto:antzm123@naver.com">antzm123@naver.com</a>
     <a href="https://instagram.com/yun_9u" target="_blank" rel="noopener">@yun_9u</a>
@@ -737,7 +733,19 @@ const jg5Images = [
   "images/full/jg5_7.jpg"
 ];
 
-const galleries = { ocsu: ocsuImages, xmas: xmasImages, seoul: seoulImages, gwangeun: gwangeunImages, gwangeun2: gwangeun2Images, gwangeun3: gwangeun3Images, hansam1: hansam1Images, ysg1: ysg1Images, ears1: ears1Images, jg1: jg1Images, jg2: jg2Images, jg3: jg3Images, jg4: jg4Images, jg5: jg5Images };
+const julPosterImages = [
+  "images/full/jul_poster_0.png",
+  "images/full/jul_poster_1.png",
+  "images/full/jul_poster_2.png"
+];
+
+const augPosterImages = [
+  "images/full/aug_poster_0.png",
+  "images/full/aug_poster_1.png",
+  "images/full/aug_poster_2.png"
+];
+
+const galleries = { ocsu: ocsuImages, xmas: xmasImages, seoul: seoulImages, gwangeun: gwangeunImages, gwangeun2: gwangeun2Images, gwangeun3: gwangeun3Images, hansam1: hansam1Images, ysg1: ysg1Images, ears1: ears1Images, jg1: jg1Images, jg2: jg2Images, jg3: jg3Images, jg4: jg4Images, jg5: jg5Images, jul_poster: julPosterImages, aug_poster: augPosterImages };
 
 const lightbox = document.getElementById('lightbox');
 const lightboxImg = document.getElementById('lightboxImg');
