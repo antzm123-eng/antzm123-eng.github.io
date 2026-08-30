@@ -9,6 +9,24 @@
 <meta name="rights" content="이 사이트의 모든 사진·포스터·디자인 저작물의 저작권은 강윤구에게 있습니다.">
 <meta name="robots" content="index, follow, noai, noimageai">
 <meta name="tdm-reservation" content="1">
+<link rel="canonical" href="https://antzm123-eng.github.io/gloudy/">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="theme-color" content="#1C1B19">
+<meta name="description" content="강윤구 포트폴리오 — 집회·공연 현장 스냅 사진과 포스터·썸네일 디자인. 그 순간을 사진에 담고, 색감과 톤을 다듬습니다.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="강윤구 — Portfolio">
+<meta property="og:title" content="강윤구 — Portfolio">
+<meta property="og:description" content="좋아 보이면, 담습니다. 현장 스냅 사진과 포스터·썸네일 디자인.">
+<meta property="og:image" content="https://antzm123-eng.github.io/gloudy/og-image.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="https://antzm123-eng.github.io/gloudy/">
+<meta property="og:locale" content="ko_KR">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="강윤구 — Portfolio">
+<meta name="twitter:description" content="좋아 보이면, 담습니다. 현장 스냅 사진과 포스터·썸네일 디자인.">
+<meta name="twitter:image" content="https://antzm123-eng.github.io/gloudy/og-image.jpg">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -34,26 +52,31 @@
 @font-face {
   font-family: 'Paperlogy';
   font-weight: 400;
+  font-display: swap;
   src: url('https://cdn.jsdelivr.net/gh/fonts-archive/Paperlogy/Paperlogy-4Regular.woff2') format('woff2');
 }
 @font-face {
   font-family: 'Paperlogy';
   font-weight: 500;
+  font-display: swap;
   src: url('https://cdn.jsdelivr.net/gh/fonts-archive/Paperlogy/Paperlogy-5Medium.woff2') format('woff2');
 }
 @font-face {
   font-family: 'Paperlogy';
   font-weight: 600;
+  font-display: swap;
   src: url('https://cdn.jsdelivr.net/gh/fonts-archive/Paperlogy/Paperlogy-6SemiBold.woff2') format('woff2');
 }
 @font-face {
   font-family: 'Paperlogy';
   font-weight: 700;
+  font-display: swap;
   src: url('https://cdn.jsdelivr.net/gh/fonts-archive/Paperlogy/Paperlogy-7Bold.woff2') format('woff2');
 }
 @font-face {
   font-family: 'Paperlogy';
   font-weight: 800;
+  font-display: swap;
   src: url('https://cdn.jsdelivr.net/gh/fonts-archive/Paperlogy/Paperlogy-8ExtraBold.woff2') format('woff2');
 }
 /* Montserrat — Paperlogy's own Latin glyphs are built on Montserrat, so English text stays visually consistent with the Korean */
@@ -292,15 +315,93 @@ footer{ padding:36px 6vw; border-top:1px solid var(--line); display:flex; justif
   font-size:13px; color:var(--ink-dim); font-family:'Montserrat'; display:flex;
   justify-content:space-between; gap:18px; flex-wrap:wrap; }
 @media (max-width:800px){ .site-footer{ padding:44px 6vw 52px; } .footer-terms{ font-size:12.5px; } }
+
+/* ═══ 개선 사항 (검수 반영) ═══ */
+
+/* 스크롤바 자리를 항상 유지 — 라이트박스 열 때 화면 밀림 방지 */
+html{ scrollbar-gutter: stable; }
+
+/* 네비게이션: 스크롤 시 배경 — 사진 위 글자 겹침 해결
+   ※ blur 를 nav 자신이 아닌 ::before 로 옮김.
+      nav 에 backdrop-filter 가 걸리면 자식의 position:fixed 기준이
+      화면이 아니라 nav 박스가 되어 모바일 메뉴가 갇히기 때문. */
+nav{ backdrop-filter:none; -webkit-backdrop-filter:none;
+     border-bottom:1px solid transparent; transition:border-color .3s ease; }
+nav::before{
+  content:''; position:absolute; inset:0; z-index:-1; pointer-events:none;
+  backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px);
+  background:transparent; transition:background .3s ease;
+}
+nav.scrolled::before{ background:rgba(28,27,25,0.88); }
+nav.menu-open::before{ background:transparent; }
+nav.scrolled{ border-bottom-color:var(--line); }
+
+/* 햄버거 버튼 */
+.nav-toggle{
+  display:none; position:relative; z-index:3; width:34px; height:26px;
+  background:none; border:none; cursor:pointer; padding:0;
+  flex-direction:column; justify-content:space-between; align-items:flex-end;
+}
+.nav-toggle span{ display:block; height:2px; width:100%; background:var(--ink); border-radius:2px;
+  transition:transform .3s ease, opacity .2s ease, width .3s ease; }
+.nav-toggle span:nth-child(2){ width:68%; }
+.nav-toggle[aria-expanded="true"] span:nth-child(1){ transform:translateY(12px) rotate(45deg); }
+.nav-toggle[aria-expanded="true"] span:nth-child(2){ opacity:0; }
+.nav-toggle[aria-expanded="true"] span:nth-child(3){ width:100%; transform:translateY(-12px) rotate(-45deg); }
+.nav-backdrop{ position:fixed; inset:0; background:rgba(0,0,0,0.55); opacity:0;
+  pointer-events:none; transition:opacity .3s ease; z-index:1; }
+.nav-backdrop.open{ opacity:1; pointer-events:auto; }
+
+@media (max-width:800px){
+  .nav-toggle{ display:flex; }
+  nav ul{
+    display:flex; flex-direction:column; gap:0; list-style:none; margin:0; z-index:2;
+    position:fixed; top:0; right:0; bottom:0; width:min(78vw,300px);
+    background:var(--bg-soft); border-left:1px solid var(--line);
+    padding:104px 30px 30px;
+    transform:translateX(105%); transition:transform .34s cubic-bezier(.4,0,.2,1);
+  }
+  nav ul.open{ transform:translateX(0); }
+  nav ul li{ list-style:none; }
+  nav ul li a{ display:block; padding:19px 2px; font-size:16px; letter-spacing:.09em;
+    border-bottom:1px solid var(--line); }
+}
+
+/* 라이트박스: 큰 화면에서 사진 더 크게 */
+.lightbox img{ max-width:min(1600px,94vw); max-height:86vh; }
+
+/* 키보드 포커스 표시 */
+.g-thumb:focus-visible, .g-more:focus-visible{ outline:2px solid var(--orange); outline-offset:3px; }
+.lightbox-close:focus-visible, .lightbox-nav:focus-visible,
+.filter-btn:focus-visible, .nav-toggle:focus-visible, nav ul a:focus-visible{
+  outline:2px solid var(--orange); outline-offset:3px; border-radius:3px; }
+
+/* +N 타일: 빈 상자처럼 보이던 것 개선 */
+.g-more{ background:linear-gradient(150deg,var(--bg-card) 0%,var(--bg-soft) 100%);
+  flex-direction:column; gap:1px; font-weight:600; line-height:1.1; }
+.g-more .more-label{ font-size:9px; color:var(--ink-dim); letter-spacing:.05em;
+  font-family:'Montserrat'; font-weight:400; }
+
+/* 큰 모니터: 카드를 3열로 — 사진 미리보기가 더 크게 보이도록 */
+@media (min-width:1500px){ .work-grid{ grid-template-columns:repeat(3,1fr); } }
+
+/* 애니메이션 최소화 설정을 켠 사용자 배려 */
+@media (prefers-reduced-motion:reduce){
+  *{ animation-duration:.01ms !important; transition-duration:.01ms !important; scroll-behavior:auto !important; }
+}
 </style>
 </head>
 <body>
 
 <div class="progress" id="progress"></div>
 
-<nav>
+<nav id="siteNav">
   <div class="logo">강윤구<span>.</span></div>
-  <ul>
+  <div class="nav-backdrop" id="navBackdrop"></div>
+  <button class="nav-toggle" id="navToggle" aria-label="메뉴 열기" aria-expanded="false" aria-controls="navMenu">
+    <span></span><span></span><span></span>
+  </button>
+  <ul id="navMenu">
     <li><a href="#about">ABOUT</a></li>
     <li><a href="#work">WORK</a></li>
     <li><a href="#contact">CONTACT</a></li>
@@ -364,11 +465,11 @@ footer{ padding:36px 6vw; border-top:1px solid var(--line); display:flex; justif
       <h3>옥수중앙교회 청년부 저녁집회 스냅</h3>
       <p>찬양팀 연주와 기도, 회중의 순간들을 브라운·레드 톤으로 편집했습니다.</p>
       <div class="gallery-preview" data-gallery="ocsu">
-        <img class="g-thumb" data-gallery="ocsu" loading="lazy" src="images/thumb/ocsu_0.jpg" data-index="0" alt="">
-        <img class="g-thumb" data-gallery="ocsu" loading="lazy" src="images/thumb/ocsu_4.jpg" data-index="4" alt="">
-        <img class="g-thumb" data-gallery="ocsu" loading="lazy" src="images/thumb/ocsu_7.jpg" data-index="7" alt="">
-        <img class="g-thumb" data-gallery="ocsu" loading="lazy" src="images/thumb/ocsu_10.jpg" data-index="10" alt="">
-        <div class="g-more" data-gallery="ocsu" data-index="1">+9</div>
+        <img class="g-thumb" data-gallery="ocsu" loading="lazy" src="images/thumb/ocsu_0.jpg" data-index="0" tabindex="0" role="button" alt="옥수중앙교회 청년부 저녁집회 스냅 — 1번째 사진">
+        <img class="g-thumb" data-gallery="ocsu" loading="lazy" src="images/thumb/ocsu_4.jpg" data-index="4" tabindex="0" role="button" alt="옥수중앙교회 청년부 저녁집회 스냅 — 5번째 사진">
+        <img class="g-thumb" data-gallery="ocsu" loading="lazy" src="images/thumb/ocsu_7.jpg" data-index="7" tabindex="0" role="button" alt="옥수중앙교회 청년부 저녁집회 스냅 — 8번째 사진">
+        <img class="g-thumb" data-gallery="ocsu" loading="lazy" src="images/thumb/ocsu_10.jpg" data-index="10" tabindex="0" role="button" alt="옥수중앙교회 청년부 저녁집회 스냅 — 11번째 사진">
+        <div class="g-more" data-gallery="ocsu" data-index="1" role="button" tabindex="0" aria-label="옥수중앙교회 청년부 저녁집회 스냅 사진 9장 더 보기"><span>+9</span><span class="more-label">MORE</span></div>
       </div>
       <div class="meta">2026.07 · Photo · 개인 작업 · Canon EOS 200D</div>
     </div>
@@ -377,11 +478,11 @@ footer{ padding:36px 6vw; border-top:1px solid var(--line); display:flex; justif
       <h3>N/A Ministry 성탄절 현장 스케치</h3>
       <p>성탄절 기념 촬영을 위해 공간을 조성하고, 그 현장을 브라운·레드 톤으로 편집했습니다.</p>
       <div class="gallery-preview" data-gallery="xmas">
-        <img class="g-thumb" data-gallery="xmas" loading="lazy" src="images/thumb/xmas_0.jpg" data-index="0" alt="">
-        <img class="g-thumb" data-gallery="xmas" loading="lazy" src="images/thumb/xmas_1.jpg" data-index="1" alt="">
-        <img class="g-thumb" data-gallery="xmas" loading="lazy" src="images/thumb/xmas_3.jpg" data-index="3" alt="">
-        <img class="g-thumb" data-gallery="xmas" loading="lazy" src="images/thumb/xmas_5.jpg" data-index="5" alt="">
-        <div class="g-more" data-gallery="xmas" data-index="2">+4</div>
+        <img class="g-thumb" data-gallery="xmas" loading="lazy" src="images/thumb/xmas_0.jpg" data-index="0" tabindex="0" role="button" alt="N/A Ministry 성탄절 현장 스케치 — 1번째 사진">
+        <img class="g-thumb" data-gallery="xmas" loading="lazy" src="images/thumb/xmas_1.jpg" data-index="1" tabindex="0" role="button" alt="N/A Ministry 성탄절 현장 스케치 — 2번째 사진">
+        <img class="g-thumb" data-gallery="xmas" loading="lazy" src="images/thumb/xmas_3.jpg" data-index="3" tabindex="0" role="button" alt="N/A Ministry 성탄절 현장 스케치 — 4번째 사진">
+        <img class="g-thumb" data-gallery="xmas" loading="lazy" src="images/thumb/xmas_5.jpg" data-index="5" tabindex="0" role="button" alt="N/A Ministry 성탄절 현장 스케치 — 6번째 사진">
+        <div class="g-more" data-gallery="xmas" data-index="2" role="button" tabindex="0" aria-label="N/A Ministry 성탄절 현장 스케치 사진 4장 더 보기"><span>+4</span><span class="more-label">MORE</span></div>
       </div>
       <div class="meta">2025.12 · Photo · 개인 작업 · Canon EOS 200D</div>
     </div>
@@ -390,11 +491,11 @@ footer{ padding:36px 6vw; border-top:1px solid var(--line); display:flex; justif
       <h3>N/A Ministry 정기집회 11월 스냅</h3>
       <p>붉은 벨벳과 나무 예배당이 만드는 공간감을 살려, 팀의 주된 색에 맞춰 보정한 스냅입니다.</p>
       <div class="gallery-preview" data-gallery="jg5">
-        <img class="g-thumb" data-gallery="jg5" loading="lazy" src="images/thumb/jg5_0.jpg" data-index="0" alt="">
-        <img class="g-thumb" data-gallery="jg5" loading="lazy" src="images/thumb/jg5_1.jpg" data-index="1" alt="">
-        <img class="g-thumb" data-gallery="jg5" loading="lazy" src="images/thumb/jg5_2.jpg" data-index="2" alt="">
-        <img class="g-thumb" data-gallery="jg5" loading="lazy" src="images/thumb/jg5_3.jpg" data-index="3" alt="">
-        <div class="g-more" data-gallery="jg5" data-index="4">+4</div>
+        <img class="g-thumb" data-gallery="jg5" loading="lazy" src="images/thumb/jg5_0.jpg" data-index="0" tabindex="0" role="button" alt="N/A Ministry 정기집회 11월 스냅 — 1번째 사진">
+        <img class="g-thumb" data-gallery="jg5" loading="lazy" src="images/thumb/jg5_1.jpg" data-index="1" tabindex="0" role="button" alt="N/A Ministry 정기집회 11월 스냅 — 2번째 사진">
+        <img class="g-thumb" data-gallery="jg5" loading="lazy" src="images/thumb/jg5_2.jpg" data-index="2" tabindex="0" role="button" alt="N/A Ministry 정기집회 11월 스냅 — 3번째 사진">
+        <img class="g-thumb" data-gallery="jg5" loading="lazy" src="images/thumb/jg5_3.jpg" data-index="3" tabindex="0" role="button" alt="N/A Ministry 정기집회 11월 스냅 — 4번째 사진">
+        <div class="g-more" data-gallery="jg5" data-index="4" role="button" tabindex="0" aria-label="N/A Ministry 정기집회 11월 스냅 사진 4장 더 보기"><span>+4</span><span class="more-label">MORE</span></div>
       </div>
       <div class="meta">2025.11 · Photo · 개인 작업 · Canon EOS 200D</div>
     </div>
@@ -403,11 +504,11 @@ footer{ padding:36px 6vw; border-top:1px solid var(--line); display:flex; justif
       <h3>N/A Ministry 정기집회 10월 스냅</h3>
       <p>어두운 실내조명과 공간의 질감을 살려, 건물과 어울리는 톤으로 팀의 순간을 보정했습니다.</p>
       <div class="gallery-preview" data-gallery="jg4">
-        <img class="g-thumb" data-gallery="jg4" loading="lazy" src="images/thumb/jg4_0.jpg" data-index="0" alt="">
-        <img class="g-thumb" data-gallery="jg4" loading="lazy" src="images/thumb/jg4_1.jpg" data-index="1" alt="">
-        <img class="g-thumb" data-gallery="jg4" loading="lazy" src="images/thumb/jg4_2.jpg" data-index="2" alt="">
-        <img class="g-thumb" data-gallery="jg4" loading="lazy" src="images/thumb/jg4_3.jpg" data-index="3" alt="">
-        <div class="g-more" data-gallery="jg4" data-index="4">+3</div>
+        <img class="g-thumb" data-gallery="jg4" loading="lazy" src="images/thumb/jg4_0.jpg" data-index="0" tabindex="0" role="button" alt="N/A Ministry 정기집회 10월 스냅 — 1번째 사진">
+        <img class="g-thumb" data-gallery="jg4" loading="lazy" src="images/thumb/jg4_1.jpg" data-index="1" tabindex="0" role="button" alt="N/A Ministry 정기집회 10월 스냅 — 2번째 사진">
+        <img class="g-thumb" data-gallery="jg4" loading="lazy" src="images/thumb/jg4_2.jpg" data-index="2" tabindex="0" role="button" alt="N/A Ministry 정기집회 10월 스냅 — 3번째 사진">
+        <img class="g-thumb" data-gallery="jg4" loading="lazy" src="images/thumb/jg4_3.jpg" data-index="3" tabindex="0" role="button" alt="N/A Ministry 정기집회 10월 스냅 — 4번째 사진">
+        <div class="g-more" data-gallery="jg4" data-index="4" role="button" tabindex="0" aria-label="N/A Ministry 정기집회 10월 스냅 사진 3장 더 보기"><span>+3</span><span class="more-label">MORE</span></div>
       </div>
       <div class="meta">2025.10 · Photo · 개인 작업 · Canon EOS 200D</div>
     </div>
@@ -416,11 +517,11 @@ footer{ padding:36px 6vw; border-top:1px solid var(--line); display:flex; justif
       <h3>성서인의 밤 저녁집회</h3>
       <p>찬양팀 연주, 텅 빈 예배당의 여백, 손을 들고 찬양하는 회중의 순간을 레드·브라운·오렌지 톤으로 편집했습니다.</p>
       <div class="gallery-preview" data-gallery="seoul">
-        <img class="g-thumb" data-gallery="seoul" loading="lazy" src="images/thumb/seoul_0.jpg" data-index="0" alt="">
-        <img class="g-thumb" data-gallery="seoul" loading="lazy" src="images/thumb/seoul_1.jpg" data-index="1" alt="">
-        <img class="g-thumb" data-gallery="seoul" loading="lazy" src="images/thumb/seoul_2.jpg" data-index="2" alt="">
-        <img class="g-thumb" data-gallery="seoul" loading="lazy" src="images/thumb/seoul_3.jpg" data-index="3" alt="">
-        <div class="g-more" data-gallery="seoul" data-index="4">+4</div>
+        <img class="g-thumb" data-gallery="seoul" loading="lazy" src="images/thumb/seoul_0.jpg" data-index="0" tabindex="0" role="button" alt="성서인의 밤 저녁집회 — 1번째 사진">
+        <img class="g-thumb" data-gallery="seoul" loading="lazy" src="images/thumb/seoul_1.jpg" data-index="1" tabindex="0" role="button" alt="성서인의 밤 저녁집회 — 2번째 사진">
+        <img class="g-thumb" data-gallery="seoul" loading="lazy" src="images/thumb/seoul_2.jpg" data-index="2" tabindex="0" role="button" alt="성서인의 밤 저녁집회 — 3번째 사진">
+        <img class="g-thumb" data-gallery="seoul" loading="lazy" src="images/thumb/seoul_3.jpg" data-index="3" tabindex="0" role="button" alt="성서인의 밤 저녁집회 — 4번째 사진">
+        <div class="g-more" data-gallery="seoul" data-index="4" role="button" tabindex="0" aria-label="성서인의 밤 저녁집회 사진 4장 더 보기"><span>+4</span><span class="more-label">MORE</span></div>
       </div>
       <div class="meta">2025.10 · Photo · 개인 작업 · Canon EOS 200D</div>
     </div>
@@ -429,11 +530,11 @@ footer{ padding:36px 6vw; border-top:1px solid var(--line); display:flex; justif
       <h3>광은교회 저녁집회 2일차</h3>
       <p>수련회 건물 내부의 무대와 조명, 현장의 공기를 담았습니다.</p>
       <div class="gallery-preview" data-gallery="gwangeun2">
-        <img class="g-thumb" data-gallery="gwangeun2" loading="lazy" src="images/thumb/gwangeun2_0.jpg" data-index="0" alt="">
-        <img class="g-thumb" data-gallery="gwangeun2" loading="lazy" src="images/thumb/gwangeun2_1.jpg" data-index="1" alt="">
-        <img class="g-thumb" data-gallery="gwangeun2" loading="lazy" src="images/thumb/gwangeun2_2.jpg" data-index="2" alt="">
-        <img class="g-thumb" data-gallery="gwangeun2" loading="lazy" src="images/thumb/gwangeun2_3.jpg" data-index="3" alt="">
-        <div class="g-more" data-gallery="gwangeun2" data-index="4">+4</div>
+        <img class="g-thumb" data-gallery="gwangeun2" loading="lazy" src="images/thumb/gwangeun2_0.jpg" data-index="0" tabindex="0" role="button" alt="광은교회 저녁집회 2일차 — 1번째 사진">
+        <img class="g-thumb" data-gallery="gwangeun2" loading="lazy" src="images/thumb/gwangeun2_1.jpg" data-index="1" tabindex="0" role="button" alt="광은교회 저녁집회 2일차 — 2번째 사진">
+        <img class="g-thumb" data-gallery="gwangeun2" loading="lazy" src="images/thumb/gwangeun2_2.jpg" data-index="2" tabindex="0" role="button" alt="광은교회 저녁집회 2일차 — 3번째 사진">
+        <img class="g-thumb" data-gallery="gwangeun2" loading="lazy" src="images/thumb/gwangeun2_3.jpg" data-index="3" tabindex="0" role="button" alt="광은교회 저녁집회 2일차 — 4번째 사진">
+        <div class="g-more" data-gallery="gwangeun2" data-index="4" role="button" tabindex="0" aria-label="광은교회 저녁집회 2일차 사진 4장 더 보기"><span>+4</span><span class="more-label">MORE</span></div>
       </div>
       <div class="meta">2025.08 · Photo · 개인 작업 · Canon EOS 200D</div>
     </div>
@@ -442,11 +543,11 @@ footer{ padding:36px 6vw; border-top:1px solid var(--line); display:flex; justif
       <h3>광은교회 저녁집회 1일차</h3>
       <p>찬양팀의 연주와 회중의 기도, 텅 빈 예배당의 여백을 레드·브라운 톤으로 편집했습니다.</p>
       <div class="gallery-preview" data-gallery="gwangeun">
-        <img class="g-thumb" data-gallery="gwangeun" loading="lazy" src="images/thumb/gwangeun_0.jpg" data-index="0" alt="">
-        <img class="g-thumb" data-gallery="gwangeun" loading="lazy" src="images/thumb/gwangeun_1.jpg" data-index="1" alt="">
-        <img class="g-thumb" data-gallery="gwangeun" loading="lazy" src="images/thumb/gwangeun_2.jpg" data-index="2" alt="">
-        <img class="g-thumb" data-gallery="gwangeun" loading="lazy" src="images/thumb/gwangeun_3.jpg" data-index="3" alt="">
-        <div class="g-more" data-gallery="gwangeun" data-index="4">+4</div>
+        <img class="g-thumb" data-gallery="gwangeun" loading="lazy" src="images/thumb/gwangeun_0.jpg" data-index="0" tabindex="0" role="button" alt="광은교회 저녁집회 1일차 — 1번째 사진">
+        <img class="g-thumb" data-gallery="gwangeun" loading="lazy" src="images/thumb/gwangeun_1.jpg" data-index="1" tabindex="0" role="button" alt="광은교회 저녁집회 1일차 — 2번째 사진">
+        <img class="g-thumb" data-gallery="gwangeun" loading="lazy" src="images/thumb/gwangeun_2.jpg" data-index="2" tabindex="0" role="button" alt="광은교회 저녁집회 1일차 — 3번째 사진">
+        <img class="g-thumb" data-gallery="gwangeun" loading="lazy" src="images/thumb/gwangeun_3.jpg" data-index="3" tabindex="0" role="button" alt="광은교회 저녁집회 1일차 — 4번째 사진">
+        <div class="g-more" data-gallery="gwangeun" data-index="4" role="button" tabindex="0" aria-label="광은교회 저녁집회 1일차 사진 4장 더 보기"><span>+4</span><span class="more-label">MORE</span></div>
       </div>
       <div class="meta">2025.08 · Photo · 개인 작업 · Canon EOS 200D</div>
     </div>
@@ -455,11 +556,11 @@ footer{ padding:36px 6vw; border-top:1px solid var(--line); display:flex; justif
       <h3>광은교회 수련회 연습 실황</h3>
       <p>무대 뒤편에서 이뤄진 악기 리허설과 장비 세팅 과정을, 기타·베이스·드럼의 질감과 빈 벽면의 여백을 교차해 편집했습니다.</p>
       <div class="gallery-preview" data-gallery="gwangeun3">
-        <img class="g-thumb" data-gallery="gwangeun3" loading="lazy" src="images/thumb/gwangeun3_0.jpg" data-index="0" alt="">
-        <img class="g-thumb" data-gallery="gwangeun3" loading="lazy" src="images/thumb/gwangeun3_1.jpg" data-index="1" alt="">
-        <img class="g-thumb" data-gallery="gwangeun3" loading="lazy" src="images/thumb/gwangeun3_2.jpg" data-index="2" alt="">
-        <img class="g-thumb" data-gallery="gwangeun3" loading="lazy" src="images/thumb/gwangeun3_4.jpg" data-index="4" alt="">
-        <div class="g-more" data-gallery="gwangeun3" data-index="3">+4</div>
+        <img class="g-thumb" data-gallery="gwangeun3" loading="lazy" src="images/thumb/gwangeun3_0.jpg" data-index="0" tabindex="0" role="button" alt="광은교회 수련회 연습 실황 — 1번째 사진">
+        <img class="g-thumb" data-gallery="gwangeun3" loading="lazy" src="images/thumb/gwangeun3_1.jpg" data-index="1" tabindex="0" role="button" alt="광은교회 수련회 연습 실황 — 2번째 사진">
+        <img class="g-thumb" data-gallery="gwangeun3" loading="lazy" src="images/thumb/gwangeun3_2.jpg" data-index="2" tabindex="0" role="button" alt="광은교회 수련회 연습 실황 — 3번째 사진">
+        <img class="g-thumb" data-gallery="gwangeun3" loading="lazy" src="images/thumb/gwangeun3_4.jpg" data-index="4" tabindex="0" role="button" alt="광은교회 수련회 연습 실황 — 5번째 사진">
+        <div class="g-more" data-gallery="gwangeun3" data-index="3" role="button" tabindex="0" aria-label="광은교회 수련회 연습 실황 사진 4장 더 보기"><span>+4</span><span class="more-label">MORE</span></div>
       </div>
       <div class="meta">2025.08 · Photo · 개인 작업 · Canon EOS 200D</div>
     </div>
@@ -468,11 +569,11 @@ footer{ padding:36px 6vw; border-top:1px solid var(--line); display:flex; justif
       <h3>N/A Ministry 정기집회 8월 스냅</h3>
       <p>무대 전경과 예배당 내부를 함께 담아, 팀 색에 맞는 톤으로 보정했습니다.</p>
       <div class="gallery-preview" data-gallery="jg3">
-        <img class="g-thumb" data-gallery="jg3" loading="lazy" src="images/thumb/jg3_0.jpg" data-index="0" alt="">
-        <img class="g-thumb" data-gallery="jg3" loading="lazy" src="images/thumb/jg3_1.jpg" data-index="1" alt="">
-        <img class="g-thumb" data-gallery="jg3" loading="lazy" src="images/thumb/jg3_3.jpg" data-index="2" alt="">
-        <img class="g-thumb" data-gallery="jg3" loading="lazy" src="images/thumb/jg3_4.jpg" data-index="3" alt="">
-        <div class="g-more" data-gallery="jg3" data-index="4">+3</div>
+        <img class="g-thumb" data-gallery="jg3" loading="lazy" src="images/thumb/jg3_0.jpg" data-index="0" tabindex="0" role="button" alt="N/A Ministry 정기집회 8월 스냅 — 1번째 사진">
+        <img class="g-thumb" data-gallery="jg3" loading="lazy" src="images/thumb/jg3_1.jpg" data-index="1" tabindex="0" role="button" alt="N/A Ministry 정기집회 8월 스냅 — 2번째 사진">
+        <img class="g-thumb" data-gallery="jg3" loading="lazy" src="images/thumb/jg3_3.jpg" data-index="2" tabindex="0" role="button" alt="N/A Ministry 정기집회 8월 스냅 — 3번째 사진">
+        <img class="g-thumb" data-gallery="jg3" loading="lazy" src="images/thumb/jg3_4.jpg" data-index="3" tabindex="0" role="button" alt="N/A Ministry 정기집회 8월 스냅 — 4번째 사진">
+        <div class="g-more" data-gallery="jg3" data-index="4" role="button" tabindex="0" aria-label="N/A Ministry 정기집회 8월 스냅 사진 3장 더 보기"><span>+3</span><span class="more-label">MORE</span></div>
       </div>
       <div class="meta">2025.08 · Photo · 개인 작업 · Canon EOS 200D</div>
     </div>
@@ -481,9 +582,9 @@ footer{ padding:36px 6vw; border-top:1px solid var(--line); display:flex; justif
       <h3>N/A Ministry 정기집회 8월 포스터</h3>
       <p>그림자와 조명이 만드는 공기를 살려, 같은 방식으로 포스터에 담았습니다.</p>
       <div class="gallery-preview" data-gallery="aug_poster">
-        <img class="g-thumb" data-gallery="aug_poster" loading="lazy" src="images/thumb/aug_poster_0.jpg" data-index="0" alt="">
-        <img class="g-thumb" data-gallery="aug_poster" loading="lazy" src="images/thumb/aug_poster_1.jpg" data-index="1" alt="">
-        <img class="g-thumb" data-gallery="aug_poster" loading="lazy" src="images/thumb/aug_poster_2.jpg" data-index="2" alt="">
+        <img class="g-thumb" data-gallery="aug_poster" loading="lazy" src="images/thumb/aug_poster_0.jpg" data-index="0" tabindex="0" role="button" alt="N/A Ministry 정기집회 8월 포스터 — 1번째 사진">
+        <img class="g-thumb" data-gallery="aug_poster" loading="lazy" src="images/thumb/aug_poster_1.jpg" data-index="1" tabindex="0" role="button" alt="N/A Ministry 정기집회 8월 포스터 — 2번째 사진">
+        <img class="g-thumb" data-gallery="aug_poster" loading="lazy" src="images/thumb/aug_poster_2.jpg" data-index="2" tabindex="0" role="button" alt="N/A Ministry 정기집회 8월 포스터 — 3번째 사진">
       </div>
       <div class="meta">2025.08 · Poster & Thumbnail · 개인 작업</div>
     </div>
@@ -492,11 +593,11 @@ footer{ padding:36px 6vw; border-top:1px solid var(--line); display:flex; justif
       <h3>예수가온교회 청소년 여름 저녁집회</h3>
       <p>스크린 앞에 모여 찬양하고 기도하는 학생들의 모습과, 어두운 실내에서 홀로 조용히 기도하는 순간을 교차해 편집했습니다.</p>
       <div class="gallery-preview" data-gallery="ysg1">
-        <img class="g-thumb" data-gallery="ysg1" loading="lazy" src="images/thumb/ysg1_0.jpg" data-index="0" alt="">
-        <img class="g-thumb" data-gallery="ysg1" loading="lazy" src="images/thumb/ysg1_1.jpg" data-index="1" alt="">
-        <img class="g-thumb" data-gallery="ysg1" loading="lazy" src="images/thumb/ysg1_2.jpg" data-index="2" alt="">
-        <img class="g-thumb" data-gallery="ysg1" loading="lazy" src="images/thumb/ysg1_3.jpg" data-index="3" alt="">
-        <div class="g-more" data-gallery="ysg1" data-index="4">+4</div>
+        <img class="g-thumb" data-gallery="ysg1" loading="lazy" src="images/thumb/ysg1_0.jpg" data-index="0" tabindex="0" role="button" alt="예수가온교회 청소년 여름 저녁집회 — 1번째 사진">
+        <img class="g-thumb" data-gallery="ysg1" loading="lazy" src="images/thumb/ysg1_1.jpg" data-index="1" tabindex="0" role="button" alt="예수가온교회 청소년 여름 저녁집회 — 2번째 사진">
+        <img class="g-thumb" data-gallery="ysg1" loading="lazy" src="images/thumb/ysg1_2.jpg" data-index="2" tabindex="0" role="button" alt="예수가온교회 청소년 여름 저녁집회 — 3번째 사진">
+        <img class="g-thumb" data-gallery="ysg1" loading="lazy" src="images/thumb/ysg1_3.jpg" data-index="3" tabindex="0" role="button" alt="예수가온교회 청소년 여름 저녁집회 — 4번째 사진">
+        <div class="g-more" data-gallery="ysg1" data-index="4" role="button" tabindex="0" aria-label="예수가온교회 청소년 여름 저녁집회 사진 4장 더 보기"><span>+4</span><span class="more-label">MORE</span></div>
       </div>
       <div class="meta">2025.07 · Photo · 개인 작업 · Canon EOS 200D</div>
     </div>
@@ -505,11 +606,11 @@ footer{ padding:36px 6vw; border-top:1px solid var(--line); display:flex; justif
       <h3>N/A Ministry 정기집회 7월 스냅</h3>
       <p>골드톤 기타의 질감과 벽에 드리운 그림자를 브라운·오렌지 톤으로 보정해, 팀의 색을 완성했습니다.</p>
       <div class="gallery-preview" data-gallery="jg2">
-        <img class="g-thumb" data-gallery="jg2" loading="lazy" src="images/thumb/jg2_0.jpg" data-index="0" alt="">
-        <img class="g-thumb" data-gallery="jg2" loading="lazy" src="images/thumb/jg2_1.jpg" data-index="1" alt="">
-        <img class="g-thumb" data-gallery="jg2" loading="lazy" src="images/thumb/jg2_2.jpg" data-index="2" alt="">
-        <img class="g-thumb" data-gallery="jg2" loading="lazy" src="images/thumb/jg2_3.jpg" data-index="3" alt="">
-        <div class="g-more" data-gallery="jg2" data-index="4">+4</div>
+        <img class="g-thumb" data-gallery="jg2" loading="lazy" src="images/thumb/jg2_0.jpg" data-index="0" tabindex="0" role="button" alt="N/A Ministry 정기집회 7월 스냅 — 1번째 사진">
+        <img class="g-thumb" data-gallery="jg2" loading="lazy" src="images/thumb/jg2_1.jpg" data-index="1" tabindex="0" role="button" alt="N/A Ministry 정기집회 7월 스냅 — 2번째 사진">
+        <img class="g-thumb" data-gallery="jg2" loading="lazy" src="images/thumb/jg2_2.jpg" data-index="2" tabindex="0" role="button" alt="N/A Ministry 정기집회 7월 스냅 — 3번째 사진">
+        <img class="g-thumb" data-gallery="jg2" loading="lazy" src="images/thumb/jg2_3.jpg" data-index="3" tabindex="0" role="button" alt="N/A Ministry 정기집회 7월 스냅 — 4번째 사진">
+        <div class="g-more" data-gallery="jg2" data-index="4" role="button" tabindex="0" aria-label="N/A Ministry 정기집회 7월 스냅 사진 4장 더 보기"><span>+4</span><span class="more-label">MORE</span></div>
       </div>
       <div class="meta">2025.07 · Photo · 개인 작업 · Canon EOS 200D</div>
     </div>
@@ -518,9 +619,9 @@ footer{ padding:36px 6vw; border-top:1px solid var(--line); display:flex; justif
       <h3>N/A Ministry 정기집회 7월 포스터</h3>
       <p>제가 찍은 예배당 사진 위에 제목과 말씀을 얹어, 잡지처럼 읽히는 포스터로 담았습니다.</p>
       <div class="gallery-preview" data-gallery="jul_poster">
-        <img class="g-thumb" data-gallery="jul_poster" loading="lazy" src="images/thumb/jul_poster_0.jpg" data-index="0" alt="">
-        <img class="g-thumb" data-gallery="jul_poster" loading="lazy" src="images/thumb/jul_poster_1.jpg" data-index="1" alt="">
-        <img class="g-thumb" data-gallery="jul_poster" loading="lazy" src="images/thumb/jul_poster_2.png" data-index="2" alt="">
+        <img class="g-thumb" data-gallery="jul_poster" loading="lazy" src="images/thumb/jul_poster_0.jpg" data-index="0" tabindex="0" role="button" alt="N/A Ministry 정기집회 7월 포스터 — 1번째 사진">
+        <img class="g-thumb" data-gallery="jul_poster" loading="lazy" src="images/thumb/jul_poster_1.jpg" data-index="1" tabindex="0" role="button" alt="N/A Ministry 정기집회 7월 포스터 — 2번째 사진">
+        <img class="g-thumb" data-gallery="jul_poster" loading="lazy" src="images/thumb/jul_poster_2.png" data-index="2" tabindex="0" role="button" alt="N/A Ministry 정기집회 7월 포스터 — 3번째 사진">
       </div>
       <div class="meta">2025.07 · Poster & Thumbnail · 개인 작업</div>
     </div>
@@ -529,11 +630,11 @@ footer{ padding:36px 6vw; border-top:1px solid var(--line); display:flex; justif
       <h3>N/A Ministry 정기집회 4월 스냅</h3>
       <p>연주자의 손끝과 무대 바닥에 비친 밴드의 실루엣을 통해, 팀에 맞는 색감을 찾아가는 과정을 담았습니다.</p>
       <div class="gallery-preview" data-gallery="jg1">
-        <img class="g-thumb" data-gallery="jg1" loading="lazy" src="images/thumb/jg1_0.jpg" data-index="0" alt="">
-        <img class="g-thumb" data-gallery="jg1" loading="lazy" src="images/thumb/jg1_1.jpg" data-index="1" alt="">
-        <img class="g-thumb" data-gallery="jg1" loading="lazy" src="images/thumb/jg1_2.jpg" data-index="2" alt="">
-        <img class="g-thumb" data-gallery="jg1" loading="lazy" src="images/thumb/jg1_3.jpg" data-index="3" alt="">
-        <div class="g-more" data-gallery="jg1" data-index="4">+4</div>
+        <img class="g-thumb" data-gallery="jg1" loading="lazy" src="images/thumb/jg1_0.jpg" data-index="0" tabindex="0" role="button" alt="N/A Ministry 정기집회 4월 스냅 — 1번째 사진">
+        <img class="g-thumb" data-gallery="jg1" loading="lazy" src="images/thumb/jg1_1.jpg" data-index="1" tabindex="0" role="button" alt="N/A Ministry 정기집회 4월 스냅 — 2번째 사진">
+        <img class="g-thumb" data-gallery="jg1" loading="lazy" src="images/thumb/jg1_2.jpg" data-index="2" tabindex="0" role="button" alt="N/A Ministry 정기집회 4월 스냅 — 3번째 사진">
+        <img class="g-thumb" data-gallery="jg1" loading="lazy" src="images/thumb/jg1_3.jpg" data-index="3" tabindex="0" role="button" alt="N/A Ministry 정기집회 4월 스냅 — 4번째 사진">
+        <div class="g-more" data-gallery="jg1" data-index="4" role="button" tabindex="0" aria-label="N/A Ministry 정기집회 4월 스냅 사진 4장 더 보기"><span>+4</span><span class="more-label">MORE</span></div>
       </div>
       <div class="meta">2025.04 · Photo · 개인 작업 · Canon EOS 200D</div>
     </div>
@@ -542,11 +643,11 @@ footer{ padding:36px 6vw; border-top:1px solid var(--line); display:flex; justif
       <h3>한샘교회 청소년 겨울 수련회 저녁집회</h3>
       <p>통나무 벽과 따뜻한 조명이 어우러진 예배당에서, 서로 어깨를 맞대고 기도하는 학생들과 찬양 밴드의 순간을 브라운 톤으로 보정했습니다.</p>
       <div class="gallery-preview" data-gallery="hansam1">
-        <img class="g-thumb" data-gallery="hansam1" loading="lazy" src="images/thumb/hansam1_0.jpg" data-index="0" alt="">
-        <img class="g-thumb" data-gallery="hansam1" loading="lazy" src="images/thumb/hansam1_1.jpg" data-index="1" alt="">
-        <img class="g-thumb" data-gallery="hansam1" loading="lazy" src="images/thumb/hansam1_2.jpg" data-index="2" alt="">
-        <img class="g-thumb" data-gallery="hansam1" loading="lazy" src="images/thumb/hansam1_3.jpg" data-index="3" alt="">
-        <div class="g-more" data-gallery="hansam1" data-index="4">+4</div>
+        <img class="g-thumb" data-gallery="hansam1" loading="lazy" src="images/thumb/hansam1_0.jpg" data-index="0" tabindex="0" role="button" alt="한샘교회 청소년 겨울 수련회 저녁집회 — 1번째 사진">
+        <img class="g-thumb" data-gallery="hansam1" loading="lazy" src="images/thumb/hansam1_1.jpg" data-index="1" tabindex="0" role="button" alt="한샘교회 청소년 겨울 수련회 저녁집회 — 2번째 사진">
+        <img class="g-thumb" data-gallery="hansam1" loading="lazy" src="images/thumb/hansam1_2.jpg" data-index="2" tabindex="0" role="button" alt="한샘교회 청소년 겨울 수련회 저녁집회 — 3번째 사진">
+        <img class="g-thumb" data-gallery="hansam1" loading="lazy" src="images/thumb/hansam1_3.jpg" data-index="3" tabindex="0" role="button" alt="한샘교회 청소년 겨울 수련회 저녁집회 — 4번째 사진">
+        <div class="g-more" data-gallery="hansam1" data-index="4" role="button" tabindex="0" aria-label="한샘교회 청소년 겨울 수련회 저녁집회 사진 4장 더 보기"><span>+4</span><span class="more-label">MORE</span></div>
       </div>
       <div class="meta">2025.02 · Photo · 개인 작업 · Canon EOS 200D</div>
     </div>
@@ -555,11 +656,11 @@ footer{ padding:36px 6vw; border-top:1px solid var(--line); display:flex; justif
       <h3>이어진교회 청소년부 저녁집회 스냅</h3>
       <p>보랏빛 조명이 낯설었던 그날의 현장을 색보정 없이 그대로 남긴 스냅입니다. 찬양팀의 연주와 무대 뒤 순간들을 자연스러운 톤 그대로 담았습니다.</p>
       <div class="gallery-preview" data-gallery="ears1">
-        <img class="g-thumb" data-gallery="ears1" loading="lazy" src="images/thumb/ears1_0.jpg" data-index="0" alt="">
-        <img class="g-thumb" data-gallery="ears1" loading="lazy" src="images/thumb/ears1_1.jpg" data-index="1" alt="">
-        <img class="g-thumb" data-gallery="ears1" loading="lazy" src="images/thumb/ears1_2.jpg" data-index="2" alt="">
-        <img class="g-thumb" data-gallery="ears1" loading="lazy" src="images/thumb/ears1_3.jpg" data-index="3" alt="">
-        <div class="g-more" data-gallery="ears1" data-index="4">+1</div>
+        <img class="g-thumb" data-gallery="ears1" loading="lazy" src="images/thumb/ears1_0.jpg" data-index="0" tabindex="0" role="button" alt="이어진교회 청소년부 저녁집회 스냅 — 1번째 사진">
+        <img class="g-thumb" data-gallery="ears1" loading="lazy" src="images/thumb/ears1_1.jpg" data-index="1" tabindex="0" role="button" alt="이어진교회 청소년부 저녁집회 스냅 — 2번째 사진">
+        <img class="g-thumb" data-gallery="ears1" loading="lazy" src="images/thumb/ears1_2.jpg" data-index="2" tabindex="0" role="button" alt="이어진교회 청소년부 저녁집회 스냅 — 3번째 사진">
+        <img class="g-thumb" data-gallery="ears1" loading="lazy" src="images/thumb/ears1_3.jpg" data-index="3" tabindex="0" role="button" alt="이어진교회 청소년부 저녁집회 스냅 — 4번째 사진">
+        <div class="g-more" data-gallery="ears1" data-index="4" role="button" tabindex="0" aria-label="이어진교회 청소년부 저녁집회 스냅 사진 1장 더 보기"><span>+1</span><span class="more-label">MORE</span></div>
       </div>
       <div class="meta">2025.01 · Photo · 개인 작업 · Canon EOS 200D</div>
     </div>
@@ -568,9 +669,9 @@ footer{ padding:36px 6vw; border-top:1px solid var(--line); display:flex; justif
       <h3>NA Worship 모임 홍보 포스터 & 스냅</h3>
       <p>제가 찍은 사진을 소재로 홍보 포스터와 모임 스냅을 편안하고 아늑한 분위기로 디자인했습니다.</p>
       <div class="gallery-preview" data-gallery="na_home">
-        <img class="g-thumb" data-gallery="na_home" loading="lazy" src="images/thumb/na_home_0.jpg" data-index="0" alt="">
-        <img class="g-thumb" data-gallery="na_home" loading="lazy" src="images/thumb/na_home_1.jpg" data-index="1" alt="">
-        <img class="g-thumb" data-gallery="na_home" loading="lazy" src="images/thumb/na_home_2.jpg" data-index="2" alt="">
+        <img class="g-thumb" data-gallery="na_home" loading="lazy" src="images/thumb/na_home_0.jpg" data-index="0" tabindex="0" role="button" alt="NA Worship 모임 홍보 포스터 & 스냅 — 1번째 사진">
+        <img class="g-thumb" data-gallery="na_home" loading="lazy" src="images/thumb/na_home_1.jpg" data-index="1" tabindex="0" role="button" alt="NA Worship 모임 홍보 포스터 & 스냅 — 2번째 사진">
+        <img class="g-thumb" data-gallery="na_home" loading="lazy" src="images/thumb/na_home_2.jpg" data-index="2" tabindex="0" role="button" alt="NA Worship 모임 홍보 포스터 & 스냅 — 3번째 사진">
       </div>
       <div class="meta">2024.11 · Poster & Thumbnail · 개인 작업</div>
     </div>
@@ -579,11 +680,11 @@ footer{ padding:36px 6vw; border-top:1px solid var(--line); display:flex; justif
       <h3>일산동안교회 저녁집회 스냅</h3>
       <p>무대의 밴드와 회중, 그 사이를 오가는 순간들을 차분한 네이비·블루 톤으로 편집했습니다.</p>
       <div class="gallery-preview" data-gallery="ilsandongan">
-        <img class="g-thumb" data-gallery="ilsandongan" loading="lazy" src="images/thumb/ilsandongan_0.jpg" data-index="0" alt="">
-        <img class="g-thumb" data-gallery="ilsandongan" loading="lazy" src="images/thumb/ilsandongan_1.jpg" data-index="1" alt="">
-        <img class="g-thumb" data-gallery="ilsandongan" loading="lazy" src="images/thumb/ilsandongan_2.jpg" data-index="2" alt="">
-        <img class="g-thumb" data-gallery="ilsandongan" loading="lazy" src="images/thumb/ilsandongan_3.jpg" data-index="3" alt="">
-        <div class="g-more" data-gallery="ilsandongan" data-index="4">+3</div>
+        <img class="g-thumb" data-gallery="ilsandongan" loading="lazy" src="images/thumb/ilsandongan_0.jpg" data-index="0" tabindex="0" role="button" alt="일산동안교회 저녁집회 스냅 — 1번째 사진">
+        <img class="g-thumb" data-gallery="ilsandongan" loading="lazy" src="images/thumb/ilsandongan_1.jpg" data-index="1" tabindex="0" role="button" alt="일산동안교회 저녁집회 스냅 — 2번째 사진">
+        <img class="g-thumb" data-gallery="ilsandongan" loading="lazy" src="images/thumb/ilsandongan_2.jpg" data-index="2" tabindex="0" role="button" alt="일산동안교회 저녁집회 스냅 — 3번째 사진">
+        <img class="g-thumb" data-gallery="ilsandongan" loading="lazy" src="images/thumb/ilsandongan_3.jpg" data-index="3" tabindex="0" role="button" alt="일산동안교회 저녁집회 스냅 — 4번째 사진">
+        <div class="g-more" data-gallery="ilsandongan" data-index="4" role="button" tabindex="0" aria-label="일산동안교회 저녁집회 스냅 사진 3장 더 보기"><span>+3</span><span class="more-label">MORE</span></div>
       </div>
       <div class="meta">2024.08 · Photo · 개인 작업 · Canon EOS 200D</div>
     </div>
@@ -592,9 +693,9 @@ footer{ padding:36px 6vw; border-top:1px solid var(--line); display:flex; justif
       <h3>NA 로고 플레이 — Summer / Winter</h3>
       <p>직접 디자인한 NA 로고 하나로, 여름과 겨울 두 가지 컨셉의 로고 플레이를 만들었습니다.</p>
       <div class="gallery-preview" data-gallery="na_logo">
-        <img class="g-thumb" data-gallery="na_logo" loading="lazy" src="images/thumb/na_logo_0.png" data-index="0" alt="">
-        <img class="g-thumb" data-gallery="na_logo" loading="lazy" src="images/thumb/na_logo_1.png" data-index="1" alt="">
-        <img class="g-thumb" data-gallery="na_logo" loading="lazy" src="images/thumb/na_logo_2.png" data-index="2" alt="">
+        <img class="g-thumb" data-gallery="na_logo" loading="lazy" src="images/thumb/na_logo_0.png" data-index="0" tabindex="0" role="button" alt="NA 로고 플레이 — Summer / Winter — 1번째 사진">
+        <img class="g-thumb" data-gallery="na_logo" loading="lazy" src="images/thumb/na_logo_1.png" data-index="1" tabindex="0" role="button" alt="NA 로고 플레이 — Summer / Winter — 2번째 사진">
+        <img class="g-thumb" data-gallery="na_logo" loading="lazy" src="images/thumb/na_logo_2.png" data-index="2" tabindex="0" role="button" alt="NA 로고 플레이 — Summer / Winter — 3번째 사진">
       </div>
       <div class="meta">2024.07 · Logo Design · 개인 작업</div>
     </div>
@@ -603,11 +704,11 @@ footer{ padding:36px 6vw; border-top:1px solid var(--line); display:flex; justif
       <h3>동두천 골목 노포 스냅</h3>
       <p>제가 사는 동두천의 오래된 상점들을 기록하고, 제 마음대로 색을 입혀본 개인 취미 작업입니다.</p>
       <div class="gallery-preview" data-gallery="oldtown">
-        <img class="g-thumb" data-gallery="oldtown" loading="lazy" src="images/thumb/oldtown_0.jpg" data-index="0" alt="">
-        <img class="g-thumb" data-gallery="oldtown" loading="lazy" src="images/thumb/oldtown_1.jpg" data-index="1" alt="">
-        <img class="g-thumb" data-gallery="oldtown" loading="lazy" src="images/thumb/oldtown_2.jpg" data-index="2" alt="">
-        <img class="g-thumb" data-gallery="oldtown" loading="lazy" src="images/thumb/oldtown_3.jpg" data-index="3" alt="">
-        <div class="g-more" data-gallery="oldtown" data-index="4">+3</div>
+        <img class="g-thumb" data-gallery="oldtown" loading="lazy" src="images/thumb/oldtown_0.jpg" data-index="0" tabindex="0" role="button" alt="동두천 골목 노포 스냅 — 1번째 사진">
+        <img class="g-thumb" data-gallery="oldtown" loading="lazy" src="images/thumb/oldtown_1.jpg" data-index="1" tabindex="0" role="button" alt="동두천 골목 노포 스냅 — 2번째 사진">
+        <img class="g-thumb" data-gallery="oldtown" loading="lazy" src="images/thumb/oldtown_2.jpg" data-index="2" tabindex="0" role="button" alt="동두천 골목 노포 스냅 — 3번째 사진">
+        <img class="g-thumb" data-gallery="oldtown" loading="lazy" src="images/thumb/oldtown_3.jpg" data-index="3" tabindex="0" role="button" alt="동두천 골목 노포 스냅 — 4번째 사진">
+        <div class="g-more" data-gallery="oldtown" data-index="4" role="button" tabindex="0" aria-label="동두천 골목 노포 스냅 사진 3장 더 보기"><span>+3</span><span class="more-label">MORE</span></div>
       </div>
       <div class="meta">2024.02 · Photo · 개인 작업 · Canon EOS 200D</div>
     </div>
@@ -616,11 +717,11 @@ footer{ padding:36px 6vw; border-top:1px solid var(--line); display:flex; justif
       <h3>NA 초창기 합주실 연습 스냅</h3>
       <p>결성 초기, 합주실에서 연습하던 순간을 꾸밈없이 담은 날것의 기록입니다.</p>
       <div class="gallery-preview" data-gallery="yeonseup">
-        <img class="g-thumb" data-gallery="yeonseup" loading="lazy" src="images/thumb/yeonseup_0.jpg" data-index="0" alt="">
-        <img class="g-thumb" data-gallery="yeonseup" loading="lazy" src="images/thumb/yeonseup_1.jpg" data-index="1" alt="">
-        <img class="g-thumb" data-gallery="yeonseup" loading="lazy" src="images/thumb/yeonseup_2.jpg" data-index="2" alt="">
-        <img class="g-thumb" data-gallery="yeonseup" loading="lazy" src="images/thumb/yeonseup_3.jpg" data-index="3" alt="">
-        <div class="g-more" data-gallery="yeonseup" data-index="4">+4</div>
+        <img class="g-thumb" data-gallery="yeonseup" loading="lazy" src="images/thumb/yeonseup_0.jpg" data-index="0" tabindex="0" role="button" alt="NA 초창기 합주실 연습 스냅 — 1번째 사진">
+        <img class="g-thumb" data-gallery="yeonseup" loading="lazy" src="images/thumb/yeonseup_1.jpg" data-index="1" tabindex="0" role="button" alt="NA 초창기 합주실 연습 스냅 — 2번째 사진">
+        <img class="g-thumb" data-gallery="yeonseup" loading="lazy" src="images/thumb/yeonseup_2.jpg" data-index="2" tabindex="0" role="button" alt="NA 초창기 합주실 연습 스냅 — 3번째 사진">
+        <img class="g-thumb" data-gallery="yeonseup" loading="lazy" src="images/thumb/yeonseup_3.jpg" data-index="3" tabindex="0" role="button" alt="NA 초창기 합주실 연습 스냅 — 4번째 사진">
+        <div class="g-more" data-gallery="yeonseup" data-index="4" role="button" tabindex="0" aria-label="NA 초창기 합주실 연습 스냅 사진 4장 더 보기"><span>+4</span><span class="more-label">MORE</span></div>
       </div>
       <div class="meta">2023.12 · Photo · 개인 작업 · Canon EOS 200D</div>
     </div>
@@ -629,10 +730,10 @@ footer{ padding:36px 6vw; border-top:1px solid var(--line); display:flex; justif
       <h3>한샘교회 청소년 여름 수련회 스냅</h3>
       <p>단체 티를 맞춰 입은 학생들과 무대의 컬러풀한 조명을 따뜻한 톤으로 담았습니다.</p>
       <div class="gallery-preview" data-gallery="hansam2">
-        <img class="g-thumb" data-gallery="hansam2" loading="lazy" src="images/thumb/hansam2_0.jpg" data-index="0" alt="">
-        <img class="g-thumb" data-gallery="hansam2" loading="lazy" src="images/thumb/hansam2_1.jpg" data-index="1" alt="">
-        <img class="g-thumb" data-gallery="hansam2" loading="lazy" src="images/thumb/hansam2_2.jpg" data-index="2" alt="">
-        <img class="g-thumb" data-gallery="hansam2" loading="lazy" src="images/thumb/hansam2_3.jpg" data-index="3" alt="">
+        <img class="g-thumb" data-gallery="hansam2" loading="lazy" src="images/thumb/hansam2_0.jpg" data-index="0" tabindex="0" role="button" alt="한샘교회 청소년 여름 수련회 스냅 — 1번째 사진">
+        <img class="g-thumb" data-gallery="hansam2" loading="lazy" src="images/thumb/hansam2_1.jpg" data-index="1" tabindex="0" role="button" alt="한샘교회 청소년 여름 수련회 스냅 — 2번째 사진">
+        <img class="g-thumb" data-gallery="hansam2" loading="lazy" src="images/thumb/hansam2_2.jpg" data-index="2" tabindex="0" role="button" alt="한샘교회 청소년 여름 수련회 스냅 — 3번째 사진">
+        <img class="g-thumb" data-gallery="hansam2" loading="lazy" src="images/thumb/hansam2_3.jpg" data-index="3" tabindex="0" role="button" alt="한샘교회 청소년 여름 수련회 스냅 — 4번째 사진">
       </div>
       <div class="meta">2023.08 · Photo · 개인 작업 · Canon EOS 200D</div>
     </div>
@@ -641,11 +742,11 @@ footer{ padding:36px 6vw; border-top:1px solid var(--line); display:flex; justif
       <h3>천하제일교회 청소년 여름 수련회 스냅</h3>
       <p>따뜻한 우드톤 예배당에서 밴드와 회중이 함께 찬양하는 순간을 담았습니다.</p>
       <div class="gallery-preview" data-gallery="cheonhajeil">
-        <img class="g-thumb" data-gallery="cheonhajeil" loading="lazy" src="images/thumb/cheonhajeil_0.jpg" data-index="0" alt="">
-        <img class="g-thumb" data-gallery="cheonhajeil" loading="lazy" src="images/thumb/cheonhajeil_1.jpg" data-index="1" alt="">
-        <img class="g-thumb" data-gallery="cheonhajeil" loading="lazy" src="images/thumb/cheonhajeil_2.jpg" data-index="2" alt="">
-        <img class="g-thumb" data-gallery="cheonhajeil" loading="lazy" src="images/thumb/cheonhajeil_3.jpg" data-index="3" alt="">
-        <div class="g-more" data-gallery="cheonhajeil" data-index="4">+1</div>
+        <img class="g-thumb" data-gallery="cheonhajeil" loading="lazy" src="images/thumb/cheonhajeil_0.jpg" data-index="0" tabindex="0" role="button" alt="천하제일교회 청소년 여름 수련회 스냅 — 1번째 사진">
+        <img class="g-thumb" data-gallery="cheonhajeil" loading="lazy" src="images/thumb/cheonhajeil_1.jpg" data-index="1" tabindex="0" role="button" alt="천하제일교회 청소년 여름 수련회 스냅 — 2번째 사진">
+        <img class="g-thumb" data-gallery="cheonhajeil" loading="lazy" src="images/thumb/cheonhajeil_2.jpg" data-index="2" tabindex="0" role="button" alt="천하제일교회 청소년 여름 수련회 스냅 — 3번째 사진">
+        <img class="g-thumb" data-gallery="cheonhajeil" loading="lazy" src="images/thumb/cheonhajeil_3.jpg" data-index="3" tabindex="0" role="button" alt="천하제일교회 청소년 여름 수련회 스냅 — 4번째 사진">
+        <div class="g-more" data-gallery="cheonhajeil" data-index="4" role="button" tabindex="0" aria-label="천하제일교회 청소년 여름 수련회 스냅 사진 1장 더 보기"><span>+1</span><span class="more-label">MORE</span></div>
       </div>
       <div class="meta">2023.07 · Photo · 개인 작업 · Canon EOS 200D</div>
     </div>
@@ -654,11 +755,11 @@ footer{ padding:36px 6vw; border-top:1px solid var(--line); display:flex; justif
       <h3>신덕교회 청소년 겨울 수련회 스냅</h3>
       <p>무대의 네이비·핑크 조명과 손을 들어 찬양하는 회중의 순간을 편집했습니다.</p>
       <div class="gallery-preview" data-gallery="sindeok">
-        <img class="g-thumb" data-gallery="sindeok" loading="lazy" src="images/thumb/sindeok_0.jpg" data-index="0" alt="">
-        <img class="g-thumb" data-gallery="sindeok" loading="lazy" src="images/thumb/sindeok_1.jpg" data-index="1" alt="">
-        <img class="g-thumb" data-gallery="sindeok" loading="lazy" src="images/thumb/sindeok_2.jpg" data-index="2" alt="">
-        <img class="g-thumb" data-gallery="sindeok" loading="lazy" src="images/thumb/sindeok_3.jpg" data-index="3" alt="">
-        <div class="g-more" data-gallery="sindeok" data-index="4">+1</div>
+        <img class="g-thumb" data-gallery="sindeok" loading="lazy" src="images/thumb/sindeok_0.jpg" data-index="0" tabindex="0" role="button" alt="신덕교회 청소년 겨울 수련회 스냅 — 1번째 사진">
+        <img class="g-thumb" data-gallery="sindeok" loading="lazy" src="images/thumb/sindeok_1.jpg" data-index="1" tabindex="0" role="button" alt="신덕교회 청소년 겨울 수련회 스냅 — 2번째 사진">
+        <img class="g-thumb" data-gallery="sindeok" loading="lazy" src="images/thumb/sindeok_2.jpg" data-index="2" tabindex="0" role="button" alt="신덕교회 청소년 겨울 수련회 스냅 — 3번째 사진">
+        <img class="g-thumb" data-gallery="sindeok" loading="lazy" src="images/thumb/sindeok_3.jpg" data-index="3" tabindex="0" role="button" alt="신덕교회 청소년 겨울 수련회 스냅 — 4번째 사진">
+        <div class="g-more" data-gallery="sindeok" data-index="4" role="button" tabindex="0" aria-label="신덕교회 청소년 겨울 수련회 스냅 사진 1장 더 보기"><span>+1</span><span class="more-label">MORE</span></div>
       </div>
       <div class="meta">2023.02 · Photo · 개인 작업 · Canon EOS 200D</div>
     </div>
@@ -689,7 +790,7 @@ footer{ padding:36px 6vw; border-top:1px solid var(--line); display:flex; justif
   </div>
 </footer>
 
-<div class="lightbox" id="lightbox">
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="사진 크게 보기">
   <button class="lightbox-close" id="lightboxClose" aria-label="닫기">&times;</button>
   <button class="lightbox-nav prev" id="lightboxPrev" aria-label="이전">&#8249;</button>
   <img id="lightboxImg" src="" alt="">
@@ -966,18 +1067,59 @@ const lightboxCounter = document.getElementById('lightboxCounter');
 let currentGallery = 'ocsu';
 let currentIndex = 0;
 
+const galleryTitles = {"ocsu": "옥수중앙교회 청년부 저녁집회 스냅", "xmas": "N/A Ministry 성탄절 현장 스케치", "jg5": "N/A Ministry 정기집회 11월 스냅", "jg4": "N/A Ministry 정기집회 10월 스냅", "seoul": "성서인의 밤 저녁집회", "gwangeun2": "광은교회 저녁집회 2일차", "gwangeun": "광은교회 저녁집회 1일차", "gwangeun3": "광은교회 수련회 연습 실황", "jg3": "N/A Ministry 정기집회 8월 스냅", "aug_poster": "N/A Ministry 정기집회 8월 포스터", "ysg1": "예수가온교회 청소년 여름 저녁집회", "jg2": "N/A Ministry 정기집회 7월 스냅", "jul_poster": "N/A Ministry 정기집회 7월 포스터", "jg1": "N/A Ministry 정기집회 4월 스냅", "hansam1": "한샘교회 청소년 겨울 수련회 저녁집회", "ears1": "이어진교회 청소년부 저녁집회 스냅", "na_home": "NA Worship 모임 홍보 포스터 & 스냅", "ilsandongan": "일산동안교회 저녁집회 스냅", "na_logo": "NA 로고 플레이 — Summer / Winter", "oldtown": "동두천 골목 노포 스냅", "yeonseup": "NA 초창기 합주실 연습 스냅", "hansam2": "한샘교회 청소년 여름 수련회 스냅", "cheonhajeil": "천하제일교회 청소년 여름 수련회 스냅", "sindeok": "신덕교회 청소년 겨울 수련회 스냅"};
+let savedScrollY = 0;
+let lastFocused = null;
+function lockScroll(){
+  savedScrollY = window.scrollY;
+  // scrollbar-gutter 를 지원하면 브라우저가 이미 자리를 잡아두므로 보정 불필요
+  const gutterStable = window.CSS && CSS.supports && CSS.supports('scrollbar-gutter', 'stable');
+  const sbw = gutterStable ? 0 : (window.innerWidth - document.documentElement.clientWidth);
+  document.body.style.position = 'fixed';
+  document.body.style.top = `-${savedScrollY}px`;
+  document.body.style.left = '0';
+  document.body.style.right = '0';
+  if (sbw > 0){
+    document.body.style.paddingRight = sbw + 'px';
+    const nv = document.getElementById('siteNav');
+    if (nv) nv.style.marginRight = sbw + 'px';
+  }
+}
+function unlockScroll(){
+  const html = document.documentElement;
+  const prev = html.style.scrollBehavior;
+  html.style.scrollBehavior = 'auto';
+  document.body.style.position = '';
+  document.body.style.top = '';
+  document.body.style.left = '';
+  document.body.style.right = '';
+  document.body.style.paddingRight = '';
+  const nv = document.getElementById('siteNav');
+  if (nv) nv.style.marginRight = '';
+  window.scrollTo(0, savedScrollY);
+  html.style.scrollBehavior = prev;
+}
 function openLightbox(gallery, index){
   currentGallery = gallery;
   currentIndex = index;
+  lastFocused = document.activeElement;
   showImage();
   lightbox.classList.add('open');
+  lockScroll();
+  document.getElementById('lightboxClose').focus({ preventScroll: true });
 }
 function showImage(){
   const imgs = galleries[currentGallery];
   lightboxImg.src = imgs[currentIndex];
+  lightboxImg.alt = (galleryTitles[currentGallery] || '작업 사진') + ' — ' + (currentIndex + 1) + '번째 사진';
   lightboxCounter.textContent = `${currentIndex + 1} / ${imgs.length}`;
 }
-function closeLightbox(){ lightbox.classList.remove('open'); }
+function closeLightbox(){
+  if (!lightbox.classList.contains('open')) return;
+  lightbox.classList.remove('open');
+  unlockScroll();
+  if (lastFocused && lastFocused.focus) lastFocused.focus({ preventScroll: true });
+}
 function nextImage(){ const imgs = galleries[currentGallery]; currentIndex = (currentIndex + 1) % imgs.length; showImage(); }
 function prevImage(){ const imgs = galleries[currentGallery]; currentIndex = (currentIndex - 1 + imgs.length) % imgs.length; showImage(); }
 
@@ -996,6 +1138,53 @@ document.addEventListener('keydown', e => {
   if (e.key === 'Escape') closeLightbox();
   if (e.key === 'ArrowRight') nextImage();
   if (e.key === 'ArrowLeft') prevImage();
+});
+
+
+/* ═══ 개선 사항 (검수 반영) ═══ */
+
+/* 모바일 햄버거 메뉴 */
+const navEl = document.getElementById('siteNav');
+const navToggle = document.getElementById('navToggle');
+const navMenu = document.getElementById('navMenu');
+const navBackdrop = document.getElementById('navBackdrop');
+function setMenu(open){
+  navToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+  navToggle.setAttribute('aria-label', open ? '메뉴 닫기' : '메뉴 열기');
+  navMenu.classList.toggle('open', open);
+  navBackdrop.classList.toggle('open', open);
+  navEl.classList.toggle('menu-open', open);
+}
+navToggle.addEventListener('click', () => setMenu(navToggle.getAttribute('aria-expanded') !== 'true'));
+navBackdrop.addEventListener('click', () => setMenu(false));
+navMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => setMenu(false)));
+window.addEventListener('resize', () => { if (window.innerWidth > 800) setMenu(false); });
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape' && navToggle.getAttribute('aria-expanded') === 'true'){
+    setMenu(false); navToggle.focus();
+  }
+});
+
+/* 스크롤하면 네비게이션에 배경 */
+const onNavScroll = () => navEl.classList.toggle('scrolled', window.scrollY > 40);
+onNavScroll();
+window.addEventListener('scroll', onNavScroll, { passive:true });
+
+/* 썸네일을 키보드로도 열 수 있게 */
+document.querySelectorAll('.g-thumb, .g-more').forEach(el => {
+  el.addEventListener('keydown', e => {
+    if (e.key === 'Enter' || e.key === ' '){ e.preventDefault(); el.click(); }
+  });
+});
+
+/* 라이트박스 안에서 Tab이 밖으로 나가지 않도록 */
+lightbox.addEventListener('keydown', e => {
+  if (e.key !== 'Tab') return;
+  const items = [...lightbox.querySelectorAll('button')].filter(b => b.offsetParent !== null);
+  if (!items.length) return;
+  const first = items[0], last = items[items.length - 1];
+  if (e.shiftKey && document.activeElement === first){ e.preventDefault(); last.focus(); }
+  else if (!e.shiftKey && document.activeElement === last){ e.preventDefault(); first.focus(); }
 });
 </script>
 
