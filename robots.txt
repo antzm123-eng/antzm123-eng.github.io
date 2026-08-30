@@ -1,0 +1,38 @@
+# ─────────────────────────────────────────────
+#  강윤구 (Kang Yungu) — Portfolio
+#  © 2026 강윤구. All rights reserved.
+#  본 사이트의 모든 저작물의 AI 학습 데이터 활용을 금지합니다.
+#  Text and data mining for AI training is prohibited.
+#  문의: antzm123@naver.com
+# ─────────────────────────────────────────────
+
+# 일반 검색엔진은 환영합니다 (포트폴리오가 검색되어야 하니까요)
+User-agent: *
+Allow: /
+
+# ── AI 학습 크롤러 차단 ──
+User-agent: GPTBot
+User-agent: ChatGPT-User
+User-agent: OAI-SearchBot
+User-agent: ClaudeBot
+User-agent: Claude-Web
+User-agent: anthropic-ai
+User-agent: Google-Extended
+User-agent: Applebot-Extended
+User-agent: CCBot
+User-agent: Bytespider
+User-agent: PerplexityBot
+User-agent: Amazonbot
+User-agent: FacebookBot
+User-agent: Meta-ExternalAgent
+User-agent: Meta-ExternalFetcher
+User-agent: cohere-ai
+User-agent: Diffbot
+User-agent: ImagesiftBot
+User-agent: Timpibot
+User-agent: omgili
+User-agent: omgilibot
+User-agent: YouBot
+User-agent: Scrapy
+User-agent: img2dataset
+Disallow: /
