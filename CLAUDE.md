@@ -36,7 +36,20 @@ images/design/        사이트 미참조 — 보관용
 images/oldtown/       사이트 미참조 — 보관용
 tools/add_work.py     새 작업물 추가 자동화
 tools/watermark.swift 워터마크 합성 (CoreGraphics)
+docs/WORKLOG.md       날짜별 작업 이력
+docs/DECISIONS.md     왜 그렇게 정했는지
 ```
+
+## 문서 3단 구조
+
+| 파일 | 언제 읽히나 | 담는 것 |
+|---|---|---|
+| `CLAUDE.md` (이 파일) | **매 세션 자동** | 현재 상태 + 규칙. **10KB 넘기지 말 것** |
+| `docs/WORKLOG.md` | 필요할 때만 | 날짜별 작업 이력 |
+| `docs/DECISIONS.md` | 필요할 때만 | 결정의 이유. **기존 설정을 바꾸기 전에 반드시 확인** |
+
+작업이 한 덩어리 끝나면 `WORKLOG.md` 에 요약을 추가하고 이 파일의
+"현재 상태 / 남은 일" 을 갱신한 뒤 커밋한다. 과거 이력을 이 파일에 쌓지 않는다.
 
 ## 이미지 규칙 (반드시 지킬 것)
 
@@ -79,6 +92,8 @@ python3 tools/add_work.py --key hansam3 --title "제목" --desc "한 줄 설명"
 - 저장소 이력이 전부 `main` 직접 커밋 → 브랜치 만들지 말 것
 
 ## 코드상 주의점 (이미 겪은 함정)
+
+각 항목의 자세한 배경은 `docs/DECISIONS.md` 참고.
 
 1. **`nav` 에 `backdrop-filter` 를 걸면 안 됨.** 자식의 `position:fixed` 기준점이 화면이 아닌
    nav 박스가 되어 모바일 메뉴가 갇힘. 현재 blur는 `nav::before` 에 있음.
