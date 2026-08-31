@@ -292,8 +292,52 @@ section{ padding:130px 6vw; position:relative; }
 
 footer{ padding:36px 6vw; border-top:1px solid var(--line); display:flex; justify-content:space-between; color:var(--ink-dim); font-size:13px; font-family:'Montserrat'; }
 
+/* career */
+.career-list{ display:flex; flex-direction:column; gap:18px; }
+.career-item{
+  background:var(--bg-card); border:1px solid var(--line); border-radius:6px;
+  padding:30px 32px; display:grid; grid-template-columns:170px 1fr; gap:32px;
+  transition:border-color .25s;
+}
+.career-item:hover{ border-color:var(--orange-dim); }
+.career-period{
+  font-family:'Montserrat','Paperlogy',sans-serif; font-size:13px;
+  color:var(--ink-dim); letter-spacing:.02em; padding-top:5px; line-height:1.6;
+}
+.career-period .now{ color:var(--orange); }
+.career-body h3{ font-size:20px; font-weight:700; letter-spacing:-0.01em; margin-bottom:7px; }
+.career-role{ font-size:14px; color:var(--orange); margin-bottom:18px; }
+.career-tasks{ list-style:none; display:flex; flex-direction:column; gap:9px; margin-bottom:18px; }
+.career-tasks li{ font-size:15px; line-height:1.65; color:var(--ink-dim); padding-left:16px; position:relative; }
+.career-tasks li::before{
+  content:''; position:absolute; left:0; top:10px; width:5px; height:5px;
+  border-radius:50%; background:var(--orange-dim);
+}
+.career-tasks li b{ color:var(--ink); font-weight:600; }
+.career-result{
+  border-left:2px solid var(--orange-dim); padding:2px 0 2px 16px; margin-bottom:20px;
+  display:flex; flex-direction:column; gap:9px;
+}
+.career-result .cap{
+  font-family:'Montserrat','Paperlogy',sans-serif; font-size:11px; letter-spacing:.12em;
+  color:var(--orange); margin-bottom:2px;
+}
+.career-result p{ font-size:14.5px; line-height:1.65; color:var(--ink-dim); }
+.career-result p b{ color:var(--ink); font-weight:600; }
+.career-hidden{
+  font-family:'Montserrat','Paperlogy',sans-serif; font-size:11px; font-weight:500;
+  color:var(--ink-dim); border:1px solid var(--line); border-radius:999px;
+  padding:3px 9px; margin-left:9px; vertical-align:middle; white-space:nowrap;
+}
+.career-tools{ display:flex; flex-wrap:wrap; gap:8px; border-top:1px solid var(--line); padding-top:16px; }
+.career-tools span{
+  font-family:'Montserrat','Paperlogy',sans-serif; font-size:12px; color:var(--ink-dim);
+  border:1px solid var(--line); border-radius:999px; padding:5px 12px;
+}
+
 @media (max-width:800px){
   nav ul{ display:none; }
+  .career-item{ grid-template-columns:1fr; gap:14px; padding:24px 22px; }
   .role-tabs{ flex-wrap:wrap; }
   section{ padding:90px 6vw; }
   .hero{ padding:130px 6vw 90px; }
@@ -404,6 +448,7 @@ nav.scrolled{ border-bottom-color:var(--line); }
   <ul id="navMenu">
     <li><a href="#about">ABOUT</a></li>
     <li><a href="#work">WORK</a></li>
+    <li><a href="#career">CAREER</a></li>
     <li><a href="#contact">CONTACT</a></li>
   </ul>
 </nav>
@@ -762,6 +807,37 @@ nav.scrolled{ border-bottom-color:var(--line); }
         <div class="g-more" data-gallery="sindeok" data-index="4" role="button" tabindex="0" aria-label="신덕교회 청소년 겨울 수련회 스냅 사진 1장 더 보기"><span>+1</span><span class="more-label">MORE</span></div>
       </div>
       <div class="meta">2023.02 · Photo · 개인 작업 · Canon EOS 200D</div>
+    </div>
+  </div>
+</section>
+
+<section id="career">
+  <div class="section-head">
+    <h2>Career</h2>
+    <p>회사에서 맡았던 일 —<br>사진 밖의 기록입니다.</p>
+  </div>
+
+  <div class="career-list">
+    <div class="career-item">
+      <div class="career-period">2024.01 — <span class="now">재직 중</span></div>
+      <div class="career-body">
+        <h3>식물 기반 사회적기업<span class="career-hidden">사명 비공개</span></h3>
+        <div class="career-role">로컬 콘텐츠 기획 · 공간 기획 · 프로젝트 매니저 · 브랜드 마케터</div>
+        <ul class="career-tasks">
+          <li><b>공간 연출 · 행사 기획</b> — 식물을 매개로 한 팝업과 테마 전시, 로컬 축제의 오프라인 공간을 연출하고, 대규모 행사의 기획과 현장 운영을 총괄했습니다.</li>
+          <li><b>교육 프로그램 기획 · 행정</b> — 타겟 맞춤형 원예 교육과 지역 활성화 프로그램을 기획·진행하고, 기획서 작성부터 성과 측정 통계까지 문서 행정을 체계화했습니다.</li>
+          <li><b>브랜드 마케팅 · 디자인</b> — 거점 공간의 온·오프라인 브랜드 마케팅을 전담하고, AI를 포함한 디자인 툴로 브랜딩 시각물과 홍보 콘텐츠를 직접 제작했습니다.</li>
+        </ul>
+        <div class="career-result">
+          <div class="cap">RESULT</div>
+          <p>로컬 행사와 식물 기반 팝업 전시를 총괄 기획·운영해 <b>방문객 유입을 늘리고</b>, 거점 공간의 활성화와 현장 매출 증대에 기여했습니다.</p>
+          <p>장·단기 원예 교육 프로그램을 안정적으로 운영해 긍정적인 현장 피드백을 확보했고, <b>설문 통계와 보고서</b>로 성과공유회 개최와 후속 사업의 기반을 마련했습니다.</p>
+          <p>브랜딩 시각물 제작을 <b>사내에서 직접 소화</b>해 외부 제작에 드는 시간과 비용을 줄이고, 매장 비주얼 아이덴티티의 통일성을 확립했습니다.</p>
+        </div>
+        <div class="career-tools">
+          <span>Photoshop</span><span>Illustrator</span><span>Lightroom</span><span>Premiere Pro</span><span>AI 도구</span><span>한글</span><span>Word</span><span>PowerPoint</span><span>Excel</span><span>Google Sheets</span>
+        </div>
+      </div>
     </div>
   </div>
 </section>
