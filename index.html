@@ -329,15 +329,29 @@ footer{ padding:36px 6vw; border-top:1px solid var(--line); display:flex; justif
   color:var(--ink-dim); border:1px solid var(--line); border-radius:999px;
   padding:3px 9px; margin-left:9px; vertical-align:middle; white-space:nowrap;
 }
-.career-tools{ display:flex; flex-wrap:wrap; gap:8px; border-top:1px solid var(--line); padding-top:16px; }
-.career-tools span{
+.career-role-sub{
+  display:block; margin-top:5px; font-size:13px; color:var(--ink-dim); font-weight:400;
+}
+.career-tools{ border-top:1px solid var(--line); padding-top:18px; display:flex; flex-direction:column; gap:12px; }
+.tool-row{ display:grid; grid-template-columns:120px 1fr; gap:14px; align-items:start; }
+.tool-cap{
+  font-family:'Montserrat','Paperlogy',sans-serif; font-size:11px; letter-spacing:.08em;
+  color:var(--ink-dim); padding-top:7px;
+}
+.tool-chips{ display:flex; flex-wrap:wrap; gap:8px; }
+.tool-chips span{
   font-family:'Montserrat','Paperlogy',sans-serif; font-size:12px; color:var(--ink-dim);
   border:1px solid var(--line); border-radius:999px; padding:5px 12px;
 }
+.tool-row.primary .tool-cap{ color:var(--orange); }
+.tool-row.primary .tool-chips span{ color:var(--ink); border-color:var(--orange-dim); }
+.career-note{ margin-top:16px; font-size:12.5px; line-height:1.6; color:var(--ink-dim); }
 
 @media (max-width:800px){
   nav ul{ display:none; }
   .career-item{ grid-template-columns:1fr; gap:14px; padding:24px 22px; }
+  .tool-row{ grid-template-columns:1fr; gap:7px; }
+  .tool-cap{ padding-top:0; }
   .role-tabs{ flex-wrap:wrap; }
   section{ padding:90px 6vw; }
   .hero{ padding:130px 6vw 90px; }
@@ -819,24 +833,39 @@ nav.scrolled{ border-bottom-color:var(--line); }
 
   <div class="career-list">
     <div class="career-item">
-      <div class="career-period">2024.01 — <span class="now">재직 중</span></div>
+      <div class="career-period">2024.01 — <span class="now">재직 중</span><br>2년 8개월</div>
       <div class="career-body">
         <h3>식물 기반 사회적기업<span class="career-hidden">사명 비공개</span></h3>
-        <div class="career-role">로컬 콘텐츠 기획 · 공간 기획 · 프로젝트 매니저 · 브랜드 마케터</div>
+        <div class="career-role">브랜드 마케팅 · 비주얼 디자인
+          <span class="career-role-sub">로컬 콘텐츠 기획 · 공간 기획 · 프로젝트 매니저</span>
+        </div>
         <ul class="career-tasks">
-          <li><b>공간 연출 · 행사 기획</b> — 식물을 매개로 한 팝업과 테마 전시, 로컬 축제의 오프라인 공간을 연출하고, 대규모 행사의 기획과 현장 운영을 총괄했습니다.</li>
-          <li><b>교육 프로그램 기획 · 행정</b> — 타겟 맞춤형 원예 교육과 지역 활성화 프로그램을 기획·진행하고, 기획서 작성부터 성과 측정 통계까지 문서 행정을 체계화했습니다.</li>
-          <li><b>브랜드 마케팅 · 디자인</b> — 거점 공간의 온·오프라인 브랜드 마케팅을 전담하고, AI를 포함한 디자인 툴로 브랜딩 시각물과 홍보 콘텐츠를 직접 제작했습니다.</li>
+          <li><b>브랜드 마케팅 · 디자인</b> — 거점 공간의 온·오프라인 브랜드 마케팅을 전담하고, 브랜딩 시각물과 홍보 콘텐츠를 직접 제작했습니다.</li>
+          <li><b>공간 연출 · 행사 기획</b> — 식물을 매개로 한 팝업과 테마 전시, 로컬 축제의 공간을 연출하고 현장 운영을 총괄했습니다.</li>
+          <li><b>교육 프로그램 기획 · 행정</b> — 타겟별 원예 교육과 지역 활성화 프로그램을 설계하고, 기획서 작성부터 성과 통계·보고서까지 문서 행정을 맡았습니다.</li>
         </ul>
         <div class="career-result">
           <div class="cap">RESULT</div>
-          <p>로컬 행사와 식물 기반 팝업 전시를 총괄 기획·운영해 <b>방문객 유입을 늘리고</b>, 거점 공간의 활성화와 현장 매출 증대에 기여했습니다.</p>
-          <p>장·단기 원예 교육 프로그램을 안정적으로 운영해 긍정적인 현장 피드백을 확보했고, <b>설문 통계와 보고서</b>로 성과공유회 개최와 후속 사업의 기반을 마련했습니다.</p>
-          <p>브랜딩 시각물 제작을 <b>사내에서 직접 소화</b>해 외부 제작에 드는 시간과 비용을 줄이고, 매장 비주얼 아이덴티티의 통일성을 확립했습니다.</p>
+          <p>포스터·영상·디지털 사이니지 등 <b>브랜드 시각물 100여 종</b>을 외주 없이 직접 제작해 제작 비용과 기간을 줄이고, 매장 비주얼 아이덴티티를 통일했습니다.</p>
+          <p>로컬 팝업 전시와 축제 <b>15회 이상</b>을 총괄 기획·운영해 주요 행사 <b>누적 방문객 5,000여 명</b>을 맞았고, 거점 공간 활성화와 현장 매출 증대에 기여했습니다.</p>
+          <p>지역 주민·시니어 대상 원예 교육을 <b>30여 회차</b> 운영해 <b>누적 500여 명</b>이 참여했고, 자체 설문 <b>평균 만족도 4.8점</b>(5점 만점)을 기록해 성과공유회와 후속 사업의 기반을 마련했습니다.</p>
+          <p><b>40~50평 규모</b> 로컬 거점 공간의 <b>17일간 리모델링</b>을 주도하고, 외부 행사 공간 <b>10여 곳</b>을 기획·조성했습니다.</p>
         </div>
         <div class="career-tools">
-          <span>Photoshop</span><span>Illustrator</span><span>Lightroom</span><span>Premiere Pro</span><span>AI 도구</span><span>한글</span><span>Word</span><span>PowerPoint</span><span>Excel</span><span>Google Sheets</span>
+          <div class="tool-row primary">
+            <div class="tool-cap">DESIGN</div>
+            <div class="tool-chips"><span>Photoshop</span><span>Illustrator</span><span>Lightroom</span><span>Premiere Pro</span></div>
+          </div>
+          <div class="tool-row">
+            <div class="tool-cap">AI · 기획/홍보물</div>
+            <div class="tool-chips"><span>Claude</span><span>Gemini</span><span>ChatGPT</span><span>Genspark</span><span>Firefly</span><span>Grok</span></div>
+          </div>
+          <div class="tool-row">
+            <div class="tool-cap">DOC · DATA</div>
+            <div class="tool-chips"><span>한글</span><span>Word</span><span>PowerPoint</span><span>Excel</span><span>Google Sheets</span></div>
+          </div>
         </div>
+        <p class="career-note">※ AI 도구는 회사 업무의 기획·홍보물 제작에 활용한 것으로, 이 사이트에 게시된 사진과 디자인 작업물은 전부 직접 촬영·제작한 결과물입니다.</p>
       </div>
     </div>
   </div>
