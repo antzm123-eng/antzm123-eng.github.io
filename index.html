@@ -309,6 +309,7 @@ section, .hero{ max-width:1560px; margin-left:auto; margin-right:auto; }
 .card-cover[data-ratio="wide"]{ aspect-ratio:3/2; }
 .card-cover[data-ratio="square"]{ aspect-ratio:1/1; }
 .card-cover[data-ratio="tall"]{ aspect-ratio:4/5; }
+.card-cover picture{ display:block; width:100%; height:100%; }
 .cover-img{
   width:100%; height:100%; object-fit:cover; display:block;
   transition:transform .5s cubic-bezier(.2,.7,.3,1), opacity .3s;
@@ -576,7 +577,7 @@ nav.scrolled{ border-bottom-color:var(--line); }
   <div class="work-grid" id="workGrid">
     <div class="work-card show gallery-card" data-cat="visual">
         <div class="card-cover" data-ratio="wide" data-gallery="ocsu" data-index="0" role="button" tabindex="0" aria-label="옥수중앙교회 청년부 저녁집회 스냅 갤러리 열기">
-          <img class="cover-img" loading="lazy" src="images/thumb/ocsu_0.jpg" alt="옥수중앙교회 청년부 저녁집회 스냅 — 1번째 사진">
+          <picture><source srcset="images/thumb/ocsu_0.avif" type="image/avif"><img class="cover-img" loading="lazy" decoding="async" src="images/thumb/ocsu_0.jpg" alt="옥수중앙교회 청년부 저녁집회 스냅 — 1번째 사진"></picture>
           <span class="cover-count" data-count-for="ocsu"></span>
         </div>
         <div class="card-body">
@@ -588,7 +589,7 @@ nav.scrolled{ border-bottom-color:var(--line); }
       </div>
     <div class="work-card show gallery-card" data-cat="visual">
         <div class="card-cover" data-ratio="wide" data-gallery="xmas" data-index="0" role="button" tabindex="0" aria-label="N/A Ministry 성탄절 현장 스케치 갤러리 열기">
-          <img class="cover-img" loading="lazy" src="images/thumb/xmas_0.jpg" alt="N/A Ministry 성탄절 현장 스케치 — 1번째 사진">
+          <picture><source srcset="images/thumb/xmas_0.avif" type="image/avif"><img class="cover-img" loading="lazy" decoding="async" src="images/thumb/xmas_0.jpg" alt="N/A Ministry 성탄절 현장 스케치 — 1번째 사진"></picture>
           <span class="cover-count" data-count-for="xmas"></span>
         </div>
         <div class="card-body">
@@ -600,7 +601,7 @@ nav.scrolled{ border-bottom-color:var(--line); }
       </div>
     <div class="work-card show gallery-card" data-cat="visual">
         <div class="card-cover" data-ratio="wide" data-gallery="jg5" data-index="0" role="button" tabindex="0" aria-label="N/A Ministry 정기집회 11월 스냅 갤러리 열기">
-          <img class="cover-img" loading="lazy" src="images/thumb/jg5_0.jpg" alt="N/A Ministry 정기집회 11월 스냅 — 1번째 사진">
+          <picture><source srcset="images/thumb/jg5_0.avif" type="image/avif"><img class="cover-img" loading="lazy" decoding="async" src="images/thumb/jg5_0.jpg" alt="N/A Ministry 정기집회 11월 스냅 — 1번째 사진"></picture>
           <span class="cover-count" data-count-for="jg5"></span>
         </div>
         <div class="card-body">
@@ -612,7 +613,7 @@ nav.scrolled{ border-bottom-color:var(--line); }
       </div>
     <div class="work-card show gallery-card" data-cat="visual">
         <div class="card-cover" data-ratio="wide" data-gallery="jg4" data-index="0" role="button" tabindex="0" aria-label="N/A Ministry 정기집회 10월 스냅 갤러리 열기">
-          <img class="cover-img" loading="lazy" src="images/thumb/jg4_0.jpg" alt="N/A Ministry 정기집회 10월 스냅 — 1번째 사진">
+          <picture><source srcset="images/thumb/jg4_0.avif" type="image/avif"><img class="cover-img" loading="lazy" decoding="async" src="images/thumb/jg4_0.jpg" alt="N/A Ministry 정기집회 10월 스냅 — 1번째 사진"></picture>
           <span class="cover-count" data-count-for="jg4"></span>
         </div>
         <div class="card-body">
@@ -624,7 +625,7 @@ nav.scrolled{ border-bottom-color:var(--line); }
       </div>
     <div class="work-card show gallery-card" data-cat="visual">
         <div class="card-cover" data-ratio="wide" data-gallery="seoul" data-index="0" role="button" tabindex="0" aria-label="성서인의 밤 저녁집회 갤러리 열기">
-          <img class="cover-img" loading="lazy" src="images/thumb/seoul_0.jpg" alt="성서인의 밤 저녁집회 — 1번째 사진">
+          <picture><source srcset="images/thumb/seoul_0.avif" type="image/avif"><img class="cover-img" loading="lazy" decoding="async" src="images/thumb/seoul_0.jpg" alt="성서인의 밤 저녁집회 — 1번째 사진"></picture>
           <span class="cover-count" data-count-for="seoul"></span>
         </div>
         <div class="card-body">
@@ -636,7 +637,7 @@ nav.scrolled{ border-bottom-color:var(--line); }
       </div>
     <div class="work-card show gallery-card" data-cat="visual">
         <div class="card-cover" data-ratio="wide" data-gallery="gwangeun2" data-index="0" role="button" tabindex="0" aria-label="광은교회 저녁집회 2일차 갤러리 열기">
-          <img class="cover-img" loading="lazy" src="images/thumb/gwangeun2_0.jpg" alt="광은교회 저녁집회 2일차 — 1번째 사진">
+          <picture><source srcset="images/thumb/gwangeun2_0.avif" type="image/avif"><img class="cover-img" loading="lazy" decoding="async" src="images/thumb/gwangeun2_0.jpg" alt="광은교회 저녁집회 2일차 — 1번째 사진"></picture>
           <span class="cover-count" data-count-for="gwangeun2"></span>
         </div>
         <div class="card-body">
@@ -648,7 +649,7 @@ nav.scrolled{ border-bottom-color:var(--line); }
       </div>
     <div class="work-card show gallery-card" data-cat="visual">
         <div class="card-cover" data-ratio="wide" data-gallery="gwangeun" data-index="0" role="button" tabindex="0" aria-label="광은교회 저녁집회 1일차 갤러리 열기">
-          <img class="cover-img" loading="lazy" src="images/thumb/gwangeun_0.jpg" alt="광은교회 저녁집회 1일차 — 1번째 사진">
+          <picture><source srcset="images/thumb/gwangeun_0.avif" type="image/avif"><img class="cover-img" loading="lazy" decoding="async" src="images/thumb/gwangeun_0.jpg" alt="광은교회 저녁집회 1일차 — 1번째 사진"></picture>
           <span class="cover-count" data-count-for="gwangeun"></span>
         </div>
         <div class="card-body">
@@ -660,7 +661,7 @@ nav.scrolled{ border-bottom-color:var(--line); }
       </div>
     <div class="work-card show gallery-card" data-cat="visual">
         <div class="card-cover" data-ratio="tall" data-gallery="gwangeun3" data-index="0" role="button" tabindex="0" aria-label="광은교회 수련회 연습 실황 갤러리 열기">
-          <img class="cover-img" loading="lazy" src="images/thumb/gwangeun3_0.jpg" alt="광은교회 수련회 연습 실황 — 1번째 사진">
+          <picture><source srcset="images/thumb/gwangeun3_0.avif" type="image/avif"><img class="cover-img" loading="lazy" decoding="async" src="images/thumb/gwangeun3_0.jpg" alt="광은교회 수련회 연습 실황 — 1번째 사진"></picture>
           <span class="cover-count" data-count-for="gwangeun3"></span>
         </div>
         <div class="card-body">
@@ -672,7 +673,7 @@ nav.scrolled{ border-bottom-color:var(--line); }
       </div>
     <div class="work-card show gallery-card" data-cat="visual">
         <div class="card-cover" data-ratio="wide" data-gallery="jg3" data-index="0" role="button" tabindex="0" aria-label="N/A Ministry 정기집회 8월 스냅 갤러리 열기">
-          <img class="cover-img" loading="lazy" src="images/thumb/jg3_0.jpg" alt="N/A Ministry 정기집회 8월 스냅 — 1번째 사진">
+          <picture><source srcset="images/thumb/jg3_0.avif" type="image/avif"><img class="cover-img" loading="lazy" decoding="async" src="images/thumb/jg3_0.jpg" alt="N/A Ministry 정기집회 8월 스냅 — 1번째 사진"></picture>
           <span class="cover-count" data-count-for="jg3"></span>
         </div>
         <div class="card-body">
@@ -684,7 +685,7 @@ nav.scrolled{ border-bottom-color:var(--line); }
       </div>
     <div class="work-card show gallery-card" data-cat="design">
         <div class="card-cover" data-ratio="tall" data-gallery="aug_poster" data-index="0" role="button" tabindex="0" aria-label="N/A Ministry 정기집회 8월 포스터 갤러리 열기">
-          <img class="cover-img" loading="lazy" src="images/thumb/aug_poster_0.jpg" alt="N/A Ministry 정기집회 8월 포스터 — 1번째 사진">
+          <picture><source srcset="images/thumb/aug_poster_0.avif" type="image/avif"><img class="cover-img" loading="lazy" decoding="async" src="images/thumb/aug_poster_0.jpg" alt="N/A Ministry 정기집회 8월 포스터 — 1번째 사진"></picture>
           <span class="cover-count" data-count-for="aug_poster"></span>
         </div>
         <div class="card-body">
@@ -696,7 +697,7 @@ nav.scrolled{ border-bottom-color:var(--line); }
       </div>
     <div class="work-card show gallery-card" data-cat="visual">
         <div class="card-cover" data-ratio="wide" data-gallery="ysg1" data-index="0" role="button" tabindex="0" aria-label="예수가온교회 청소년 여름 저녁집회 갤러리 열기">
-          <img class="cover-img" loading="lazy" src="images/thumb/ysg1_0.jpg" alt="예수가온교회 청소년 여름 저녁집회 — 1번째 사진">
+          <picture><source srcset="images/thumb/ysg1_0.avif" type="image/avif"><img class="cover-img" loading="lazy" decoding="async" src="images/thumb/ysg1_0.jpg" alt="예수가온교회 청소년 여름 저녁집회 — 1번째 사진"></picture>
           <span class="cover-count" data-count-for="ysg1"></span>
         </div>
         <div class="card-body">
@@ -708,7 +709,7 @@ nav.scrolled{ border-bottom-color:var(--line); }
       </div>
     <div class="work-card show gallery-card" data-cat="visual">
         <div class="card-cover" data-ratio="wide" data-gallery="jg2" data-index="0" role="button" tabindex="0" aria-label="N/A Ministry 정기집회 7월 스냅 갤러리 열기">
-          <img class="cover-img" loading="lazy" src="images/thumb/jg2_0.jpg" alt="N/A Ministry 정기집회 7월 스냅 — 1번째 사진">
+          <picture><source srcset="images/thumb/jg2_0.avif" type="image/avif"><img class="cover-img" loading="lazy" decoding="async" src="images/thumb/jg2_0.jpg" alt="N/A Ministry 정기집회 7월 스냅 — 1번째 사진"></picture>
           <span class="cover-count" data-count-for="jg2"></span>
         </div>
         <div class="card-body">
@@ -720,7 +721,7 @@ nav.scrolled{ border-bottom-color:var(--line); }
       </div>
     <div class="work-card show gallery-card" data-cat="design">
         <div class="card-cover" data-ratio="tall" data-gallery="jul_poster" data-index="0" role="button" tabindex="0" aria-label="N/A Ministry 정기집회 7월 포스터 갤러리 열기">
-          <img class="cover-img" loading="lazy" src="images/thumb/jul_poster_0.jpg" alt="N/A Ministry 정기집회 7월 포스터 — 1번째 사진">
+          <picture><source srcset="images/thumb/jul_poster_0.avif" type="image/avif"><img class="cover-img" loading="lazy" decoding="async" src="images/thumb/jul_poster_0.jpg" alt="N/A Ministry 정기집회 7월 포스터 — 1번째 사진"></picture>
           <span class="cover-count" data-count-for="jul_poster"></span>
         </div>
         <div class="card-body">
@@ -732,7 +733,7 @@ nav.scrolled{ border-bottom-color:var(--line); }
       </div>
     <div class="work-card show gallery-card" data-cat="visual">
         <div class="card-cover" data-ratio="wide" data-gallery="jg1" data-index="0" role="button" tabindex="0" aria-label="N/A Ministry 정기집회 4월 스냅 갤러리 열기">
-          <img class="cover-img" loading="lazy" src="images/thumb/jg1_0.jpg" alt="N/A Ministry 정기집회 4월 스냅 — 1번째 사진">
+          <picture><source srcset="images/thumb/jg1_0.avif" type="image/avif"><img class="cover-img" loading="lazy" decoding="async" src="images/thumb/jg1_0.jpg" alt="N/A Ministry 정기집회 4월 스냅 — 1번째 사진"></picture>
           <span class="cover-count" data-count-for="jg1"></span>
         </div>
         <div class="card-body">
@@ -744,7 +745,7 @@ nav.scrolled{ border-bottom-color:var(--line); }
       </div>
     <div class="work-card show gallery-card" data-cat="visual">
         <div class="card-cover" data-ratio="wide" data-gallery="hansam1" data-index="0" role="button" tabindex="0" aria-label="한샘교회 청소년 겨울 수련회 저녁집회 갤러리 열기">
-          <img class="cover-img" loading="lazy" src="images/thumb/hansam1_0.jpg" alt="한샘교회 청소년 겨울 수련회 저녁집회 — 1번째 사진">
+          <picture><source srcset="images/thumb/hansam1_0.avif" type="image/avif"><img class="cover-img" loading="lazy" decoding="async" src="images/thumb/hansam1_0.jpg" alt="한샘교회 청소년 겨울 수련회 저녁집회 — 1번째 사진"></picture>
           <span class="cover-count" data-count-for="hansam1"></span>
         </div>
         <div class="card-body">
@@ -756,7 +757,7 @@ nav.scrolled{ border-bottom-color:var(--line); }
       </div>
     <div class="work-card show gallery-card" data-cat="visual">
         <div class="card-cover" data-ratio="wide" data-gallery="ears1" data-index="0" role="button" tabindex="0" aria-label="이어진교회 청소년부 저녁집회 스냅 갤러리 열기">
-          <img class="cover-img" loading="lazy" src="images/thumb/ears1_0.jpg" alt="이어진교회 청소년부 저녁집회 스냅 — 1번째 사진">
+          <picture><source srcset="images/thumb/ears1_0.avif" type="image/avif"><img class="cover-img" loading="lazy" decoding="async" src="images/thumb/ears1_0.jpg" alt="이어진교회 청소년부 저녁집회 스냅 — 1번째 사진"></picture>
           <span class="cover-count" data-count-for="ears1"></span>
         </div>
         <div class="card-body">
@@ -768,7 +769,7 @@ nav.scrolled{ border-bottom-color:var(--line); }
       </div>
     <div class="work-card show gallery-card" data-cat="design">
         <div class="card-cover" data-ratio="tall" data-gallery="na_home" data-index="0" role="button" tabindex="0" aria-label="NA Worship 모임 홍보 포스터 & 스냅 갤러리 열기">
-          <img class="cover-img" loading="lazy" src="images/thumb/na_home_0.jpg" alt="NA Worship 모임 홍보 포스터 & 스냅 — 1번째 사진">
+          <picture><source srcset="images/thumb/na_home_0.avif" type="image/avif"><img class="cover-img" loading="lazy" decoding="async" src="images/thumb/na_home_0.jpg" alt="NA Worship 모임 홍보 포스터 & 스냅 — 1번째 사진"></picture>
           <span class="cover-count" data-count-for="na_home"></span>
         </div>
         <div class="card-body">
@@ -780,7 +781,7 @@ nav.scrolled{ border-bottom-color:var(--line); }
       </div>
     <div class="work-card show gallery-card" data-cat="visual">
         <div class="card-cover" data-ratio="wide" data-gallery="ilsandongan" data-index="0" role="button" tabindex="0" aria-label="일산동안교회 저녁집회 스냅 갤러리 열기">
-          <img class="cover-img" loading="lazy" src="images/thumb/ilsandongan_0.jpg" alt="일산동안교회 저녁집회 스냅 — 1번째 사진">
+          <picture><source srcset="images/thumb/ilsandongan_0.avif" type="image/avif"><img class="cover-img" loading="lazy" decoding="async" src="images/thumb/ilsandongan_0.jpg" alt="일산동안교회 저녁집회 스냅 — 1번째 사진"></picture>
           <span class="cover-count" data-count-for="ilsandongan"></span>
         </div>
         <div class="card-body">
@@ -792,7 +793,7 @@ nav.scrolled{ border-bottom-color:var(--line); }
       </div>
     <div class="work-card show gallery-card" data-cat="design">
         <div class="card-cover" data-ratio="square" data-gallery="na_logo" data-index="0" role="button" tabindex="0" aria-label="NA 로고 플레이 — Summer / Winter 갤러리 열기">
-          <img class="cover-img" loading="lazy" src="images/thumb/na_logo_0.png" alt="NA 로고 플레이 — Summer / Winter — 1번째 사진">
+          <picture><source srcset="images/thumb/na_logo_0.avif" type="image/avif"><img class="cover-img" loading="lazy" decoding="async" src="images/thumb/na_logo_0.png" alt="NA 로고 플레이 — Summer / Winter — 1번째 사진"></picture>
           <span class="cover-count" data-count-for="na_logo"></span>
         </div>
         <div class="card-body">
@@ -804,7 +805,7 @@ nav.scrolled{ border-bottom-color:var(--line); }
       </div>
     <div class="work-card show gallery-card" data-cat="visual">
         <div class="card-cover" data-ratio="tall" data-gallery="oldtown" data-index="0" role="button" tabindex="0" aria-label="동두천 골목 노포 스냅 갤러리 열기">
-          <img class="cover-img" loading="lazy" src="images/thumb/oldtown_0.jpg" alt="동두천 골목 노포 스냅 — 1번째 사진">
+          <picture><source srcset="images/thumb/oldtown_0.avif" type="image/avif"><img class="cover-img" loading="lazy" decoding="async" src="images/thumb/oldtown_0.jpg" alt="동두천 골목 노포 스냅 — 1번째 사진"></picture>
           <span class="cover-count" data-count-for="oldtown"></span>
         </div>
         <div class="card-body">
@@ -816,7 +817,7 @@ nav.scrolled{ border-bottom-color:var(--line); }
       </div>
     <div class="work-card show gallery-card" data-cat="visual">
         <div class="card-cover" data-ratio="tall" data-gallery="yeonseup" data-index="0" role="button" tabindex="0" aria-label="NA 초창기 합주실 연습 스냅 갤러리 열기">
-          <img class="cover-img" loading="lazy" src="images/thumb/yeonseup_0.jpg" alt="NA 초창기 합주실 연습 스냅 — 1번째 사진">
+          <picture><source srcset="images/thumb/yeonseup_0.avif" type="image/avif"><img class="cover-img" loading="lazy" decoding="async" src="images/thumb/yeonseup_0.jpg" alt="NA 초창기 합주실 연습 스냅 — 1번째 사진"></picture>
           <span class="cover-count" data-count-for="yeonseup"></span>
         </div>
         <div class="card-body">
@@ -828,7 +829,7 @@ nav.scrolled{ border-bottom-color:var(--line); }
       </div>
     <div class="work-card show gallery-card" data-cat="visual">
         <div class="card-cover" data-ratio="wide" data-gallery="hansam2" data-index="0" role="button" tabindex="0" aria-label="한샘교회 청소년 여름 수련회 스냅 갤러리 열기">
-          <img class="cover-img" loading="lazy" src="images/thumb/hansam2_0.jpg" alt="한샘교회 청소년 여름 수련회 스냅 — 1번째 사진">
+          <picture><source srcset="images/thumb/hansam2_0.avif" type="image/avif"><img class="cover-img" loading="lazy" decoding="async" src="images/thumb/hansam2_0.jpg" alt="한샘교회 청소년 여름 수련회 스냅 — 1번째 사진"></picture>
           <span class="cover-count" data-count-for="hansam2"></span>
         </div>
         <div class="card-body">
@@ -840,7 +841,7 @@ nav.scrolled{ border-bottom-color:var(--line); }
       </div>
     <div class="work-card show gallery-card" data-cat="visual">
         <div class="card-cover" data-ratio="wide" data-gallery="cheonhajeil" data-index="0" role="button" tabindex="0" aria-label="천하제일교회 청소년 여름 수련회 스냅 갤러리 열기">
-          <img class="cover-img" loading="lazy" src="images/thumb/cheonhajeil_0.jpg" alt="천하제일교회 청소년 여름 수련회 스냅 — 1번째 사진">
+          <picture><source srcset="images/thumb/cheonhajeil_0.avif" type="image/avif"><img class="cover-img" loading="lazy" decoding="async" src="images/thumb/cheonhajeil_0.jpg" alt="천하제일교회 청소년 여름 수련회 스냅 — 1번째 사진"></picture>
           <span class="cover-count" data-count-for="cheonhajeil"></span>
         </div>
         <div class="card-body">
@@ -852,7 +853,7 @@ nav.scrolled{ border-bottom-color:var(--line); }
       </div>
     <div class="work-card show gallery-card" data-cat="visual">
         <div class="card-cover" data-ratio="wide" data-gallery="sindeok" data-index="0" role="button" tabindex="0" aria-label="신덕교회 청소년 겨울 수련회 스냅 갤러리 열기">
-          <img class="cover-img" loading="lazy" src="images/thumb/sindeok_0.jpg" alt="신덕교회 청소년 겨울 수련회 스냅 — 1번째 사진">
+          <picture><source srcset="images/thumb/sindeok_0.avif" type="image/avif"><img class="cover-img" loading="lazy" decoding="async" src="images/thumb/sindeok_0.jpg" alt="신덕교회 청소년 겨울 수련회 스냅 — 1번째 사진"></picture>
           <span class="cover-count" data-count-for="sindeok"></span>
         </div>
         <div class="card-body">
@@ -1253,9 +1254,15 @@ function openLightbox(gallery, index){
   lockScroll();
   document.getElementById('lightboxClose').focus({ preventScroll: true });
 }
+/* 라이트박스도 AVIF 를 먼저 시도한다.
+   AVIF 를 못 읽는 브라우저(약 5%)는 onerror 로 원래 JPEG/PNG 를 자동으로 받는다.
+   비동기 지원 감지를 기다리지 않으므로 첫 장부터 확실히 AVIF 가 나간다. */
 function showImage(){
   const imgs = galleries[currentGallery];
-  lightboxImg.src = imgs[currentIndex];
+  const original = imgs[currentIndex];
+  const avif = original.replace(/\.(jpe?g|png)$/i, '.avif');
+  lightboxImg.onerror = () => { lightboxImg.onerror = null; lightboxImg.src = original; };
+  lightboxImg.src = avif;
   lightboxImg.alt = (galleryTitles[currentGallery] || '작업 사진') + ' — ' + (currentIndex + 1) + '번째 사진';
   lightboxCounter.textContent = `${currentIndex + 1} / ${imgs.length}`;
 }

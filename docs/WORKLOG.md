@@ -127,6 +127,52 @@
 → **`*{transition:none!important}` 를 주입한 뒤 측정**해야 실제 동작을 볼 수 있다.
 셋 다 사이트 결함이 아니었다.
 
+### 같은 날 — 개선 2단계: AVIF 도입
+
+**WebP 는 불가, AVIF 는 가능했다.** 이 맥에는 `cwebp`/`magick`/`ffmpeg` 가 없고
+`sips` 도 webp 를 못 만든다. 반면 CoreGraphics 는 `public.avif` 인코딩을 지원한다
+(`CGImageDestinationCopyTypeIdentifiers` 로 확인). AVIF 가 WebP 보다 압축률도 좋다.
+
+**저작권 문제를 변환 단계에서 해결했다.** 재인코딩하면 저작권 정보가 지워지는 것이
+기존 규칙의 골칫거리였는데, `CGImageDestinationAddImage` 에 TIFF/IPTC 딕셔너리를
+같이 넘기면 **변환하면서 바로 심긴다.** 사후 삽입이 필요 없다.
+
+| 항목 | 전 | 후 |
+|---|---|---|
+| 첫 화면 커버 24장 | 0.90 MB | **0.41 MB (−54%)** |
+| 라이트박스 사진 1장 | 375 KB | **140 KB (−63%)** |
+| images/full 전체 | 58.6 MB | 21.9 MB |
+| images/thumb 전체 | 4.1 MB | 1.9 MB |
+| 변환 실패 | — | **0장 / 264장** |
+| AVIF 저작권 정보 | — | **264/264 포함** |
+
+1단계와 합치면 **첫 화면 3.77MB → 0.41MB (−89%)**.
+
+**연결 방식**
+- 커버: `<picture><source type="image/avif"><img src="기존파일"></picture>`
+- 라이트박스: **AVIF 를 먼저 시도하고 `onerror` 로 원본 복귀.**
+  처음엔 비동기 지원 감지(`avifOK`)로 분기했는데, 감지가 끝나기 전에 첫 장이 열려
+  JPEG 가 나갔다. 감지를 기다리지 않는 지금 방식이 확실하다.
+- 기존 JPEG/PNG 는 **폴백용으로 전부 보존** (저장소 93MB → 117MB, Pages 한도 1GB)
+
+**검증**
+
+| 항목 | 결과 |
+|---|---|
+| 커버 24장이 실제로 받는 포맷 | avif 24 / 깨짐 0 |
+| 라이트박스 (사진·포스터) | `ocsu_0.avif` 1600px · `aug_poster_0.avif` 1280×1600 |
+| 폴백 (avif 를 일부러 지우고 시험) | 404 → `ocsu_5.jpg` 자동 로드, 화질 손실 없음 |
+| 워터마크 보존 (오른쪽 아래 픽셀 비교) | 평균 색차 0.5~1.5/255, 질감 편차 동일 |
+| 라이트박스 열기/키보드/필터/스크롤 복구 | 전부 정상 |
+| 콘솔 오류 | 0 (남아 있던 404 는 `favicon.ico` 였고 추가해 해결) |
+
+**곁다리로 고친 것** 브라우저가 자동 요청하는 `/favicon.ico` 가 계속 404 였다.
+기존부터 있던 문제. `favicon-32.png` 를 복사해 넣어 해결.
+
+**도구** `tools/to_avif.swift` + `tools/to_avif.sh` 추가.
+새 작업물을 `add_work.py` 로 넣은 뒤 `bash tools/to_avif.sh` 한 번 돌리면 된다.
+(이미 .avif 가 있는 파일은 건너뛴다.)
+
 
 ---
 

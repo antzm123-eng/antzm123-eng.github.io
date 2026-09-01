@@ -63,13 +63,19 @@ docs/DECISIONS.md     왜 그렇게 정했는지
 | 워터마크 | `H_yun_9u` · 오른쪽 아래 · 불투명도 0.60 · 크기 0.024 · 여백 0.030 |
 | 워터마크 대상 | `images/full`, `design`, `oldtown` — **썸네일과 투명 로고(na_logo)는 제외** |
 | JPEG 품질 | 0.80 |
+| AVIF 품질 | 썸네일 0.60 / 원본 0.80 |
+| AVIF 저작권 | **변환 시 자동 삽입됨** (사후 삽입 불필요) |
 | 저작권 문구 | 아래 문자열, JPEG=COM 세그먼트 / PNG=iTXt 청크로 **재인코딩 없이** 삽입 |
 
 ```
 © 2026 강윤구 (Kang Yungu). All rights reserved. Unauthorized use, redistribution, or AI training prohibited. Contact: antzm123@naver.com
 ```
 
-현재 이미지 277장 **전부** 저작권 정보 포함(100%). 이미지를 재인코딩하는 작업 후에는
+**이미지는 AVIF + 원본 두 벌로 관리한다.** 브라우저가 AVIF 를 지원하면 AVIF 를,
+아니면 원본 JPEG/PNG 를 받는다(커버는 `<picture>`, 라이트박스는 `onerror` 폴백).
+원본을 지우지 말 것 — 폴백이 사라진다.
+
+현재 이미지 277장 + AVIF 264장 **전부** 저작권 정보 포함(100%). 이미지를 재인코딩하는 작업 후에는
 **반드시 저작권 정보를 다시 삽입**할 것 (재인코딩 시 지워짐).
 
 ## 새 작업물 추가
@@ -77,6 +83,7 @@ docs/DECISIONS.md     왜 그렇게 정했는지
 ```bash
 python3 tools/add_work.py --key hansam3 --title "제목" --desc "한 줄 설명" \
   --src ~/Desktop/사진폴더 --date 2026.08 --tag Photo --cat visual
+bash tools/to_avif.sh      # ← 반드시 이어서 실행 (AVIF 생성)
 ```
 
 `--cat visual`=사진 필터, `design`=포스터·디자인 필터. HEIC 지원. 되돌리기는
@@ -115,7 +122,7 @@ python3 tools/add_work.py --key hansam3 --title "제목" --desc "한 줄 설명"
 
 ## 현재 상태
 
-작업 24개 / 사진 160장 / 이미지 277장. **첫 화면 로딩 0.90MB** (2026-09-01 개선, 이전 3.77MB).
+작업 24개 / 사진 160장 / 이미지 277장(+AVIF 264장). **첫 화면 로딩 0.41MB** (2026-09-01 개선, 이전 3.77MB).
 작업 카드는 **대표 사진 1장을 크게** 보여주고 나머지는 배지+라이트박스로 넘긴다.
 커버 프레임은 이미지 비율에 따라 `data-ratio="wide|square|tall"` (3:2 / 1:1 / 4:5).
 콘솔 오류 0, 이미지 alt 100%, 색상 대비 WCAG AA 통과, 가로 스크롤 없음.
