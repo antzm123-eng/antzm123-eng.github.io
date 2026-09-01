@@ -395,11 +395,13 @@ section, .hero{ max-width:1560px; margin-left:auto; margin-right:auto; }
 .tool-row.primary .tool-chips span{ color:var(--ink); border-color:var(--orange-dim); }
 .career-note{ margin-top:16px; font-size:12.5px; line-height:1.6; color:var(--ink-dim); }
 
-@media (max-width:1180px) and (min-width:801px){
+/* 화면 폭별 칼럼 수 — 사진이 너무 작아지지 않도록 경계를 잡았다.
+   800px 이하 1칼럼(메뉴가 햄버거로 바뀌는 지점과 동일) / 801~1280 2칼럼 / 1281 이상 3칼럼 */
+@media (min-width:801px) and (max-width:1280px){
   .work-grid{ grid-template-columns:repeat(2,1fr); }
   section{ padding:110px 5vw; }
 }
-@media (max-width:640px){
+@media (max-width:800px){
   .work-grid{ grid-template-columns:1fr; }
 }
 @media (max-width:800px){
