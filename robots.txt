@@ -6,10 +6,12 @@
 #  문의: antzm123@naver.com
 # ─────────────────────────────────────────────
 
-# 일반 검색엔진은 막지 않습니다.
-# (지금 검색 노출을 막는 것은 index.html 의 <meta name="robots" content="noindex">
-#  입니다. robots.txt 로 막아버리면 크롤러가 페이지를 아예 안 읽어서 noindex 를
-#  못 보고, 오히려 주소만 검색에 남을 수 있습니다.)
+# 저장소 이름이 antzm123-eng.github.io 라서 이 파일이 도메인 맨 앞에 놓입니다.
+# → https://antzm123-eng.github.io/robots.txt · 크롤러가 실제로 읽습니다.
+#
+# 일반 검색엔진은 여기서 막지 않습니다. 지금 검색 노출을 막는 것은 index.html 의
+# <meta name="robots" content="noindex"> 입니다. robots.txt 로 막아버리면 크롤러가
+# 페이지를 아예 안 읽어서 noindex 를 못 보고, 오히려 주소만 검색에 남을 수 있습니다.
 User-agent: *
 Allow: /
 

@@ -6,8 +6,9 @@
 사진가·디자이너 **강윤구**의 개인 포트폴리오. 단일 `index.html`(약 68KB)에 CSS/JS가 모두 들어있는
 정적 사이트. **빌드 도구 없음** — Node.js, npm 불필요. 브라우저로 열면 그대로 동작.
 
-- 저장소 `antzm123-eng/gloudy` (public) · `main` 하나 · 로컬 `/Users/yg_92/gloudy`
-- **공개 주소 `https://antzm123-eng.github.io/gloudy/`** (GitHub Pages)
+- 저장소 `antzm123-eng/antzm123-eng.github.io` (public) · `main` 하나
+- **공개 주소 `https://antzm123-eng.github.io/`** (GitHub Pages 사용자 사이트)
+- 예전 이름은 `gloudy` — 2026-09-01 에 바꿨다. `.../gloudy/` 주소는 더는 안 쓴다
 - `canonical`·`og:*` 가 이 주소 기준 — 호스팅을 바꾸면 같이 고칠 것
 - Netlify 는 **삭제됨**(비용). 되돌아가지 말 것 · `.nojekyll` 지우지 말 것
 
@@ -25,7 +26,7 @@
 
 ```
 index.html            본문 전체 (HTML + CSS + JS)
-robots.txt            AI 학습 크롤러 24종 차단
+robots.txt            AI 학습 크롤러 24종 차단 (도메인 루트라 실제로 작동)
 .nojekyll             Pages 가공 방지
 og-image.jpg          공유 미리보기 1200×630
 favicon.ico / favicon-32.png / apple-touch-icon.png
@@ -35,7 +36,6 @@ images/design/ oldtown/  사이트 미참조 보관용 (AVIF 없음)
 tools/add_work.py        새 작업물 추가 자동화
 tools/watermark.swift    워터마크 합성 · tools/to_avif.swift+.sh  AVIF 변환
 tools/check_private.py   비공개 낱말 검사 (목록은 .claude/, 미공개)
-docs/robots-root.txt     도메인 루트용 robots.txt (여기선 무효)
 tools/regen_covers.py    커버 재생성 (맥에서) · tools/check_covers.py  커버 검수
 tools/check_images.py    이미지가 실제 열리는지 검사 · --fix 로 재생성
 docs/WORKLOG.md 이력 · docs/DECISIONS.md 결정 이유
@@ -154,11 +154,7 @@ python3 tools/check_private.py
    **퇴사 시점에 공개** 예정 — 그때 `index, follow` 로 되돌리고 Search Console 등록
 3. **커버 선명도** — 도구는 다 만들었다. 사용자가 Mac 에서
    `regen_covers.py --src <원본폴더> --apply` 를 돌리면 끝. 지금 최악 28%
-4. **`robots.txt` 무효** — 크롤러는 도메인 루트만 읽는데 `.../gloudy/robots.txt` 라 404.
-   AI 크롤러 24종 차단이 안 걸린다(메타 `noai`·`tdm-reservation` 은 작동).
-   내용은 `docs/robots-root.txt` 에 준비됨. **선택 대기**: 저장소 이름을
-   `antzm123-eng.github.io` 로 변경(주소 바뀜) vs 그 이름으로 새 저장소
-5. (보류) **퇴사 후** — 회사 작업물 업로드 + 사명 공개 여부 재검토
+4. (보류) **퇴사 후** — 회사 작업물 업로드 + 사명 공개 여부 재검토
 
 3단계(히어로 배경 사진·스크롤 모션)는 **사용자가 하지 말라고 했음.**
 
