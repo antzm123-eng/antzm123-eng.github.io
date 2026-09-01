@@ -9,8 +9,11 @@
 
 - 저장소: `antzm123-eng/gloudy` (public), 브랜치 `main` 하나
 - 로컬: `/Users/yg_92/gloudy`
-- 아직 **인터넷에 공개되지 않음** (GitHub Pages 미설정 → `antzm123-eng.github.io/gloudy/` 는 404)
-- 공개 예정 주소 기준으로 og 태그가 작성되어 있음
+- **공개 주소: `https://antzm123-eng.github.io/gloudy/` (GitHub Pages, 2026-09-01 이전)**
+- `canonical` / `og:*` 태그가 이 주소 기준으로 작성되어 있음 — 호스팅을 바꾸면 반드시 같이 고칠 것
+- 이전 호스팅이던 Netlify(`gloudy.netlify.app`)는 크레딧 소모 때문에 폐기.
+  배포 1회당 15크레딧(월 한도 300의 5%)이 나가는 구조였음. 자세한 계산은 `docs/WORKLOG.md`
+- `.nojekyll` 이 있어야 GitHub Pages 가 파일을 가공하지 않고 그대로 내보냄 — 지우지 말 것
 
 ## 사용자 응대 방식 (중요)
 
@@ -84,6 +87,12 @@ python3 tools/add_work.py --key hansam3 --title "제목" --desc "한 줄 설명"
 `.claude/launch.json` 에 설정됨. `preview_start` 로 `gloudy` 실행 → `http://localhost:8765`.
 (`python3 -m http.server 8765`)
 
+## 공개 저장소 주의
+
+저장소가 **public** 이다. `CLAUDE.md`, `docs/`, `tools/` 도 전부 인터넷에서 읽힌다.
+**사이트 본문에 안 넣기로 한 정보(사명·공간명 등)는 문서에도 적지 말 것.**
+2026-08-31 에 이 실수를 한 적이 있다.
+
 ## 커밋 / 푸시
 
 - 커밋 메시지는 한글, 대괄호 머리말로 분류 (`[버그]`, `[접근성]` 등)
@@ -113,10 +122,9 @@ python3 tools/add_work.py --key hansam3 --title "제목" --desc "한 줄 설명"
 
 ## 남은 일
 
-1. 미업로드 작업물 추가 (사용자가 폴더 준비 중)
-2. 전체 검수
-3. 푸시 (사용자가 GitHub Desktop 에서)
-4. GitHub Pages 공개 (사용자 결정 사항)
+1. **GitHub Pages 켜기** ← 사용자가 저장소 Settings 에서 직접. 켠 뒤 Netlify 프로젝트 삭제
+2. 미업로드 작업물 추가 (사용자가 폴더 준비 중)
+3. 전체 검수
 
 경력이 더 생기면 `#career` 의 `.career-item` 블록을 복사해 위에 추가하면 된다.
 
