@@ -40,6 +40,7 @@ tools/to_avif.swift + .sh   AVIF 변환 (저작권 동시 삽입)
 tools/check_private.py 비공개 낱말 검사 (목록은 .claude/, 미공개)
 tools/regen_covers.py  커버를 원본에서 다시 생성 (선명도) — 맥에서 실행
 tools/check_covers.py  커버 검수 (크기·저작권·낡은 AVIF·선명도)
+tools/check_images.py  이미지가 실제로 열리는지 검사 · --fix 로 재생성
 docs/WORKLOG.md       날짜별 작업 이력
 docs/DECISIONS.md     왜 그렇게 정했는지
 ```
@@ -147,6 +148,11 @@ python3 tools/check_private.py
 8. 원본만 다시 만들고 **낡은 `.avif` 를 안 지우면 효과가 0 이다** (`to_avif.sh` 는 건너뜀).
 9. 라이트박스는 AVIF **지원 감지를 기다리지 않는다.** 항상 AVIF 를 먼저 넣고
    `onerror` 로 원본에 복귀한다. 비동기 감지로 분기하면 첫 장이 JPEG 로 나간다.
+10. **라이트박스는 다 받기 전까지 사진을 감춘다**(`.ready`). 안 그러면 직전 사진이
+   그대로 남는다. 캐시된 사진은 `load` 가 안 뜨므로 `complete` 도 봐야 한다.
+11. **파일이 있고 크기가 맞아도 안 열릴 수 있다** (AVIF 17장이 그랬다).
+   `check_images.py` 로 **실제 디코딩**할 것. 라이트박스 AVIF 주소는 HTML 에 없고
+   **JS 가 만든다** — 목록 기반 검사에서 통째로 빠진다.
 
 ## 현재 상태 (2026-09-01)
 
@@ -156,7 +162,7 @@ python3 tools/check_private.py
 - 작업 카드 = **대표 사진 1장 크게** + 장수 배지 + 라이트박스. 커버 프레임은
   `data-ratio="wide|square|tall"` (3:2/1:1/4:5). 표시 폭 390화면=262px · 800=623 · 1440=335
 - 섹션 순서 `about → work → career → contact`
-- 콘솔 오류 0 · alt 100% · 색 대비 AA · 가로 스크롤 0(320~1920) · 실사이트 검증 완료
+- 콘솔 오류 0 · alt 100% · 색 대비 AA · 가로 스크롤 0 · 라이트박스 160장 표시 검증
 
 ## 남은 일
 
@@ -183,7 +189,7 @@ python3 tools/check_private.py
 
 ⚠️ 회사 업무는 **기밀·계약 문제** 소지가 있음. 공개 범위를 반드시 확인할 것.
 
-**바꾸기 전에 `docs/DECISIONS.md` 의 "경력 섹션 서술 규칙" 을 반드시 읽을 것.** 요약:
+**바꾸기 전에 `docs/DECISIONS.md` 의 "경력 섹션 서술 규칙" 을 읽을 것.** 요약:
 
 - 사명·공간명·지역 비공개(재직 중). 회사 작업물도 **공개 불가**
 - 담당 업무·성과 순서는 **공간기획 → 마케팅 → 교육(보조)**. 바꾸지 말 것
