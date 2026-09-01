@@ -38,6 +38,8 @@ tools/add_work.py     새 작업물 추가 자동화
 tools/watermark.swift 워터마크 합성 (CoreGraphics)
 tools/to_avif.swift + .sh   AVIF 변환 (저작권 동시 삽입)
 tools/check_private.py 비공개 낱말 검사 (목록은 .claude/, 미공개)
+tools/regen_covers.py  커버를 원본에서 다시 생성 (선명도) — 맥에서 실행
+tools/check_covers.py  커버 검수 (크기·저작권·낡은 AVIF·선명도)
 docs/WORKLOG.md       날짜별 작업 이력
 docs/DECISIONS.md     왜 그렇게 정했는지
 ```
@@ -73,6 +75,19 @@ JPEG/PNG(커버는 `<picture>`, 라이트박스는 `onerror` 폴백). **원본�
 
 원본 277장 + AVIF 264장 **전부** 저작권 포함. JPEG/PNG 를 재인코딩하면 다시 넣을 것(AVIF 는 불필요).
 
+## 커버(대표 사진)
+
+가로 폭 **700px + `@2x` 1280px** 두 벌을 `srcset` 으로 화면에 맞게 고르게 한다.
+
+```bash
+python3 tools/regen_covers.py --src ~/원본사진폴더           # 미리보기
+python3 tools/regen_covers.py --src ~/원본사진폴더 --apply   # 실행
+python3 tools/check_covers.py                               # 검수 (반드시)
+```
+
+⚠️ `--src` 는 **카메라 원본 폴더**여야 한다. `images/full` 은 워터마크가 합성돼 있다.
+함정은 "코드상 주의점" 7·8 번.
+
 ## 새 작업물 추가
 
 ```bash
@@ -90,9 +105,8 @@ bash tools/to_avif.sh      # ← 반드시 이어서 실행 (AVIF 생성)
 
 `.claude/launch.json` 설정됨. `preview_start` 로 `gloudy` 실행 → `http://localhost:8765`.
 
-⚠️ **미리보기 창이 숨겨져 있으면(`document.visibilityState==='hidden'`) CSS 전환이 얼어붙는다.**
-모바일 메뉴가 안 열리고 `:focus` 가 안 먹고 스크린샷이 검게 나오는데 **전부 검사 환경 탓이다.**
-측정 전에 반드시 아래를 주입할 것:
+⚠️ **창이 숨겨져 있으면(`visibilityState==='hidden'`) CSS 전환이 얼어붙는다.** 모바일 메뉴가
+안 열리고 스크린샷이 검게 나오는데 **전부 검사 환경 탓이다.** 측정 전에 반드시 주입할 것:
 
 ```js
 document.head.insertAdjacentHTML('beforeend','<style>*{transition:none!important;animation:none!important}</style>');
@@ -100,9 +114,9 @@ document.head.insertAdjacentHTML('beforeend','<style>*{transition:none!important
 
 ## 공개 저장소 주의
 
-저장소가 **public** 이다. `CLAUDE.md`, `docs/`, `tools/` 도 전부 인터넷에서 읽힌다.
-**사이트 본문에 안 넣기로 한 정보(사명·공간명 등)는 문서에도 적지 말 것.**
-이 실수를 두 번 했다. 그래서 **커밋 전에 반드시 아래를 실행한다.**
+저장소가 **public** 이라 `CLAUDE.md`·`docs/`·`tools/` 도 인터넷에서 읽힌다.
+**사이트에 안 넣기로 한 정보(사명·공간명 등)는 문서에도 적지 말 것.** 두 번 실수했다.
+**커밋 전에 반드시 실행한다.**
 
 ```bash
 python3 tools/check_private.py
@@ -129,7 +143,9 @@ python3 tools/check_private.py
 6. **칼럼 경계는 사진 표시 크기를 재보고 정한다.** 칼럼을 늘리면 사진이 작아진다.
    현재 `≤800px 1칼럼 / 801~1280 2칼럼 / 1281 이상 3칼럼(1500+ 는 3 고정)`.
    중단점을 새로 만들면 그 폭에서 커버 px 를 반드시 측정할 것.
-7. 라이트박스는 AVIF **지원 감지를 기다리지 않는다.** 항상 AVIF 를 먼저 넣고
+7. **`srcset` 의 `w` 는 가로 폭**이다(최대 변 아님). 세로 사진에서 틀리면 흐림이 남는다.
+8. 원본만 다시 만들고 **낡은 `.avif` 를 안 지우면 효과가 0 이다** (`to_avif.sh` 는 건너뜀).
+9. 라이트박스는 AVIF **지원 감지를 기다리지 않는다.** 항상 AVIF 를 먼저 넣고
    `onerror` 로 원본에 복귀한다. 비동기 감지로 분기하면 첫 장이 JPEG 로 나간다.
 
 ## 현재 상태 (2026-09-01)
@@ -137,21 +153,18 @@ python3 tools/check_private.py
 작업 24개 / 갤러리 24개 / 사진 160장 / 원본 이미지 277장 + AVIF 264장.
 **첫 화면 로딩 0.44MB** (개선 전 3.77MB, −88%).
 
-- 작업 카드 = **대표 사진 1장 크게** + 장수 배지 + 라이트박스. 커버 프레임은 이미지 비율에 따라
+- 작업 카드 = **대표 사진 1장 크게** + 장수 배지 + 라이트박스. 커버 프레임은
   `data-ratio="wide|square|tall"` (3:2/1:1/4:5). 표시 폭 390화면=262px · 800=623 · 1440=335
 - 섹션 순서 `about → work → career → contact`
-- 콘솔 오류 0 · alt 100% · 색 대비 AA · 가로 스크롤 0(320~1920 전 구간)
-- 라이트박스/필터/모바일 메뉴/키보드 전부 실사이트에서 검증 완료
+- 콘솔 오류 0 · alt 100% · 색 대비 AA · 가로 스크롤 0(320~1920) · 실사이트 검증 완료
 
 ## 남은 일
 
 1. **미업로드 개인 작업물 추가** (사용자가 폴더 준비 중) ← 다음 차례
 2. **구글 검색 등록** (Search Console). 공개는 됐으나 검색에 아직 안 잡힘
-3. **커버 선명도 — 문서에 적혀 있던 것보다 나쁘다 (2026-09-01 실측, 표는 `WORKLOG.md`)**
-   커버 썸네일 대부분이 **500px**. 화면 폭 800px 에서 커버는 623px 로 표시돼
-   **1배 화면에서도 80%**(세로형 72%), 2배로는 **어느 폭에서도 100%를 못 채운다**(최고 95%).
-   ⚠️ `images/full` 은 워터마크가 박혀 있어 **저장소 안에서는 다시 만들 수 없다** —
-   워터마크 없는 원본이 있는 사용자 Mac 에서 재생성하거나, 그 구간 커버 폭을 500px 로 제한
+3. **커버 선명도 — 도구 준비 완료, 사용자가 Mac 에서 실행하면 끝** ← 다음 차례
+   지금 최악은 `yeonseup` 이 폭 800px·2배에서 **28%**(파일이 352px 뿐). 도구를 돌리면
+   전 구간 100% 이상, 첫 화면 로딩 **+27~30%**. 근거는 `WORKLOG.md`.
 4. **`robots.txt` 가 지금 주소에서 무효** — 크롤러는 도메인 루트에서만 읽는데
    `antzm123-eng.github.io/robots.txt` 는 404. **AI 크롤러 24종 차단이 안 걸려 있다.**
    (메타 태그 `noai`/`tdm-reservation` 은 정상 작동)
@@ -164,9 +177,9 @@ python3 tools/check_private.py
 
 ## 경력 섹션 (구현 완료, 항목 1개)
 
-`#work` 다음 `#contact` 앞. 사진 없이 글로만 기록. 한 항목 = `.career-item` 하나이며
-마크업은 `index.html` 의 기존 항목을 복사해 쓸 것. 모바일에서 1열로 전환된다.
-추가 시 받을 정보: 회사명(공개 가능 여부 확인)·직무·기간·담당 업무 3~5줄·성과(숫자 우선)·도구.
+`#work` 다음 `#contact` 앞. 글로만 기록. 한 항목 = `.career-item` 하나이며 마크업은
+`index.html` 의 기존 항목을 복사해 쓸 것. 받을 정보: 회사명(공개 가능 여부)·직무·기간·
+담당 업무 3~5줄·성과(숫자 우선)·도구.
 
 ⚠️ 회사 업무는 **기밀·계약 문제** 소지가 있음. 공개 범위를 반드시 확인할 것.
 
