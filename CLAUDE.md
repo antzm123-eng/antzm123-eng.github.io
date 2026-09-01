@@ -1,6 +1,5 @@
 # gloudy — 강윤구 포트폴리오
 
-새 세션마다 자동으로 읽힙니다. 여기 있는 내용은 다시 조사하지 마세요.
 
 ## 프로젝트
 
@@ -36,6 +35,7 @@ images/design/ oldtown/  사이트 미참조 보관용 (AVIF 없음)
 tools/add_work.py        새 작업물 추가 자동화
 tools/watermark.swift    워터마크 합성 · tools/to_avif.swift+.sh  AVIF 변환
 tools/check_private.py   비공개 낱말 검사 (목록은 .claude/, 미공개)
+docs/robots-root.txt     도메인 루트용 robots.txt (여기선 무효)
 tools/regen_covers.py    커버 재생성 (맥에서) · tools/check_covers.py  커버 검수
 tools/check_images.py    이미지가 실제 열리는지 검사 · --fix 로 재생성
 docs/WORKLOG.md 이력 · docs/DECISIONS.md 결정 이유
@@ -71,9 +71,8 @@ docs/WORKLOG.md 이력 · docs/DECISIONS.md 결정 이유
 가로 폭 **700px + `@2x` 1280px** 두 벌을 `srcset` 으로 화면에 맞게 고르게 한다.
 
 ```bash
-python3 tools/regen_covers.py --src ~/원본사진폴더           # 미리보기
-python3 tools/regen_covers.py --src ~/원본사진폴더 --apply   # 실행
-python3 tools/check_covers.py                               # 검수 (반드시)
+python3 tools/regen_covers.py --src ~/원본폴더 [--apply]   # 붙이면 실제 실행
+python3 tools/check_covers.py                             # 검수 (반드시)
 ```
 
 ⚠️ `--src` 는 **카메라 원본 폴더**. `images/full` 은 워터마크가 합성돼 있어 못 쓴다.
@@ -92,7 +91,7 @@ bash tools/to_avif.sh      # ← 반드시 이어서 실행 (AVIF 생성)
 
 ## 미리보기 · 검사
 
-`.claude/launch.json` 설정됨. `preview_start` 로 `gloudy` 실행 → `http://localhost:8765`.
+`.claude/launch.json` 설정됨 → `preview_start` 로 `http://localhost:8765`.
 
 ⚠️ **크기만 재고 끝내지 말 것.** 실제로 눌러보는 시뮬레이션을 돌려야 한다
 (라이트박스 버그 2건을 그렇게 놓쳤다). `check_images.py` → 브라우저 자동 조작 순서로.
@@ -139,7 +138,7 @@ python3 tools/check_private.py
 
 ## 현재 상태 (2026-09-01)
 
-작업·갤러리 24개 / 사진 160장 / 원본 277장 + AVIF 264장 / 첫 화면 0.44MB.
+작업·갤러리 24개 / 사진 160장 / 원본 197장 + AVIF 184장 / 첫 화면 0.44MB.
 
 - 카드 = 대표 사진 1장 + 장수 배지 + 라이트박스. 커버 프레임 `data-ratio="wide|square|tall"`
   (3:2/1:1/4:5). 표시 폭 390화면=262px · 800=623 · 1440=335
@@ -151,14 +150,15 @@ python3 tools/check_private.py
 **각 항목의 측정값·근거는 `WORKLOG.md` 에 있다.**
 
 1. **미업로드 개인 작업물 추가** (사용자가 폴더 준비 중)
-2. **구글 검색 등록** (Search Console) — 공개는 됐으나 검색에 안 잡힘
+2. 🔴 **검색 노출을 일부러 막아둔 상태**(`<meta name="robots" ... noindex>`).
+   **퇴사 시점에 공개** 예정 — 그때 `index, follow` 로 되돌리고 Search Console 등록
 3. **커버 선명도** — 도구는 다 만들었다. 사용자가 Mac 에서
    `regen_covers.py --src <원본폴더> --apply` 를 돌리면 끝. 지금 최악 28%
 4. **`robots.txt` 무효** — 크롤러는 도메인 루트만 읽는데 `.../gloudy/robots.txt` 라 404.
-   AI 크롤러 24종 차단이 안 걸려 있다(메타 태그 `noai` 는 작동).
-   해결: `antzm123-eng.github.io` 저장소를 새로 만들어 `robots.txt` 만 두기
-5. **안 쓰이는 썸네일 160장(4.6MB)** — 저장소만 무겁다. 로딩엔 영향 없음
-6. (보류) **퇴사 후** — 회사 작업물 업로드 + 사명 공개 여부 재검토
+   AI 크롤러 24종 차단이 안 걸린다(메타 `noai`·`tdm-reservation` 은 작동).
+   내용은 `docs/robots-root.txt` 에 준비됨. **선택 대기**: 저장소 이름을
+   `antzm123-eng.github.io` 로 변경(주소 바뀜) vs 그 이름으로 새 저장소
+5. (보류) **퇴사 후** — 회사 작업물 업로드 + 사명 공개 여부 재검토
 
 3단계(히어로 배경 사진·스크롤 모션)는 **사용자가 하지 말라고 했음.**
 
