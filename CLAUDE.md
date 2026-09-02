@@ -33,7 +33,8 @@ favicon.ico / favicon-32.png / apple-touch-icon.png
 images/full/          라이트박스용 원본 1600px + .avif (워터마크 있음)
 images/thumb/         카드 커버용 700px + .avif (워터마크 없음)
 images/design/ oldtown/  사이트 미참조 보관용 (AVIF 없음)
-tools/add_work.py        새 작업물 추가 자동화
+_originals/              원본 사진 보관 (gitignore, 로컬 전용)
+tools/add_work.py        새 작업물 추가 · 원본을 _originals/ 로 자동 보관
 tools/watermark.swift    워터마크 합성 · tools/to_avif.swift+.sh  AVIF 변환
 tools/check_private.py   비공개 낱말 검사 (목록은 .claude/, 미공개)
 tools/regen_covers.py    커버 재생성 (맥에서) · tools/check_covers.py  커버 검수
@@ -86,6 +87,8 @@ bash tools/to_avif.sh      # ← 반드시 이어서 실행 (AVIF 생성)
 ```
 
 `--cat visual`=사진, `design`=포스터. HEIC 지원. 되돌리기 `git checkout -- . && git clean -fd images`.
+
+`add_work.py` 는 원본을 `_originals/<키>/` 에 **자동 보관**한다(로컬 전용). **이 폴더를 지우지 말 것** — 커버를 다시 선명하게 만들 유일한 재료다.
 
 ⚠️ `add_work.py` 는 **구버전 카드 구조로 HTML 을 넣는다.** 실행 후 기존 카드를 보고 고칠 것.
 
@@ -152,8 +155,10 @@ python3 tools/check_private.py
 1. **미업로드 개인 작업물 추가** (사용자가 폴더 준비 중)
 2. 🔴 **검색 노출을 일부러 막아둔 상태**(`<meta name="robots" ... noindex>`).
    **퇴사 시점에 공개** 예정 — 그때 `index, follow` 로 되돌리고 Search Console 등록
-3. **커버 선명도** — 도구는 다 만들었다. 사용자가 Mac 에서
-   `regen_covers.py --src <원본폴더> --apply` 를 돌리면 끝. 지금 최악 28%
+3. **커버 선명도 (최악 28%)** — ⚠️ **기존 24장의 원본을 사용자가 삭제했다.**
+   `regen_covers.py` 로는 못 고친다. (a) 원본이 다시 생기면 실행, 또는
+   (b) `images/full` 에서 워터마크 모서리를 잘라 커버 재생성(구도 7% 잘림, **승인 필요**).
+   급하지 않다 — 근거는 `WORKLOG.md`
 4. (보류) **퇴사 후** — 회사 작업물 업로드 + 사명 공개 여부 재검토
 
 3단계(히어로 배경 사진·스크롤 모션)는 **사용자가 하지 말라고 했음.**

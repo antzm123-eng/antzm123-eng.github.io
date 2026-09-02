@@ -139,6 +139,30 @@ def esc(text):
                 .replace(">", "&gt;").replace('"', "&quot;"))
 
 
+# ── 원본 보관 ────────────────────────────────────────────────────────
+# 커버를 다시 선명하게 만들려면 워터마크 없는 원본이 필요하다.
+# 사용자가 작업 폴더를 지워도 남도록 저장소 안에 사본을 둔다.
+# _originals/ 는 .gitignore 로 제외되어 GitHub 에는 올라가지 않는다.
+ORIGINALS_DIR = ROOT / "_originals"
+NO_ARCHIVE = False   # --no-archive 로 켜진다
+
+
+def archive_originals(key, files):
+    """원본 사진을 _originals/<키>/ 로 복사해 둔다."""
+    dest = ORIGINALS_DIR / key
+    if dest.exists():
+        print(f"  ℹ️  원본 보관을 건너뜁니다 (이미 있음): {dest}")
+        return 0
+    dest.mkdir(parents=True, exist_ok=True)
+    total = 0
+    for f in files:
+        shutil.copy2(f, dest / f.name)
+        total += f.stat().st_size
+    print(f"  📦 원본 {len(files)}장을 {dest} 에 보관했습니다 "
+          f"({total // 1024 // 1024}MB, GitHub 에는 안 올라감)")
+    return total
+
+
 # ── 이미지 처리 ──────────────────────────────────────────────────────
 def process_images(key, src_dir):
     files = sorted(p for p in src_dir.iterdir()
@@ -171,6 +195,10 @@ def process_images(key, src_dir):
                   f" / thumb {thumb.stat().st_size // 1024}KB")
     finally:
         shutil.rmtree(tmp, ignore_errors=True)
+
+    if not NO_ARCHIVE:
+        archive_originals(key, files)
+
     return made
 
 
@@ -273,12 +301,17 @@ def main():
                    help="visual=사진 필터, design=포스터·디자인 필터 (기본: visual)")
     p.add_argument("--extra", default="개인 작업 · Canon EOS 200D",
                    help="날짜·태그 뒤에 붙는 추가 정보")
+    p.add_argument("--no-archive", action="store_true",
+                   help="원본을 _originals/ 에 보관하지 않는다 (권장하지 않음)")
     p.add_argument("--position", default="top", choices=["top", "bottom"],
                    help="목록의 맨 위/맨 아래 (기본: top)")
     a = p.parse_args()
 
     if not re.fullmatch(r"[a-z][a-z0-9_]*", a.key):
         die("--key 는 영문 소문자·숫자·밑줄만 쓸 수 있습니다 (예: hansam3)")
+
+    global NO_ARCHIVE
+    NO_ARCHIVE = a.no_archive
 
     src_dir = Path(os.path.expanduser(a.src)).resolve()
     if not src_dir.is_dir():
