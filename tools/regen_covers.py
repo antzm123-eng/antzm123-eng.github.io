@@ -21,6 +21,13 @@
   python3 tools/regen_covers.py --src ~/사진원본폴더 --apply    # 실제 실행
   python3 tools/regen_covers.py --src ... --apply --key ocsu   # 한 작업만
 
+카메라 원본이 없을 때 (--from-full)
+  images/full 을 재료로 쓰되, 워터마크가 있는 아래쪽을 잘라낸다.
+  사진은 아래 7% 가 대개 배경이라 괜찮지만, 아래쪽에 로고나 문구가 있는
+  포스터는 FULL_SKIP 에 넣어 건드리지 않는다.
+  python3 tools/regen_covers.py --from-full             # 미리보기
+  python3 tools/regen_covers.py --from-full --apply     # 실제 실행
+
 되돌리기
   git checkout -- . && git clean -fd images
 """
@@ -50,6 +57,19 @@ AVIF_Q = "0.60"          # 썸네일 AVIF 품질 (CLAUDE.md 규칙)
 JPEG_Q = "85"
 SIG = 32                 # 그림 대조용 축소 크기
 IMAGE_EXTS = {".jpg", ".jpeg", ".png", ".heic", ".heif", ".tif", ".tiff", ".webp"}
+
+# ── images/full 을 재료로 쓸 때 (--from-full) ────────────────────────
+# 카메라 원본이 없어도 커버를 되살리는 길. images/full 에는 워터마크가
+# 오른쪽 아래에 합성돼 있으므로, 아래쪽을 조금 잘라내면 사라진다.
+# 워터마크는 짧은 변의 6.6% 안에 들어온다 (여백 0.030 + 글자 0.024 + 그림자).
+FULL_DIR = ROOT / "images" / "full"
+CUT_BOTTOM = 0.07        # 아래쪽에서 잘라낼 비율
+WM_SAFE = 0.066          # 짧은 변 기준, 워터마크가 차지하는 최대 비율 (안전선)
+# 아래쪽에 로고·성경구절이 들어 있어 자르면 디자인이 망가지는 커버.
+# 2026-09-02 사용자 결정: 이 3장은 건드리지 않고, 작업 파일이 생기면 그때 교체한다.
+FULL_SKIP = {"aug_poster_0", "jul_poster_0", "na_home_0"}
+# 애초에 워터마크를 넣지 않는 투명 로고 (CLAUDE.md 규칙) — 자르지 않고 그대로 쓴다.
+FULL_NO_CUT = {"na_logo_0"}
 
 
 def run(cmd):
@@ -140,6 +160,44 @@ def to_avif(src, dst):
     im.save(dst, "AVIF", quality=65, xmp=PAYLOAD)
 
 
+CROP_BIN = Path("/tmp/gloudy_crop")
+
+
+def crop_bottom(src, dst, cut_px):
+    """사진 아래쪽에서 cut_px 만큼 잘라내고 dst 에 저장한다."""
+    w, h = dimensions(src)
+    if not w:
+        die(f"이미지 크기를 읽지 못했습니다: {src}")
+    keep = h - cut_px
+    if keep < 1:
+        die(f"너무 많이 자르려고 합니다: {src} ({h}px 에서 {cut_px}px)")
+    if HAVE_SIPS:
+        # ⚠️ sips 의 --cropOffset 은 조용히 무시되고 언제나 가운데를 자른다.
+        #    워터마크는 오른쪽 아래에 있으므로 직접 만든 도구를 쓴다.
+        if not CROP_BIN.exists():
+            if not shutil.which("swiftc"):
+                die("swiftc 가 없습니다. Xcode Command Line Tools 를 설치해주세요:\n"
+                    "   xcode-select --install")
+            r = run(["swiftc", "-O", "-o", CROP_BIN, ROOT / "tools" / "crop.swift"])
+            if r.returncode != 0:
+                die("자르기 도구 컴파일 실패:\n" + r.stderr)
+        r = run([CROP_BIN, src, dst, 0, 0, w, keep])
+        if r.returncode != 0 or not Path(dst).exists():
+            die(f"자르기 실패: {src}\n{r.stderr}")
+        return
+    Image.open(src).crop((0, 0, w, keep)).save(dst, "PNG")
+
+
+def cut_pixels(src, ratio):
+    """아래쪽에서 몇 px 을 잘라야 하는지. 워터마크보다 적게 자르는 일이 없게 한다."""
+    w, h = dimensions(src)
+    if not w:
+        die(f"이미지 크기를 읽지 못했습니다: {src}")
+    want = round(h * ratio)
+    need = int(min(w, h) * WM_SAFE) + 1          # 워터마크가 확실히 없어지는 최소치
+    return max(want, need)
+
+
 # ── 파일 구조 읽기 (외부 도구 없이) ──────────────────────────────────
 def dimensions(path):
     if HAVE_SIPS:
@@ -170,9 +228,17 @@ def dimensions(path):
             i += 2 + ln
     elif d[:8] == b"\x89PNG\r\n\x1a\n":
         return struct.unpack(">II", d[16:24])
-    elif b"ispe" in d[:4096]:
-        i = d.index(b"ispe")
-        return struct.unpack(">II", d[i + 8:i + 16])
+    elif b"ispe" in d:
+        # AVIF 는 ispe 가 여러 개다 (미리보기·격자 타일) — 가장 큰 것이 전체 크기.
+        sizes, pos = [], 0
+        while True:
+            i = d.find(b"ispe", pos)
+            if i < 0:
+                break
+            sizes.append(struct.unpack(">II", d[i + 8:i + 16]))
+            pos = i + 4
+        if sizes:
+            return max(sizes, key=lambda s: s[0] * s[1])
     return (0, 0)
 
 
@@ -339,9 +405,92 @@ def collect_sources(src_dir):
     return files
 
 
+def plan_from_originals(covers, src_dir, tmp, max_distance):
+    """카메라 원본 폴더에서 각 커버에 해당하는 사진을 그림 내용으로 찾아낸다."""
+    sources = collect_sources(src_dir)
+    print(f"원본 후보 {len(sources)}장 — 지문 만드는 중…")
+    src_sig = []
+    for i, path in enumerate(sources):
+        sig = signature(path, tmp)
+        if sig:
+            src_sig.append((path, sig))
+        if (i + 1) % 25 == 0:
+            print(f"   {i + 1}/{len(sources)}")
+    if not src_sig:
+        die("원본 사진의 지문을 만들지 못했습니다.")
+
+    print()
+    print(f"{'커버':<18}{'찾은 원본':<34}{'차이':>7}{'2등과':>8}  판정")
+    print("─" * 78)
+    plan, skipped = [], []
+    for key, ext in covers:
+        cur = THUMB_DIR / f"{key}.{ext}"
+        tgt = signature(cur, tmp)
+        ranked = sorted(((distance(tgt, sg), pt) for pt, sg in src_sig), key=lambda x: x[0])
+        d0, p0 = ranked[0]
+        d1 = ranked[1][0] if len(ranked) > 1 else 9e9
+        ok = d0 <= max_distance and d0 < d1 * 0.6
+        mark = "✅ 확실" if ok else ("⚠️  애매 — 건너뜀" if d0 <= max_distance else "❌ 못 찾음")
+        print(f"{key:<18}{p0.name[:33]:<34}{d0:7.3f}{d1:8.3f}  {mark}")
+        if ok:
+            plan.append((key, ext, cur, p0, 0))
+        else:
+            skipped.append((key, "원본을 확신할 수 없음"))
+
+    # 이 저장소가 내보낸 파일(<키>_<번호>.jpg)을 원본으로 착각하는 실수를 막는다.
+    # images/full 은 워터마크가 합성돼 있어서, 그걸 재료로 쓰면 커버에 워터마크가 찍힌다.
+    # 카메라 파일도 IMG_0031.jpg 처럼 생겼으므로 "밑줄+숫자" 로 판단하면 안 된다.
+    # 파일 이름이 커버의 이름과 똑같을 때만 (= 우리가 내보낸 파일) 막는다.
+    looks_exported = [(k, o.name) for k, ext, cur, o, _ in plan if o.stem == k]
+    if looks_exported:
+        die("원본이 아니라 이 사이트가 내보낸 파일을 가리키고 있는 것 같습니다:\n"
+            + "\n".join(f"   {k} ← {n}" for k, n in looks_exported[:5])
+            + f"\n   ({len(looks_exported)}건)\n"
+            "   images/full 은 워터마크가 합성돼 있어 재료로 쓸 수 없습니다.\n"
+            "   카메라에서 받은 원본 사진 폴더를 --src 로 지정하거나,\n"
+            "   아래쪽을 잘라내는 --from-full 을 쓰세요.")
+    return plan, skipped
+
+
+def plan_from_full(covers, cut):
+    """images/full 을 재료로 쓴다. 워터마크가 있는 아래쪽을 잘라낸다."""
+    print()
+    print(f"{'커버':<18}{'재료 (images/full)':<26}{'아래 잘라냄':>12}  판정")
+    print("─" * 66)
+    plan, skipped = [], []
+    for key, ext in covers:
+        cur = THUMB_DIR / f"{key}.{ext}"
+        if key in FULL_SKIP:
+            print(f"{key:<18}{'—':<26}{'—':>12}  ⏭  아래쪽에 디자인이 있어 제외")
+            skipped.append((key, "아래쪽에 로고·문구"))
+            continue
+        origin = next((FULL_DIR / f"{key}{e}" for e in (".jpg", ".jpeg", ".png")
+                       if (FULL_DIR / f"{key}{e}").exists()), None)
+        if origin is None:
+            print(f"{key:<18}{'없음':<26}{'—':>12}  ❌ images/full 에 없음")
+            skipped.append((key, "images/full 에 없음"))
+            continue
+        w, h = dimensions(origin)
+        if key in FULL_NO_CUT:
+            cut_px = 0                      # 워터마크를 넣지 않는 파일
+            note = "✅ 워터마크 없음 — 그대로"
+        else:
+            cut_px = cut_pixels(origin, cut)
+            note = "✅ 자르고 다시 만듦"
+        cut_txt = "—" if cut_px == 0 else f"{cut_px}px ({cut_px / h:.1%})"
+        print(f"{key:<18}{origin.name + f' {w}x{h}':<26}{cut_txt:>12}  {note}")
+        plan.append((key, ext, cur, origin, cut_px))
+    return plan, skipped
+
+
 def main():
     ap = argparse.ArgumentParser(description="커버 사진을 원본에서 다시 만들어 선명하게 한다")
-    ap.add_argument("--src", required=True, help="워터마크 없는 원본 사진이 든 폴더 (하위 폴더까지 찾습니다)")
+    ap.add_argument("--src", help="워터마크 없는 원본 사진이 든 폴더 (하위 폴더까지 찾습니다)")
+    ap.add_argument("--from-full", action="store_true",
+                    help="카메라 원본 대신 images/full 을 재료로 쓴다 "
+                         "(워터마크가 있는 아래쪽을 잘라낸다)")
+    ap.add_argument("--cut", type=float, default=CUT_BOTTOM,
+                    help=f"--from-full 일 때 아래쪽에서 잘라낼 비율 (기본 {CUT_BOTTOM})")
     ap.add_argument("--apply", action="store_true", help="실제로 파일을 바꾼다 (없으면 미리보기만)")
     ap.add_argument("--key", action="append", help="이 작업만 처리 (여러 번 쓸 수 있음)")
     ap.add_argument("--max-distance", type=float, default=0.45,
@@ -351,9 +500,16 @@ def main():
     if backend_name() is None:
         die("이미지 변환 도구가 없습니다. macOS 라면 sips 가 있어야 하고,\n"
             "   그 밖의 환경이라면  pip install pillow  가 필요합니다.")
-    src_dir = Path(args.src).expanduser().resolve()
-    if not src_dir.is_dir():
-        die(f"폴더가 아닙니다: {src_dir}")
+    if args.from_full:
+        if args.src:
+            die("--from-full 과 --src 는 같이 쓸 수 없습니다.")
+        src_dir = FULL_DIR
+    else:
+        if not args.src:
+            die("--src 로 원본 사진 폴더를 지정하거나, --from-full 을 쓰세요.")
+        src_dir = Path(args.src).expanduser().resolve()
+        if not src_dir.is_dir():
+            die(f"폴더가 아닙니다: {src_dir}")
 
     covers = html_covers()
     if args.key:
@@ -363,54 +519,23 @@ def main():
             die(f"해당하는 커버가 없습니다: {', '.join(sorted(want))}")
 
     print(f"이미지 처리: {backend_name()}")
-    print(f"커버 {len(covers)}장 · 원본 폴더 {src_dir}")
+    if args.from_full:
+        print(f"커버 {len(covers)}장 · 재료 images/full · 아래 {args.cut:.0%} 잘라냄")
+    else:
+        print(f"커버 {len(covers)}장 · 원본 폴더 {src_dir}")
 
     tmp = ROOT / ".regen_tmp"
     tmp.mkdir(exist_ok=True)
     try:
-        sources = collect_sources(src_dir)
-        print(f"원본 후보 {len(sources)}장 — 지문 만드는 중…")
-        src_sig = []
-        for i, p in enumerate(sources):
-            s = signature(p, tmp)
-            if s:
-                src_sig.append((p, s))
-            if (i + 1) % 25 == 0:
-                print(f"   {i + 1}/{len(sources)}")
-        if not src_sig:
-            die("원본 사진의 지문을 만들지 못했습니다.")
-
-        print()
-        print(f"{'커버':<18}{'찾은 원본':<34}{'차이':>7}{'2등과':>8}  판정")
-        print("─" * 78)
-        plan, skipped = [], []
-        for key, ext in covers:
-            cur = THUMB_DIR / f"{key}.{ext}"
-            tgt = signature(cur, tmp)
-            ranked = sorted(((distance(tgt, s), p) for p, s in src_sig), key=lambda x: x[0])
-            d0, p0 = ranked[0]
-            d1 = ranked[1][0] if len(ranked) > 1 else 9e9
-            ok = d0 <= args.max_distance and d0 < d1 * 0.6
-            mark = "✅ 확실" if ok else ("⚠️  애매 — 건너뜀" if d0 <= args.max_distance else "❌ 못 찾음")
-            print(f"{key:<18}{p0.name[:33]:<34}{d0:7.3f}{d1:8.3f}  {mark}")
-            (plan if ok else skipped).append((key, ext, cur, p0))
-
-        # 이 저장소가 내보낸 파일(<키>_<번호>.jpg)을 원본으로 착각하는 실수를 막는다.
-        # images/full 은 워터마크가 합성돼 있어서, 그걸 재료로 쓰면 커버에 워터마크가 찍힌다.
-        # 카메라 파일도 IMG_0031.jpg 처럼 생겼으므로 "밑줄+숫자" 로 판단하면 안 된다.
-        # 파일 이름이 커버의 이름과 똑같을 때만 (= 우리가 내보낸 파일) 막는다.
-        looks_exported = [(k, p0.name) for k, ext, cur, p0 in plan if p0.stem == k]
-        if looks_exported:
-            die("원본이 아니라 이 사이트가 내보낸 파일을 가리키고 있는 것 같습니다:\n"
-                + "\n".join(f"   {k} ← {n}" for k, n in looks_exported[:5])
-                + f"\n   ({len(looks_exported)}건)\n"
-                "   images/full 은 워터마크가 합성돼 있어 재료로 쓸 수 없습니다.\n"
-                "   카메라에서 받은 원본 사진 폴더를 --src 로 지정해주세요.")
+        if args.from_full:
+            plan, skipped = plan_from_full(covers, args.cut)
+        else:
+            plan, skipped = plan_from_originals(covers, src_dir, tmp, args.max_distance)
 
         if skipped:
             print()
-            print(f"⚠️  {len(skipped)}장은 원본을 확신할 수 없어 건드리지 않습니다: "
-                  + ", ".join(k for k, *_ in skipped))
+            print(f"⚠️  {len(skipped)}장은 건드리지 않습니다: "
+                  + ", ".join(f"{k}({why})" for k, why in skipped))
 
         if not args.apply:
             print()
@@ -421,11 +546,17 @@ def main():
         print(f"{'커버':<16}{'전':>16}{'후 (기본)':>16}{'후 (@2x)':>16}")
         print("─" * 64)
         widths = {}
-        for key, ext, cur, origin in plan:
+        for key, ext, cur, origin, cut_px in plan:
             before_px = dimensions(cur)[0]
             before_kb = (cur.stat().st_size
                          + (cur.with_suffix('.avif').stat().st_size
                             if cur.with_suffix('.avif').exists() else 0)) // 1024
+            if cut_px:
+                # 워터마크가 있는 아래쪽을 먼저 잘라낸다. 중간 파일은 PNG 로 두어
+                # JPEG 을 두 번 압축하지 않는다.
+                cropped = tmp / f"{key}_cut.png"
+                crop_bottom(origin, cropped, cut_px)
+                origin = cropped
             as_png = (ext == "png")
             small = THUMB_DIR / f"{key}.{ext}"
             large = THUMB_DIR / f"{key}@2x.{ext}"

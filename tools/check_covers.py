@@ -62,9 +62,17 @@ def dimensions(path):
     elif d[:8] == b"\x89PNG\r\n\x1a\n":
         return struct.unpack(">II", d[16:24])
     else:
-        i = d.find(b"ispe")
-        if i >= 0:
-            return struct.unpack(">II", d[i + 8:i + 16])
+        # AVIF 는 ispe 가 여러 개 들어 있다 — 미리보기(512×512)나 격자 타일이
+        # 먼저 나오므로, 가장 큰 것을 전체 크기로 본다 (check_images.py 와 같은 방식).
+        sizes, pos = [], 0
+        while True:
+            i = d.find(b"ispe", pos)
+            if i < 0:
+                break
+            sizes.append(struct.unpack(">II", d[i + 8:i + 16]))
+            pos = i + 4
+        if sizes:
+            return max(sizes, key=lambda s: s[0] * s[1])
     return (0, 0)
 
 
@@ -87,7 +95,7 @@ def main():
             continue
         w, _ = dimensions(f)
         checked += 1
-        if w != int(declared):
+        if abs(w - int(declared)) > 1:
             problems.append(f"{path}: srcset 은 {declared}w 인데 실제 폭은 {w}px")
 
     # AVIF 가 짝인 원본과 크기가 같은가 (다르면 낡은 AVIF 다)
@@ -99,9 +107,12 @@ def main():
         for ext in (".jpg", ".png"):
             orig = av.with_suffix(ext)
             if orig.exists():
-                if dimensions(av) != dimensions(orig):
+                a, b = dimensions(av), dimensions(orig)
+                # AVIF 는 홀수 크기를 짝수로 올려 저장한다 (700×433 → 700×434).
+                # 보이는 크기는 같으므로 1px 차이는 문제가 아니다.
+                if abs(a[0] - b[0]) > 1 or abs(a[1] - b[1]) > 1:
                     problems.append(
-                        f"{path}: AVIF {dimensions(av)} 와 원본 {dimensions(orig)} 크기가 다릅니다"
+                        f"{path}: AVIF {a} 와 원본 {b} 크기가 다릅니다"
                         f" — 낡은 AVIF 입니다. 지우고 다시 만드세요")
                     stale += 1
                 break
