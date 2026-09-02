@@ -32,12 +32,9 @@ favicon.ico / favicon-32.png / apple-touch-icon.png
 images/full/          라이트박스용 원본 1600px + .avif (워터마크 있음)
 images/thumb/         카드 커버용 700px + .avif (워터마크 없음)
 images/design/ oldtown/  사이트 미참조 보관용 (AVIF 없음)
-_originals/              원본 사진 보관 (gitignore, 로컬 전용)
-tools/add_work.py        새 작업물 추가 · 원본을 _originals/ 로 자동 보관
-tools/watermark.swift    워터마크 · crop.swift 자르기 · to_avif.swift+.sh  AVIF
-tools/check_private.py   비공개 낱말 검사 (목록은 .claude/)
-tools/regen_covers.py    커버 재생성 (맥에서) · tools/check_covers.py  커버 검수
-tools/check_images.py    이미지가 실제 열리는지 검사 · --fix 로 재생성
+_originals/              원본 보관 (gitignore, 로컬 전용)
+tools/add_work.py·watermark.swift·crop.swift·to_avif.swift+.sh   작업물 추가 파이프라인
+tools/check_private.py·check_covers.py·check_images.py           검사 3종
 ```
 
 ## 문서 3단 구조
@@ -87,10 +84,11 @@ bash tools/to_avif.sh      # ← 반드시 이어서 실행 (AVIF 생성)
 
 `--cat visual`=사진, `design`=포스터. HEIC 지원. 되돌리기 `git checkout -- . && git clean -fd images`.
 
-`add_work.py` 는 원본을 `_originals/<키>/` 에 **자동 보관**한다(로컬 전용).
-**이 폴더를 지우지 말 것** — 커버를 워터마크 없이 다시 만들 유일한 재료다.
+`add_work.py` 는 원본을 `_originals/<키>/` 에 **자동 보관**한다(로컬 전용, 지우지 말 것).
 
-⚠️ `add_work.py` 는 **구버전 카드 구조로 HTML 을 넣는다.** 실행 후 기존 카드를 보고 고칠 것.
+⚠️ `add_work.py` 는 **구버전 카드 구조**(`gallery-preview` 썸네일 5개)로 넣는다 —
+카드를 현재 구조(`card-cover`+`<picture>`+@2x)로 바꾸고, 발행 순서(최신→과거)에 맞게
+`work-grid` 안에서 위치도 옮길 것. `--position` 은 top/bottom만 지원한다.
 
 ## 미리보기·검사
 
@@ -139,27 +137,28 @@ python3 tools/check_private.py
    `complete` 도 봐야 한다.
 11. **파일이 있고 크기가 맞아도 안 열릴 수 있다.** `check_images.py` 로 실제 디코딩할 것.
    라이트박스 AVIF 주소는 HTML 에 없고 JS 가 만든다 — 목록 검사에서 빠진다.
+12. **가로·세로 홀수면 AVIF 가 깨진다.** CoreGraphics 타일 인코더 버그 — `sips` 는 열리는데
+   브라우저(libavif)는 "Invalid image grid" 로 거부한다. `to_avif.swift` 가 짝수로 잘라 막았다.
 
 ## 현재 상태 (2026-09-02)
 
-작업·갤러리 24개 / 사진 160장 / 원본 197장 / 커버 이미지 90장.
+작업·갤러리 29개 / 사진 196장.
 
 - 카드 = 대표 사진 1장 + 장수 배지 + 라이트박스. 프레임 `data-ratio="wide|square|tall"`
   (3:2/1:1/4:5). 표시 폭 390화면=262px · 800=623 · 1440=335
 - **커버 21장은 `images/full` 에서 다시 만듦**(아래 7% 잘림, 700+`@2x`).
   레티나 최저 선명도 83%, 19장은 100%. **포스터 3장만 예전 그대로**(44%)
 - 섹션 순서 `about → work → career → contact`
-- 콘솔 오류 0 · alt 100% · 대비 AA · 가로 스크롤 0 · 라이트박스 160장 표시 검증
+- 콘솔 오류 0 · alt 100% · 대비 AA · 가로 스크롤 0 · 라이트박스 196장 표시 검증
 
 ## 남은 일
 
-1. **미업로드 개인 작업물 추가** (사용자가 폴더 준비 중)
-2. 🔴 **검색 노출을 일부러 막아둔 상태**(`<meta name="robots" ... noindex>`).
+1. 🔴 **검색 노출을 일부러 막아둔 상태**(`<meta name="robots" ... noindex>`).
    **퇴사 시점에 공개** 예정 — 그때 `index, follow` 로 되돌리고 Search Console 등록
-3. **포스터 커버 3장**(`aug_poster`·`jul_poster`·`na_home`)만 아직 흐리다(44%).
+2. **포스터 커버 3장**(`aug_poster`·`jul_poster`·`na_home`)만 아직 흐리다(44%).
    아래쪽에 로고·성경구절이 있어 자를 수 없다 — **사용자의 디자인 작업 파일**이 나오면
    `--src` 로 교체한다. 급하지 않다
-4. (보류) **퇴사 후** — 회사 작업물 업로드 + 사명 공개 여부 재검토
+3. (보류) **퇴사 후** — 회사 작업물 업로드 + 사명 공개 여부 재검토
 
 히어로 배경 사진·스크롤 모션은 **사용자가 하지 말라고 했음.**
 
