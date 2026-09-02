@@ -63,8 +63,6 @@ tools/check_private.py·check_covers.py·check_images.py           검사 3종
 
 ## 커버(대표 사진)
 
-가로 폭 **700px + `@2x` 1280px** 두 벌을 `srcset` 으로 화면에 맞게 고르게 한다.
-
 ```bash
 python3 tools/regen_covers.py --src ~/원본폴더 [--apply]   # 카메라 원본이 있을 때
 python3 tools/regen_covers.py --from-full [--apply]       # 없을 때 (아래 7% 잘라냄)
@@ -86,9 +84,10 @@ bash tools/to_avif.sh      # ← 반드시 이어서 실행 (AVIF 생성)
 
 `add_work.py` 는 원본을 `_originals/<키>/` 에 **자동 보관**한다(로컬 전용, 지우지 말 것).
 
-⚠️ `add_work.py` 는 **구버전 카드 구조**(`gallery-preview` 썸네일 5개)로 넣는다 —
-카드를 현재 구조(`card-cover`+`<picture>`+@2x)로 바꾸고, 발행 순서(최신→과거)에 맞게
-`work-grid` 안에서 위치도 옮길 것. `--position` 은 top/bottom만 지원한다.
+⚠️ `add_work.py` 는 **구버전 카드 구조**로 넣는다 — 현재 구조(`card-cover`+`<picture>`
++@2x)로 바꾸고, 발행 순서(최신→과거)에 맞게 `work-grid` 안 위치도 옮길 것.
+`--position` 은 top/bottom만 지원한다. **세로(tall) 커버는 `_0.jpg` 를 폭 700 기준으로
+다시 만들 것**(함정 7번) — 최대 변 700px 라 세로 사진은 폭이 모자라 `700w` 와 안 맞는다.
 
 ## 미리보기·검사
 
@@ -142,14 +141,14 @@ python3 tools/check_private.py
 
 ## 현재 상태 (2026-09-02)
 
-작업·갤러리 29개 / 사진 196장.
+작업·갤러리 31개 / 사진 212장.
 
 - 카드 = 대표 사진 1장 + 장수 배지 + 라이트박스. 프레임 `data-ratio="wide|square|tall"`
   (3:2/1:1/4:5). 표시 폭 390화면=262px · 800=623 · 1440=335
-- **커버 21장은 `images/full` 에서 다시 만듦**(아래 7% 잘림, 700+`@2x`).
-  레티나 최저 선명도 83%, 19장은 100%. **포스터 3장만 예전 그대로**(44%)
+- 커버 21장은 `images/full` 에서 다시 만듦(아래 7% 잘림). 레티나 최저 83%,
+  19장 100%. **포스터 3장만 예전 그대로**(44%)
 - 섹션 순서 `about → work → career → contact`
-- 콘솔 오류 0 · alt 100% · 대비 AA · 가로 스크롤 0 · 라이트박스 196장 표시 검증
+- 콘솔 오류 0 · alt 100% · 대비 AA · 가로 스크롤 0 · 라이트박스 212장 표시 검증
 
 ## 남은 일
 
