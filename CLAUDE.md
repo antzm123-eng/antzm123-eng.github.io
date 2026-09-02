@@ -1,14 +1,13 @@
 # gloudy — 강윤구 포트폴리오
 
-
 ## 프로젝트
 
-사진가·디자이너 **강윤구**의 개인 포트폴리오. 단일 `index.html`(약 68KB)에 CSS/JS가 모두 들어있는
-정적 사이트. **빌드 도구 없음** — Node.js, npm 불필요. 브라우저로 열면 그대로 동작.
+사진가·디자이너 **강윤구**의 개인 포트폴리오. 단일 `index.html` 에 CSS/JS 가 모두 든 정적 사이트.
+**빌드 도구 없음** — Node.js, npm 불필요. 브라우저로 열면 그대로 동작.
 
 - 저장소 `antzm123-eng/antzm123-eng.github.io` (public) · `main` 하나
-- **공개 주소 `https://antzm123-eng.github.io/`** (GitHub Pages 사용자 사이트)
-- 예전 이름은 `gloudy` — 2026-09-01 에 바꿨다. `.../gloudy/` 주소는 더는 안 쓴다
+- **공개 주소 `https://antzm123-eng.github.io/`** (GitHub Pages 사용자 사이트).
+  예전 `.../gloudy/` 주소는 더는 안 쓴다
 - `canonical`·`og:*` 가 이 주소 기준 — 호스팅을 바꾸면 같이 고칠 것
 - Netlify 는 **삭제됨**(비용). 되돌아가지 말 것 · `.nojekyll` 지우지 말 것
 
@@ -35,26 +34,24 @@ images/thumb/         카드 커버용 700px + .avif (워터마크 없음)
 images/design/ oldtown/  사이트 미참조 보관용 (AVIF 없음)
 _originals/              원본 사진 보관 (gitignore, 로컬 전용)
 tools/add_work.py        새 작업물 추가 · 원본을 _originals/ 로 자동 보관
-tools/watermark.swift    워터마크 합성 · tools/to_avif.swift+.sh  AVIF 변환
-tools/check_private.py   비공개 낱말 검사 (목록은 .claude/, 미공개)
+tools/watermark.swift    워터마크 · crop.swift 자르기 · to_avif.swift+.sh  AVIF
+tools/check_private.py   비공개 낱말 검사 (목록은 .claude/)
 tools/regen_covers.py    커버 재생성 (맥에서) · tools/check_covers.py  커버 검수
 tools/check_images.py    이미지가 실제 열리는지 검사 · --fix 로 재생성
-docs/WORKLOG.md 이력 · docs/DECISIONS.md 결정 이유
 ```
 
 ## 문서 3단 구조
 
-`CLAUDE.md`(이 파일) = **매 세션 자동으로 읽힘.** 현재 상태 + 규칙만. **10KB 넘기지 말 것.**
-`WORKLOG.md` = 날짜별 이력(최신순) · `DECISIONS.md` = 결정의 이유.
-작업이 끝나면 `WORKLOG.md` 맨 위에 요약을 넣고 이 파일의 "현재 상태 / 남은 일" 을 갱신한다.
-**과거 이력과 상세한 근거를 이 파일에 쌓지 말 것.**
+`CLAUDE.md`(이 파일) = 매 세션 읽힘. 현재 상태 + 규칙만, **10KB 넘기지 말 것** ·
+`WORKLOG.md` = 이력(최신순) · `DECISIONS.md` = 이유. 측정값·근거는 전부 이 둘에 있다.
+작업이 끝나면 WORKLOG 맨 위에 요약 + 여기 "현재 상태 / 남은 일" 갱신. **여기 쌓지 말 것.**
 
-## 이미지 규칙 (반드시 지킬 것)
+## 이미지 규칙 (반드시)
 
 | 항목 | 값 |
 |---|---|
 | 원본 최대 변 | 1600px (무단 인쇄 방지) |
-| 썸네일 최대 변 | 신규 700px(`add_work.py`). **기존은 섞여 있다**(대부분 500px, 분포는 `WORKLOG.md`) |
+| 커버(썸네일) | 700px + `@2x` 1280px 두 벌 · `srcset`. 포스터 3장만 아직 560px |
 | 워터마크 | `H_yun_9u` · 오른쪽 아래 · 불투명도 0.60 · 크기 0.024 · 여백 0.030 |
 | 워터마크 대상 | `full`·`design`·`oldtown` — **썸네일·투명 로고(na_logo) 제외** |
 | JPEG 품질 0.80 / AVIF 품질 | 썸네일 0.60 · 원본 0.80 |
@@ -65,18 +62,20 @@ docs/WORKLOG.md 이력 · docs/DECISIONS.md 결정 이유
 ```
 
 **AVIF + 원본 두 벌로 관리한다.** 커버는 `<picture>`, 라이트박스는 `onerror` 폴백.
-**원본을 지우지 말 것** — 폴백이 사라진다. 전부 저작권 포함(재인코딩하면 다시 넣을 것).
+**원본을 지우지 말 것**(폴백이 사라진다). 전부 저작권 포함 — 재인코딩하면 다시 넣을 것.
 
 ## 커버(대표 사진)
 
 가로 폭 **700px + `@2x` 1280px** 두 벌을 `srcset` 으로 화면에 맞게 고르게 한다.
 
 ```bash
-python3 tools/regen_covers.py --src ~/원본폴더 [--apply]   # 붙이면 실제 실행
+python3 tools/regen_covers.py --src ~/원본폴더 [--apply]   # 카메라 원본이 있을 때
+python3 tools/regen_covers.py --from-full [--apply]       # 없을 때 (아래 7% 잘라냄)
 python3 tools/check_covers.py                             # 검수 (반드시)
 ```
 
-⚠️ `--src` 는 **카메라 원본 폴더**. `images/full` 은 워터마크가 합성돼 있어 못 쓴다.
+⚠️ `--src` 는 **카메라 원본 폴더**. `--from-full` 은 `images/full` 을 쓰되 워터마크가 있는
+**아래 7% 를 잘라낸다** — 아래에 디자인이 있는 커버는 `FULL_SKIP` 으로 제외(지금 포스터 3장).
 
 ## 새 작업물 추가
 
@@ -88,24 +87,25 @@ bash tools/to_avif.sh      # ← 반드시 이어서 실행 (AVIF 생성)
 
 `--cat visual`=사진, `design`=포스터. HEIC 지원. 되돌리기 `git checkout -- . && git clean -fd images`.
 
-`add_work.py` 는 원본을 `_originals/<키>/` 에 **자동 보관**한다(로컬 전용). **이 폴더를 지우지 말 것** — 커버를 다시 선명하게 만들 유일한 재료다.
+`add_work.py` 는 원본을 `_originals/<키>/` 에 **자동 보관**한다(로컬 전용).
+**이 폴더를 지우지 말 것** — 커버를 워터마크 없이 다시 만들 유일한 재료다.
 
 ⚠️ `add_work.py` 는 **구버전 카드 구조로 HTML 을 넣는다.** 실행 후 기존 카드를 보고 고칠 것.
 
-## 미리보기 · 검사
+## 미리보기·검사
 
-`.claude/launch.json` 설정됨 → `preview_start` 로 `http://localhost:8765`.
+`.claude/launch.json` 설정됨 → `preview_start` 로 `localhost:8765`.
 
-⚠️ **크기만 재고 끝내지 말 것.** 실제로 눌러보는 시뮬레이션을 돌려야 한다
-(라이트박스 버그 2건을 그렇게 놓쳤다). `check_images.py` → 브라우저 자동 조작 순서로.
+⚠️ **크기만 재고 끝내지 말 것.** 실제로 눌러보는 시뮬레이션까지 (버그 2건을 그렇게 놓쳤다).
 
-⚠️ **창이 숨겨져 있으면 CSS 전환이 얼어붙는다.** 메뉴가 안 열리고 스크린샷이 검게 나오는데
-**검사 환경 탓이다.** 측정 전에 `*{transition:none!important;animation:none!important}` 를 주입할 것.
+⚠️ **창이 숨겨져 있으면 검사 환경이 거짓말을 한다** — 전환이 얼어붙고(스크린샷 검게),
+`rAF` 가 안 돌고, 디코딩이 미뤄져 `naturalWidth` 가 0 이 된다. 코드 탓이 아니다.
+`*{transition:none!important;animation:none!important}` 주입 + 타이머 없이 잴 것.
 
 ## 공개 저장소 주의
 
 저장소가 **public** 이라 `CLAUDE.md`·`docs/`·`tools/` 도 인터넷에서 읽힌다.
-**사이트에 안 넣기로 한 정보(사명·공간명 등)는 문서에도 적지 말 것.** 두 번 실수했다.
+**사이트에 안 넣기로 한 정보(사명·공간명 등)는 문서에도 적지 말 것** — 두 번 실수했다.
 
 ```bash
 python3 tools/check_private.py
@@ -113,8 +113,8 @@ python3 tools/check_private.py
 
 ## 커밋 / 푸시
 
-- 커밋 메시지는 한글, 대괄호 머리말 (`[버그]`, `[디자인]`, `[성능]` 등)
-- **맥 로컬 세션은 푸시 불가**(토큰이 GitHub Desktop 안에만 있음) → 커밋까지만 하고
+- 커밋 메시지는 한글, 대괄호 머리말 (`[버그]`·`[디자인]`·`[성능]` 등)
+- **맥 로컬 세션은 푸시 불가**(토큰이 GitHub Desktop 안에만 있음). 커밋까지만 하고
   `Push origin` 클릭을 안내할 것
 - **클라우드 세션(claude.ai/code)은 `claude/...` 브랜치로만 푸시된다.** 사용자가 GitHub
   Desktop 에서 `main` 에 합쳐야 실제 사이트에 반영된다 — 끝날 때 반드시 안내할 것
@@ -129,6 +129,7 @@ python3 tools/check_private.py
 3. 포커스 이동은 `focus({preventScroll:true})` 필수.
 4. zsh 는 `$변수` 를 단어분리하지 않는다. 파일 목록은 파일에 써서 넘길 것.
 5. `sips -s copyright` 쓰지 말 것 (실패하거나 재인코딩됨). 바이트 삽입을 쓴다.
+   `sips --cropOffset` 도 **조용히 무시되고 늘 가운데를 자른다** → `tools/crop.swift` 를 쓸 것.
 6. **칼럼 경계는 사진 표시 크기를 재보고 정한다.** 지금은
    `≤800 1칼럼 / 801~1280 2칼럼 / 1281+ 3칼럼`. 중단점을 바꾸면 커버 px 를 반드시 잴 것.
 7. **`srcset` 의 `w` 는 가로 폭**이다(최대 변 아님). 세로 사진에서 틀리면 흐림이 남는다.
@@ -139,40 +140,38 @@ python3 tools/check_private.py
 11. **파일이 있고 크기가 맞아도 안 열릴 수 있다.** `check_images.py` 로 실제 디코딩할 것.
    라이트박스 AVIF 주소는 HTML 에 없고 JS 가 만든다 — 목록 검사에서 빠진다.
 
-## 현재 상태 (2026-09-01)
+## 현재 상태 (2026-09-02)
 
-작업·갤러리 24개 / 사진 160장 / 원본 197장 + AVIF 184장 / 첫 화면 0.44MB.
+작업·갤러리 24개 / 사진 160장 / 원본 197장 / 커버 이미지 90장.
 
-- 카드 = 대표 사진 1장 + 장수 배지 + 라이트박스. 커버 프레임 `data-ratio="wide|square|tall"`
+- 카드 = 대표 사진 1장 + 장수 배지 + 라이트박스. 프레임 `data-ratio="wide|square|tall"`
   (3:2/1:1/4:5). 표시 폭 390화면=262px · 800=623 · 1440=335
+- **커버 21장은 `images/full` 에서 다시 만듦**(아래 7% 잘림, 700+`@2x`).
+  레티나 최저 선명도 83%, 19장은 100%. **포스터 3장만 예전 그대로**(44%)
 - 섹션 순서 `about → work → career → contact`
 - 콘솔 오류 0 · alt 100% · 대비 AA · 가로 스크롤 0 · 라이트박스 160장 표시 검증
 
 ## 남은 일
 
-**각 항목의 측정값·근거는 `WORKLOG.md` 에 있다.**
-
 1. **미업로드 개인 작업물 추가** (사용자가 폴더 준비 중)
 2. 🔴 **검색 노출을 일부러 막아둔 상태**(`<meta name="robots" ... noindex>`).
    **퇴사 시점에 공개** 예정 — 그때 `index, follow` 로 되돌리고 Search Console 등록
-3. **커버 선명도 (최악 28%)** — ⚠️ **기존 24장의 원본을 사용자가 삭제했다.**
-   `regen_covers.py` 로는 못 고친다. (a) 원본이 다시 생기면 실행, 또는
-   (b) `images/full` 에서 워터마크 모서리를 잘라 커버 재생성(구도 7% 잘림, **승인 필요**).
-   급하지 않다 — 근거는 `WORKLOG.md`
+3. **포스터 커버 3장**(`aug_poster`·`jul_poster`·`na_home`)만 아직 흐리다(44%).
+   아래쪽에 로고·성경구절이 있어 자를 수 없다 — **사용자의 디자인 작업 파일**이 나오면
+   `--src` 로 교체한다. 급하지 않다
 4. (보류) **퇴사 후** — 회사 작업물 업로드 + 사명 공개 여부 재검토
 
-3단계(히어로 배경 사진·스크롤 모션)는 **사용자가 하지 말라고 했음.**
+히어로 배경 사진·스크롤 모션은 **사용자가 하지 말라고 했음.**
 
-## 경력 섹션 (구현 완료)
+## 경력 섹션 (완료)
 
 `#work` 다음 `#contact` 앞. 한 항목 = `.career-item`, 마크업은 기존 항목을 복사할 것.
 받을 정보: 회사명(공개 가능 여부)·직무·기간·담당 업무 3~5줄·성과(숫자 우선)·도구.
 
-⚠️ 회사 업무는 **기밀·계약 문제** 소지가 있음. 공개 범위를 반드시 확인할 것.
-
 **바꾸기 전에 `docs/DECISIONS.md` 의 "경력 섹션 서술 규칙" 을 읽을 것.** 요약:
 
-- 사명·공간명·지역 비공개(재직 중). 회사 작업물도 **공개 불가**
+- ⚠️ **기밀·계약 문제** 소지가 있다. 사명·공간명·지역 비공개(재직 중),
+  회사 작업물도 **공개 불가**. 공개 범위는 반드시 사용자에게 확인할 것
 - 담당 업무·성과 순서는 **공간기획 → 마케팅 → 교육(보조)**. 바꾸지 말 것
 - "운영"은 `공간 운영` 처럼 범위를 한정할 것 (카페 현장 운영은 사용자 담당 아님)
 - **검증 불가능한 수치는 넣지 말 것**
