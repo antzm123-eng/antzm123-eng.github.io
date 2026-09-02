@@ -596,6 +596,18 @@ nav.scrolled{ border-bottom-color:var(--line); }
 
   <div class="work-grid" id="workGrid">
     <div class="work-card show gallery-card" data-cat="visual">
+        <div class="card-cover" data-ratio="wide" data-gallery="jeja1" data-index="0" role="button" tabindex="0" aria-label="제자교회 청년부 여름 수련회 스냅 갤러리 열기">
+          <picture><source type="image/avif" srcset="images/thumb/jeja1_0.avif 700w, images/thumb/jeja1_0@2x.avif 1280w" sizes="(max-width:800px) calc(88vw - 64px),(max-width:1280px) calc(45vw - 76px),calc(29.33vw - 80px)"><img class="cover-img" loading="lazy" decoding="async" src="images/thumb/jeja1_0.jpg" srcset="images/thumb/jeja1_0.jpg 700w, images/thumb/jeja1_0@2x.jpg 1280w" sizes="(max-width:800px) calc(88vw - 64px),(max-width:1280px) calc(45vw - 76px),calc(29.33vw - 80px)" alt="제자교회 청년부 여름 수련회 스냅 — 1번째 사진"></picture>
+          <span class="cover-count" data-count-for="jeja1"></span>
+        </div>
+        <div class="card-body">
+          <div class="tag">Photo</div>
+          <h3>제자교회 청년부 여름 수련회 스냅</h3>
+          <p>'Deep Dive' 수련회 무대의 밴드 연주와, 손을 들어 찬양하는 청년들의 순간을 어두운 톤 그대로 담았습니다.</p>
+          <div class="meta">2026.08 · Photo · 개인 작업 · Canon EOS 200D</div>
+        </div>
+      </div>
+    <div class="work-card show gallery-card" data-cat="visual">
         <div class="card-cover" data-ratio="wide" data-gallery="ocsu" data-index="0" role="button" tabindex="0" aria-label="옥수중앙교회 청년부 저녁집회 스냅 갤러리 열기">
           <picture><source type="image/avif" srcset="images/thumb/ocsu_0.avif 700w, images/thumb/ocsu_0@2x.avif 1280w" sizes="(max-width:800px) calc(88vw - 64px),(max-width:1280px) calc(45vw - 76px),calc(29.33vw - 80px)"><img class="cover-img" loading="lazy" decoding="async" src="images/thumb/ocsu_0.jpg" srcset="images/thumb/ocsu_0.jpg 700w, images/thumb/ocsu_0@2x.jpg 1280w" sizes="(max-width:800px) calc(88vw - 64px),(max-width:1280px) calc(45vw - 76px),calc(29.33vw - 80px)" alt="옥수중앙교회 청년부 저녁집회 스냅 — 1번째 사진"></picture>
           <span class="cover-count" data-count-for="ocsu"></span>
@@ -1407,7 +1419,18 @@ const naOutingImages = [
   "images/full/na_outing_7.jpg",
 ];
 
-const galleries = { na_outing: naOutingImages, na_magazine: naMagazineImages, na_profile: naProfileImages, na_nov: naNovImages, na_oct: naOctImages, ysg2: ysg2Images, sindeok2: sindeok2Images, worship1: worship1Images, ocsu: ocsuImages, xmas: xmasImages, seoul: seoulImages, gwangeun: gwangeunImages, gwangeun2: gwangeun2Images, gwangeun3: gwangeun3Images, hansam1: hansam1Images, ysg1: ysg1Images, ears1: ears1Images, jg1: jg1Images, jg2: jg2Images, jg3: jg3Images, jg4: jg4Images, jg5: jg5Images, jul_poster: julPosterImages, aug_poster: augPosterImages, oldtown: oldtownImages, na_home: naHomeImages, ilsandongan: ilsandonganImages, na_logo: naLogoImages, yeonseup: yeonseupImages, hansam2: hansam2Images, cheonhajeil: cheonhajeilImages, sindeok: sindeokImages };
+const jeja1Images = [
+  "images/full/jeja1_0.jpg",
+  "images/full/jeja1_1.jpg",
+  "images/full/jeja1_2.jpg",
+  "images/full/jeja1_3.jpg",
+  "images/full/jeja1_4.jpg",
+  "images/full/jeja1_5.jpg",
+  "images/full/jeja1_6.jpg",
+  "images/full/jeja1_7.jpg",
+];
+
+const galleries = { jeja1: jeja1Images, na_outing: naOutingImages, na_magazine: naMagazineImages, na_profile: naProfileImages, na_nov: naNovImages, na_oct: naOctImages, ysg2: ysg2Images, sindeok2: sindeok2Images, worship1: worship1Images, ocsu: ocsuImages, xmas: xmasImages, seoul: seoulImages, gwangeun: gwangeunImages, gwangeun2: gwangeun2Images, gwangeun3: gwangeun3Images, hansam1: hansam1Images, ysg1: ysg1Images, ears1: ears1Images, jg1: jg1Images, jg2: jg2Images, jg3: jg3Images, jg4: jg4Images, jg5: jg5Images, jul_poster: julPosterImages, aug_poster: augPosterImages, oldtown: oldtownImages, na_home: naHomeImages, ilsandongan: ilsandonganImages, na_logo: naLogoImages, yeonseup: yeonseupImages, hansam2: hansam2Images, cheonhajeil: cheonhajeilImages, sindeok: sindeokImages };
 
 const lightbox = document.getElementById('lightbox');
 const lightboxImg = document.getElementById('lightboxImg');
@@ -1415,7 +1438,7 @@ const lightboxCounter = document.getElementById('lightboxCounter');
 let currentGallery = 'ocsu';
 let currentIndex = 0;
 
-const galleryTitles = {"na_outing": "NA 팀 워크숍 야유회 스냅", "na_magazine": "NA 잡지 제작 시안", "na_profile": "NA 팀 프로필 촬영 스냅", "na_nov": "NA 정기예배 11월 스냅", "na_oct": "NA 정기예배 10월 스냅", "ysg2": "예수가온교회 여름 수련회 스냅", "sindeok2": "신덕교회 청년부 여름 수련회 스냅", "worship1": "예배팀 합주 연습 스냅", "ocsu": "옥수중앙교회 청년부 저녁집회 스냅", "xmas": "N/A Ministry 성탄절 현장 스케치", "jg5": "N/A Ministry 정기집회 11월 스냅", "jg4": "N/A Ministry 정기집회 10월 스냅", "seoul": "성서인의 밤 저녁집회", "gwangeun2": "광은교회 저녁집회 2일차", "gwangeun": "광은교회 저녁집회 1일차", "gwangeun3": "광은교회 수련회 연습 실황", "jg3": "N/A Ministry 정기집회 8월 스냅", "aug_poster": "N/A Ministry 정기집회 8월 포스터", "ysg1": "예수가온교회 청소년 여름 저녁집회", "jg2": "N/A Ministry 정기집회 7월 스냅", "jul_poster": "N/A Ministry 정기집회 7월 포스터", "jg1": "N/A Ministry 정기집회 4월 스냅", "hansam1": "한샘교회 청소년 겨울 수련회 저녁집회", "ears1": "이어진교회 청소년부 저녁집회 스냅", "na_home": "NA Worship 모임 홍보 포스터 & 스냅", "ilsandongan": "일산동안교회 저녁집회 스냅", "na_logo": "NA 로고 플레이 — Summer / Winter", "oldtown": "동두천 골목 노포 스냅", "yeonseup": "NA 초창기 합주실 연습 스냅", "hansam2": "한샘교회 청소년 여름 수련회 스냅", "cheonhajeil": "천하제일교회 청소년 여름 수련회 스냅", "sindeok": "신덕교회 청소년 겨울 수련회 스냅"};
+const galleryTitles = {"jeja1": "제자교회 청년부 여름 수련회 스냅", "na_outing": "NA 팀 워크숍 야유회 스냅", "na_magazine": "NA 잡지 제작 시안", "na_profile": "NA 팀 프로필 촬영 스냅", "na_nov": "NA 정기예배 11월 스냅", "na_oct": "NA 정기예배 10월 스냅", "ysg2": "예수가온교회 여름 수련회 스냅", "sindeok2": "신덕교회 청년부 여름 수련회 스냅", "worship1": "예배팀 합주 연습 스냅", "ocsu": "옥수중앙교회 청년부 저녁집회 스냅", "xmas": "N/A Ministry 성탄절 현장 스케치", "jg5": "N/A Ministry 정기집회 11월 스냅", "jg4": "N/A Ministry 정기집회 10월 스냅", "seoul": "성서인의 밤 저녁집회", "gwangeun2": "광은교회 저녁집회 2일차", "gwangeun": "광은교회 저녁집회 1일차", "gwangeun3": "광은교회 수련회 연습 실황", "jg3": "N/A Ministry 정기집회 8월 스냅", "aug_poster": "N/A Ministry 정기집회 8월 포스터", "ysg1": "예수가온교회 청소년 여름 저녁집회", "jg2": "N/A Ministry 정기집회 7월 스냅", "jul_poster": "N/A Ministry 정기집회 7월 포스터", "jg1": "N/A Ministry 정기집회 4월 스냅", "hansam1": "한샘교회 청소년 겨울 수련회 저녁집회", "ears1": "이어진교회 청소년부 저녁집회 스냅", "na_home": "NA Worship 모임 홍보 포스터 & 스냅", "ilsandongan": "일산동안교회 저녁집회 스냅", "na_logo": "NA 로고 플레이 — Summer / Winter", "oldtown": "동두천 골목 노포 스냅", "yeonseup": "NA 초창기 합주실 연습 스냅", "hansam2": "한샘교회 청소년 여름 수련회 스냅", "cheonhajeil": "천하제일교회 청소년 여름 수련회 스냅", "sindeok": "신덕교회 청소년 겨울 수련회 스냅"};
 let savedScrollY = 0;
 let lastFocused = null;
 function lockScroll(){
