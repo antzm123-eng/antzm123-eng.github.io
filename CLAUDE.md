@@ -50,7 +50,7 @@ tools/check_private.py·check_covers.py·check_images.py           검사 3종
 | 원본 최대 변 | 1600px (무단 인쇄 방지) |
 | 커버(썸네일) | 700px + `@2x` 1280px 두 벌 · `srcset`. 포스터 3장만 아직 560px |
 | 워터마크 | `H_yun_9u` · 오른쪽 아래 · 불투명도 0.60 · 크기 0.024 · 여백 0.030 |
-| 워터마크 대상 | `full`·`design`·`oldtown` — **썸네일·투명 로고(na_logo) 제외** |
+| 워터마크 대상 | `full`·`design`·`oldtown` — **썸네일·투명 로고(na_logo, na_logo2) 제외** |
 | JPEG 품질 0.80 / AVIF 품질 | 썸네일 0.60 · 원본 0.80 |
 | 저작권 삽입 | JPEG=COM · PNG=iTXt 로 **재인코딩 없이** / **AVIF 는 변환 시 자동 삽입** |
 
