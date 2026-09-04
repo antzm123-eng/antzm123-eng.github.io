@@ -3,3 +3,8 @@
 __pycache__/
 _originals/
 tools/.watermark-bin
+
+# 다른 AI 도구가 자동으로 만드는 CLAUDE.md·.claude/ 사본.
+# 내용이 중복이고 경로가 .Codex/ 를 가리켜 이 저장소에선 작동하지 않는다.
+AGENTS.md
+.agents/
