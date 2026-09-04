@@ -2,8 +2,8 @@
 
 ## 프로젝트
 
-사진가·디자이너 **강윤구**의 개인 포트폴리오. 단일 `index.html` 에 CSS/JS 가 모두 든 정적 사이트.
-**빌드 도구 없음** — Node.js, npm 불필요. 브라우저로 열면 그대로 동작.
+사진가·디자이너 **강윤구**의 개인 포트폴리오. 단일 `index.html` 에 CSS/JS 가 다 든 정적 사이트.
+**빌드 도구 없음** — 브라우저로 열면 그대로 동작.
 
 - 저장소 `antzm123-eng/antzm123-eng.github.io` (public) · `main` 하나
 - **공개 주소 `https://antzm123-eng.github.io/`** (GitHub Pages). 예전 `.../gloudy/` 는 안 쓴다
@@ -18,21 +18,20 @@
 - 코드를 못 읽으므로 **검증은 대신 해주고 결과를 보고**(측정값·통과/실패)
 - GUI(GitHub Desktop) 선호. 객관식 UI는 무시했음 → 본문으로 질문할 것
 - 효과가 약한 방법(예: 우클릭 방지)은 **솔직하게** 약하다고 말할 것
-- **사용자 브라우저는 네이버 웨일**(크롬 계열이나 버전이 뒤처짐). 검수는 여기에 맞출 것
+- **사용자 브라우저는 네이버 웨일**(크롬 계열이나 버전이 뒤처짐) — 검수 기준
 
 ## 파일 구조
 
 ```
-index.html            본문 전체 (HTML + CSS + JS)
-robots.txt            AI 학습 크롤러 24종 차단 (도메인 루트라 실제로 작동)
-.nojekyll             Pages 가공 방지
-og-image.jpg          공유 미리보기 1200×630 · favicon 3종
-images/full/          라이트박스용 원본 1600px + .avif (워터마크 있음)
-images/thumb/         카드 커버용 700px + .avif (워터마크 없음)
-images/design/ oldtown/  사이트 미참조 보관용 (AVIF 없음)
-_originals/              원본 보관 (gitignore, 로컬 전용)
-tools/add_work.py·watermark.swift·crop.swift·to_avif.swift+.sh   작업물 추가 파이프라인
-tools/check_private.py·check_covers.py·check_images.py           검사 3종
+index.html       본문 전체 (HTML + CSS + JS)
+robots.txt       AI 학습 크롤러 24종 차단 · .nojekyll  Pages 가공 방지
+og-image.jpg     공유 미리보기 1200×630 · favicon 3종
+images/full/     라이트박스용 1600px + .avif (워터마크 있음)
+images/thumb/    카드 커버용 700px + .avif (워터마크 없음)
+images/design/ oldtown/   사이트 미참조 보관용 (AVIF 없음)
+_originals/               원본 보관 (gitignore, 로컬 전용)
+tools/  add_work.py·watermark.swift·crop.swift·to_avif.swift+.sh  (추가 파이프라인)
+        check_private.py·check_covers.py·check_images.py          (검사 3종)
 ```
 
 ## 문서 3단 구조
@@ -67,8 +66,8 @@ python3 tools/regen_covers.py --from-full [--apply]       # 없을 때 (아래 7
 python3 tools/check_covers.py                             # 검수 (반드시)
 ```
 
-⚠️ `--src` 는 **카메라 원본 폴더**. `--from-full` 은 워터마크가 있는 **아래 7% 를 잘라낸다**
-— 아래에 디자인이 있는 커버는 `FULL_SKIP` 으로 제외(지금 포스터 3장).
+⚠️ `--from-full` 은 워터마크가 있는 **아래 7% 를 잘라낸다** — 아래에 디자인이 있는
+커버는 `FULL_SKIP` 으로 제외(지금 포스터 3장).
 
 ## 새 작업물 추가
 
@@ -78,12 +77,11 @@ python3 tools/add_work.py --key hansam3 --title "제목" --desc "한 줄 설명"
 bash tools/to_avif.sh      # ← 반드시 이어서 실행 (AVIF 생성)
 ```
 
-`--cat visual`=사진, `design`=포스터. HEIC 지원. 원본은 `_originals/<키>/` 에 자동 보관(로컬
-전용, 지우지 말 것). 되돌리기 `git checkout -- . && git clean -fd images`.
+`--cat visual`=사진, `design`=포스터. HEIC 지원. 원본은 `_originals/<키>/` 에 자동 보관.
+되돌리기 `git checkout -- . && git clean -fd images`.
 
 ⚠️ `add_work.py` 는 **구버전 카드 구조**로 넣는다 — 현재 구조(`card-cover`+`<picture>`+@2x)로
-바꾸고, 발행 순서(최신→과거)에 맞게 위치도 옮길 것(`--position` 은 top/bottom만).
-**세로 커버는 `srcset` 폭을 실제로 잴 것** — 최대 변 700px 라 세로 사진은 폭이 700 이 아니다.
+바꾸고 발행 순서(최신→과거)에 맞게 위치도 옮길 것. **세로 커버는 `srcset` 폭을 실제로 잴 것.**
 
 ## 미리보기·검사
 
@@ -99,18 +97,15 @@ bash tools/to_avif.sh      # ← 반드시 이어서 실행 (AVIF 생성)
 
 저장소가 **public** 이라 `CLAUDE.md`·`docs/`·`tools/` 도 인터넷에서 읽힌다.
 **사이트에 안 넣기로 한 정보(사명·공간명 등)는 문서에도 적지 말 것** — 두 번 실수했다.
-
-```bash
-python3 tools/check_private.py
-```
+커밋 전 `python3 tools/check_private.py`.
 
 ## 커밋 / 푸시
 
 - 커밋 메시지는 한글, 대괄호 머리말 (`[버그]`·`[디자인]`·`[성능]` 등)
 - **맥 로컬 세션은 푸시 불가**(토큰이 GitHub Desktop 안에만 있음). 커밋까지만 하고
   `Push origin` 클릭을 안내할 것
-- **클라우드 세션(claude.ai/code)은 `claude/...` 브랜치로만 푸시된다.** 사용자가 GitHub
-  Desktop 에서 `main` 에 합쳐야 실제 사이트에 반영된다 — 끝날 때 반드시 안내할 것
+- **클라우드 세션은 `claude/...` 브랜치로만 푸시된다.** 사용자가 GitHub Desktop 에서
+  `main` 에 합쳐야 사이트에 반영 — 끝날 때 반드시 안내할 것
 
 ## 코드상 주의점 (이미 겪은 함정)
 
@@ -121,47 +116,48 @@ python3 tools/check_private.py
 2. 라이트박스 배경 잠금은 `body{position:fixed}` + `scrollbar-gutter:stable`.
 3. 포커스 이동은 `focus({preventScroll:true})` 필수.
 4. zsh 는 `$변수` 를 단어분리하지 않는다. 파일 목록은 파일에 써서 넘길 것.
-5. `sips -s copyright` 쓰지 말 것 (실패하거나 재인코딩됨). 바이트 삽입을 쓴다.
-   `sips --cropOffset` 도 **조용히 무시되고 늘 가운데를 자른다** → `tools/crop.swift` 를 쓸 것.
-6. **칼럼 경계는 사진 표시 크기를 재보고 정한다.** 지금은
-   `≤800 1칼럼 / 801~1280 2칼럼 / 1281+ 3칼럼`. 중단점을 바꾸면 커버 px 를 반드시 잴 것.
+5. `sips -s copyright` 금지(실패·재인코딩) → 바이트 삽입. `sips --cropOffset` 도 **조용히
+   무시되고 늘 가운데를 자른다** → `tools/crop.swift`.
+6. **칼럼 경계는 사진 표시 크기를 재보고 정한다.** 지금
+   `≤800 1칼럼 / 801~1280 2칼럼 / 1281+ 3칼럼`. 바꾸면 커버 px 를 반드시 잴 것.
 7. **`srcset` 의 `w` 는 가로 폭**이다(최대 변 아님). 세로 사진에서 틀리면 흐림이 남는다.
 8. 원본만 다시 만들고 **낡은 `.avif` 를 안 지우면 효과가 0** (`to_avif.sh` 가 건너뜀).
 9. 라이트박스는 AVIF 지원 감지를 기다리지 않는다. AVIF 를 먼저 넣고 `onerror` 로 원본 복귀.
 10. 라이트박스는 다 받기 전까지 사진을 감춘다(`.ready`). 캐시된 사진은 `load` 가 안 뜨므로
    `complete` 도 봐야 한다.
-11. **파일이 있고 크기가 맞아도 안 열릴 수 있다.** `check_images.py` 로 실제 디코딩할 것.
-   라이트박스 AVIF 주소는 HTML 에 없고 JS 가 만든다 — 목록 검사에서 빠진다.
-12. **가로·세로 홀수면 AVIF 가 깨진다.** `sips` 는 열리는데 브라우저(libavif)는 거부한다.
-   `to_avif.swift` 가 짝수로 잘라 막았다.
-13. **`@2x` 원본이 1280px 보다 작으면 실제 폭대로 `srcset` 을 써야 한다.** 1080px 원본을
-   그대로 "1280w" 라고 적으면 함정 7번과 같은 문제가 된다 — 실제로 만든 폭을 확인할 것.
+11. **파일이 있고 크기가 맞아도 안 열릴 수 있다.** `check_images.py` 로 실제 디코딩할 것
+   (라이트박스 AVIF 주소는 JS 가 만들어서 목록 검사에서 빠진다).
+12. **가로·세로 홀수면 AVIF 가 깨진다**(`sips`는 열리는데 브라우저는 거부). `to_avif.swift`가 방지.
+13. **`@2x` 가 1280px 보다 작으면 실제 폭대로 `srcset`** — "1280w" 로 적으면 7번과 같은 문제.
 14. **세로로 든 사진(RAW·EXIF)은 픽셀이 가로다** — 회전 표시만 붙어 있는데
    `watermark.swift` 가 그걸 버려서 사진이 눕는다. **워터마크 전에 `sips -r 90`** 으로 실제
    회전, 썸네일은 남은 표시를 바이트로 `1` 로 되돌릴 것. 그 뒤 `data-ratio`·`srcset` 폭 재측정.
    `sips -g` 는 회전 전, `mdls` 는 회전 후 크기를 준다.
 
-## 현재 상태 (2026-09-03)
+## 현재 상태 (2026-09-04)
 
 작업·갤러리 70개(사진 37·디자인 33) / 사진 324장.
 
 - 카드 = 대표 사진 1장 + 장수 배지 + 라이트박스. 프레임 `data-ratio="wide|square|tall"`
-  (3:2/1:1/4:5). 표시 폭 390화면=262px · 800=623 · 1440=335
-- 커버 21장은 아래 7% 잘라 다시 만듦. **포스터 3장만 예전**(44%)
+  (3:2/1:1/4:5). 커버 21장은 아래 7% 잘라 재생성, **포스터 3장만 예전**(44%)
 - 섹션 순서 `about → work → career → contact` · 전환 곡선은 `--ease` 하나로 통일,
   클릭 가능한 요소엔 `:active` 눌림 반응 있음
 - 콘솔 오류 0 · alt 100% · 대비 AA · 가로 스크롤 0 · 날짜 역순 정렬 검증
 - **AI 배경 사용 3개**(유튜브 썸네일)는 카드 설명·경력란 고지문에 구분 표기 — 추가 시 동일하게.
-  녹도 5장은 **의도적 무보정**(파나소닉 LX2 색감 그대로)이라 설명에 명시
+  파나소닉 LX2 사진 5묶음은 **의도적 무보정**(카메라 색감 그대로)이라 설명에 명시
 
 ## 남은 일
 
-1. 🔴 검색 노출을 일부러 막아둔 상태(`noindex`). **퇴사 시점에 공개** —
+1. 🟡 **사이트 전면 리뉴얼을 기획 중** (2026-09-04 사용자 요청, 다음 세션 주제).
+   "트렌디하게 · 내가 뭘 하는 사람인지 · 3D/모션그래픽 · **갤러리 형식 말고 다른 구성**".
+   ⚠️ **먼저 기획부터 같이 한다 — 코드부터 짜지 말 것.** 지금 카드 그리드는 유지 대상이 아님
+2. 🔴 검색 노출을 일부러 막아둔 상태(`noindex`). **퇴사 시점에 공개** —
    그때 `index, follow` 로 되돌리고 Search Console 등록
-2. (보류) **퇴사 후** — 회사 작업물 업로드 + 사명 공개 여부 재검토
+3. (보류) **퇴사 후** — 회사 작업물 업로드 + 사명 공개 여부 재검토
 
-포스터 3장 화질(44%)은 원본 소실로 영구 확정(이유는 WORKLOG). 히어로 배경 사진·
-스크롤 모션은 **사용자가 하지 말라고 했음.**
+포스터 3장 화질(44%)은 원본 소실로 영구 확정(이유는 WORKLOG).
+⚠️ **"히어로 배경·스크롤 모션 금지" 규칙은 2026-09-04 폐기됨** — 사용자가 모션·3D 를
+원하는 쪽으로 방향을 바꿨다. 옛 대화를 근거로 거절하지 말 것.
 
 ## 경력 섹션 (완료)
 
