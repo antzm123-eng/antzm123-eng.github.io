@@ -44,13 +44,50 @@ except ImportError:
     HAVE_PIL = False
 
 
+def js_tables(text):
+    """index.html 의 JS 표 세 개(DATA·EXT·FULLEXT)를 읽는다.
+    2026-09-06 리뉴얼 뒤로 사진 주소는 HTML 에 안 적혀 있고 이 표에서 만들어진다."""
+    import json
+    def grab(pat):
+        m = re.search(pat, text, re.S)
+        return json.loads(m.group(1)) if m else None
+    data = grab(r'var DATA = (\[.*?\]), EXT =')
+    ext  = grab(r'EXT = (\{.*?\}), FULLEXT =')
+    full = grab(r'FULLEXT = (\{.*?\});')
+    return data, ext, full
+
+
 def referenced():
-    """index.html 이 쓰는 이미지. HTML 에 적힌 주소만 모으면 안 된다 —
-    라이트박스는 JPEG 주소에서 `.avif` 를 **JS 로 만들어낸다**. 그 파일들이
-    검사에서 빠지는 바람에 깨진 AVIF 17개를 오래 못 잡았다."""
+    """index.html 이 쓰는 이미지 전부.
+
+    두 가지를 합쳐야 한다.
+      ① HTML 에 그대로 적힌 주소(장(章) 사진의 srcset 등)
+      ② **JS 가 만들어내는 주소** — 리뉴얼 뒤 사진 대부분이 여기에 속한다.
+         src()      i=0 → thumb/<키>_0        · i>0 → full/<키>_<i>
+         srcFull()  full/<키>_<i>   (0 부터 shots-1 까지)
+         srcStrip() strip/<키>_<i>  (0 부터 shots-1 까지)
+         확장자는 EXT(썸네일)·FULLEXT(원본·띠) 표를 따른다.
+      그리고 setSrc() 가 어떤 주소든 `.avif` 를 먼저 시도하므로 짝도 함께 넣는다.
+
+    ①만 모으면 50개밖에 안 잡혀 1,600여 장이 검사에서 통째로 빠진다(2026-09-06).
+    """
     text = HTML.read_text(encoding="utf-8")
     out = set(re.findall(r'images/[a-z]+/[A-Za-z0-9_@.]+?\.(?:jpg|png|avif)', text))
-    for r in list(out):                      # showImage() 가 만들어내는 주소를 더한다
+
+    data, ext, full = js_tables(text)
+    if data is None or ext is None or full is None:
+        print("⚠️  DATA·EXT·FULLEXT 표를 못 읽었습니다 — HTML 에 적힌 주소만 검사합니다.",
+              file=sys.stderr)
+    else:
+        for d in data:
+            k, n = d["key"], int(d.get("shots", 1))
+            e, fe = ext.get(k, "jpg"), full.get(k, "jpg")
+            out.add(f"images/thumb/{k}_0.{e}")
+            for i in range(n):
+                out.add(f"images/full/{k}_{i}.{fe}")
+                out.add(f"images/strip/{k}_{i}.{fe}")
+
+    for r in list(out):                      # AVIF 를 먼저 시도하므로 짝을 더한다
         if r.endswith((".jpg", ".png")):
             out.add(re.sub(r"\.(jpe?g|png)$", ".avif", r))
     return sorted(out)

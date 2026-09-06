@@ -891,12 +891,6 @@ a{color:inherit}
     });
   }
 
-  function src(k, i){
-    i = i || 0;
-    if(i === 0) return 'images/thumb/' + k + '_0.' + (EXT[k] || 'jpg');
-    return 'images/full/' + k + '_' + i + '.' + (FULLEXT[k] || 'jpg');
-  }
-
   // 전체화면은 언제나 원본. 대표 사진도 썸네일이 아니라 원본을 쓴다.
   function srcFull(k, i){
     return 'images/full/' + k + '_' + (i || 0) + '.' + (FULLEXT[k] || 'jpg');
@@ -956,7 +950,7 @@ a{color:inherit}
     frameIdx = i;
     var next = new Image();
     img.classList.add('swapping');
-    setSrc(next, src(d.key, i), function(){
+    setSrc(next, srcFull(d.key, i), function(){
       img.src = next.getAttribute('src');
       img.alt = d.title + ' ' + (i + 1) + '번째 사진';
       img.classList.remove('swapping');
@@ -987,7 +981,7 @@ a{color:inherit}
       buildStrip(d);
       var next = new Image();
       img.classList.add('swapping');
-      setSrc(next, src(key, 0), function(){
+      setSrc(next, srcFull(key, 0), function(){
         img.src = next.getAttribute('src'); img.alt = d.title + ' 대표 사진';
         img.classList.remove('swapping');
       });
