@@ -170,7 +170,11 @@ nav a:hover{ color:var(--ink); }
   cursor:pointer; user-select:none; transition:color .25s var(--ease), opacity .15s var(--ease);
 }
 .role-tab:active{ opacity:.7; }
-.role-tab .num{ color:var(--orange-dim); margin-right:8px; }
+.role-tab .num{
+  /* --orange-dim(#C2531F) 은 이 바탕에서 대비 3.73 으로 AA(4.5) 미달이었다.
+     글씨로 쓸 때만 한 단계 밝힌 값. 4.65 로 통과하면서 눌린 상태(#EE6A2F)와도 구분된다.
+     --orange-dim 자체는 테두리·점에만 쓰이므로 그대로 둔다. */
+  color:#DB5F26; margin-right:8px; }
 .role-tab.active{ color:var(--ink); }
 .role-tab.active .num{ color:var(--orange); }
 .role-tab::before{
