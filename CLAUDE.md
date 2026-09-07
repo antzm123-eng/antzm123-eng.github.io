@@ -2,13 +2,15 @@
 
 ## 프로젝트
 
-사진가·디자이너 **강윤구**의 개인 포트폴리오. 단일 `index.html` 에 CSS/JS 가 다 들었고
+사진가·디자이너 **강윤구**의 포트폴리오. 단일 `index.html` 에 CSS/JS 가 다 들었고
 **빌드 도구 없음** — 브라우저로 열면 동작.
 
 - 저장소 `antzm123-eng/antzm123-eng.github.io` (public) · `main` 하나
 - **주소 `https://antzm123-eng.github.io/`** (Pages). `canonical`·`og:*` 가 이 기준 —
   호스팅 바꾸면 같이 고칠 것. Netlify 는 **삭제됨**(비용), 되돌리지 말 것
 - `.nojekyll` 지우지 말 것
+- **public 이라 `CLAUDE.md`·`docs/`·`tools/` 도 읽힌다.** 사이트에 안 넣기로 한 것
+  (사명·공간명 등)은 **문서에도 적지 말 것** — 두 번 실수. 커밋 전 `check_private.py`
 
 ## 사용자 응대 방식 (중요)
 
@@ -19,18 +21,17 @@
 - 객관식 UI는 무시함 → 본문으로 질문 · 효과가 약하면 솔직히
 - **브라우저는 네이버 웨일**(크롬 계열, 버전이 뒤처짐) — 검수 기준
 
-## 파일 구조
+## 파일 · 문서
 
 ```
-index.html    본문 전체 (HTML+CSS+JS) · robots.txt  AI 크롤러 24종 차단
-.nojekyll · og-image.jpg 1200×630 · favicon 3종
-images/full/  라이트박스 1600px + .avif (워터마크 있음)
-images/thumb/ 커버 700px + @2x 1280px + .avif (워터마크 없음)
-images/strip/ 사진 띠 240px + .avif (화면엔 60×42)
-images/design/ oldtown/  미참조 보관 · _originals/  원본(gitignore)
-_sim/  시뮬 A~L (gitignore) · tools/  add_work·watermark·crop·to_avif·make_strip ·
-check_private·check_covers·check_images (검사 3종)
+index.html  본문 전체 · robots.txt  AI 크롤러 24종 차단 · og-image 1200×630 · favicon 3
+images/ full 1600px+avif(워터마크) · thumb 700+@2x1280+avif(없음) · strip 240px
+        design/ oldtown/ 미참조 보관 · _originals 원본 · _sim 시뮬 (뒤 둘 gitignore)
+tools/  add_work·regen_covers·watermark·crop·to_avif·make_strip
+        check_private·check_covers·check_images — 검사 3종은 **`DATA` 표를 읽는다**
 ```
+
+구조를 바꾸면 검사 3종도 같이 고칠 것(안 고치면 0개를 센다). `check_images` 엔 Pillow.
 
 **문서 3단.** `CLAUDE.md` = 매 세션 읽힘, 상태 + 규칙만 **10KB 넘기지 말 것** ·
 `WORKLOG.md` = 이력(최신순) · `DECISIONS.md` = 이유. 측정값·근거는 이 둘에. **쌓지 말 것.**
@@ -46,38 +47,19 @@ check_private·check_covers·check_images (검사 3종)
 | 품질 | JPEG 0.80(띠 0.70) · AVIF 썸네일 0.60 / 원본 0.80 / 띠 0.55 |
 | 저작권 삽입 | JPEG=COM · PNG=iTXt **재인코딩 없이** / **AVIF 는 변환 시 자동** |
 
-```
-© 2026 강윤구 (Kang Yungu). All rights reserved. Unauthorized use, redistribution, or AI training prohibited. Contact: antzm123@naver.com
-```
+저작권 문자열 원문과 넣는 법은 `tools/README.md`.
 
 **AVIF + 원본 두 벌.** 커버는 `<picture>`, 라이트박스·띠는 `onerror` 폴백.
 **원본을 지우지 말 것.** 재인코딩하면 저작권을 다시 넣을 것.
 ⚠️ **투명 PNG 를 JPEG 로 바꾸지 말 것** — 투명한 자리가 검게 변한다(로고 등 13장).
 
-## 커버(대표 사진)
+## 명령
 
-```bash
-python3 tools/regen_covers.py --src ~/원본폴더 [--apply]  # 카메라 원본이 있을 때
-python3 tools/regen_covers.py --from-full [--apply]      # 없을 때 (아래 7% 잘라냄)
-python3 tools/check_covers.py                            # 검수 (반드시)
-```
+**치는 명령은 전부 `tools/README.md` 에** — 커버 다시 만들기 · 새 작업물 추가 · 검사 3종.
 
-⚠️ `--from-full` 은 **아래 7% 를 잘라낸다** — 아래에 디자인이 있으면 `FULL_SKIP`(포스터 3).
-
-## 새 작업물 추가
-
-```bash
-python3 tools/add_work.py --key hansam3 --title "제목" --desc "한 줄 설명" \
-  --src ~/Desktop/사진폴더 --date 2026.08 --tag Photo --cat visual
-bash tools/to_avif.sh        # ← 반드시 이어서 (AVIF)
-python3 tools/make_strip.py  # ← 띠 사진 240px (빠뜨리면 원본으로 떨어짐)
-```
-
-`--cat visual`=사진, `design`=포스터. HEIC 지원. 원본은 `_originals/<키>/`.
-되돌리기 `git checkout -- . && git clean -fd images`
-
-⚠️ `add_work.py` 는 **없어진 카드 구조**로 넣는다. 지금은 JS `DATA`·`EXT`·`FULLEXT` 와
+⚠️ `add_work.py` 는 **지금 없는 카드 구조**로 넣는다. JS `DATA`·`EXT`·`FULLEXT` 와
 목록 `.row` 에 손으로 넣을 것. **`srcset` 폭은 실제로 잴 것**(함정 5).
+⚠️ `regen_covers.py --from-full` 은 **아래 7% 를 잘라낸다**(포스터 3장은 `FULL_SKIP`).
 
 ## 미리보기·검사
 
@@ -88,11 +70,6 @@ python3 tools/make_strip.py  # ← 띠 사진 240px (빠뜨리면 원본으로 �
 아님). 데스크톱 폭은 캡처가 안 되니 **숫자로 잴 것**. `scrollBehavior='auto'` 부터.
 ⚠️ 같은 주소를 다시 쓰면 **캐시된 옛 페이지**가 나온다 — 물음표 뒤를 매번 바꿀 것.
 
-## 공개 저장소 주의
-
-**public** 이라 `CLAUDE.md`·`docs/`·`tools/` 도 읽힌다. **사이트에 안 넣기로 한 정보
-(사명·공간명 등)는 문서에도 적지 말 것** — 두 번 실수. 커밋 전 `check_private.py`.
-
 ## 커밋 / 푸시
 
 - 커밋 메시지는 한글, 대괄호 머리말(`[버그]`·`[디자인]`·`[성능]` 등)
@@ -102,7 +79,7 @@ python3 tools/make_strip.py  # ← 띠 사진 240px (빠뜨리면 원본으로 �
 
 ## 코드상 주의점 (이미 겪은 함정)
 
-**배경·재현은 `docs/DECISIONS.md`·`WORKLOG.md` 에. 여기는 규칙만.**
+**배경·재현은 `DECISIONS.md`·`WORKLOG.md` 에. 여기는 규칙만.**
 
 1. `nav` 에 `backdrop-filter` 금지 — 자식 `position:fixed` 가 갇힌다(blur 는 `::before`).
    `body{overflow-x:hidden}` 도 금지 — 앵커 이동이 안 먹는다(`html` 에).
@@ -111,6 +88,7 @@ python3 tools/make_strip.py  # ← 띠 사진 240px (빠뜨리면 원본으로 �
 3. `sips -s copyright` 금지(실패·재인코딩) → 바이트 삽입 · `sips --cropOffset` 은 조용히
    무시되고 늘 가운데를 자름 → `crop.swift` · zsh 는 `$변수` 단어분리 안 함.
 4. 반응형 경계는 **`1000px` 하나**(사이드바·2단이 접힘). 사진 표시 크기를 재고 정할 것.
+   **`@media` 는 기본 규칙보다 뒤에 쓸 것** — 앞에 쓰면 조용히 무시된다.
 5. **`srcset`** — `w` 는 **가로 폭**(최대 변 아님) · `@2x` 가 1280px 미만이면 실제 폭대로 ·
    `naturalWidth` 는 **화면 밀도로 나눈 값**, 파일 폭이 아니다.
 6. 원본만 다시 만들고 **낡은 `.avif` 를 안 지우면 효과 0**(`to_avif.sh` 가 건너뜀).
@@ -119,36 +97,35 @@ python3 tools/make_strip.py  # ← 띠 사진 240px (빠뜨리면 원본으로 �
    전엔 감추되(`.ready`) 캐시된 건 `load` 가 안 뜨니 `complete` 도 볼 것
 8. **파일이 있고 크기가 맞아도 안 열릴 수 있다** → `check_images.py` 로 실제 디코딩.
    홀수 픽셀이면 AVIF 가 깨진다(`to_avif.swift` 가 막는다 — DECISIONS).
-9. **세로로 든 사진은 픽셀이 가로다** — **워터마크 전에 `sips -r 90`**. 왜인지·나머지
-   절차는 DECISIONS "세로로 든 사진".
+9. **세로로 든 사진은 픽셀이 가로다** — **워터마크 전에 `sips -r 90`**(DECISIONS).
 10. 사진 비율은 **`images/thumb` 기준** — 커버는 아래 7% 를 잘라 원본과 다름.
 11. 한글 조판 `.sent`·`.cl` 은 **`display:block`**(`inline-block` 은 줄이 꽉 찰 때만
    넘어감). 태그가 열린 자리에서 자르지 말 것.
 12. `<img>` 는 `top`·`bottom` 둘 다 줘도 **원본 높이가 이긴다** — 크기 명시.
+13. 자간을 넓히는 `.cap` 은 **라틴 대문자 전용** — 한글에 쓰면 벌어져 보인다.
 
 ## 현재 상태 (2026-09-07)
 
-작업·갤러리 70개(사진 37·디자인 33) / 사진 324장.
+작업 70건(사진 37·디자인 33) / 사진 324장.
+구조 `첫화면 → 장 3개 → 대표작 → 열람실 → 경력 → 활동 → 연락` · 사이드바 296px(≤1000 숨김)
 
-- 구조 `첫화면 → 장 3개 → 대표작 → 열람실 → 경력 → 활동 → 연락` · 사이드바 296px(≤1000 숨김)
-- **열람실이 핵심** — 목록 70줄 + 검색 + 분류 + 뷰어(띠·라이트박스). 사진 마크업은
-  **JS `DATA`/`EXT`/`FULLEXT` 가 생성**(`key_N`). `DATA.why` 가 있으면 뷰어에
-  「왜 이렇게 했나」 상자(4건). `meta` 셋째 칸은 **맥락**(외부/팀/개인) — 목록
-  `data-q` 와 **함께** 고칠 것(DECISIONS)
-- 장(章) 사진 12장 = `<button class="shot" data-jump="키">` — 누르면 그 작업이 열린다.
-  휴대폰은 `order:-1` 로 **사진이 제목보다 먼저**(첫 화면에 4장)
+- **열람실이 핵심** — 목록 70줄 + 검색 + 분류 + 뷰어(띠·라이트박스).
+  사진 마크업은 **JS `DATA`/`EXT`/`FULLEXT` 가 생성**(`key_N`)
+- `DATA.why` 가 있으면 뷰어에 **「왜 이렇게 했나」** 상자(지금 4건)
+- `meta` 셋째 칸은 **맥락** — `외부 단체 요청` 21 / `소속 팀 N/A` 39 / `개인 작업` 10.
+  목록 `data-q`(검색 색인, 소문자)와 **함께** 고칠 것. 미분류 2건은 DECISIONS
 - **대표작 8칸**(`#picks`) — 정사각. 디자인은 `data-kind="design"` → `contain`.
   목차 `03 작업` 이 여기를 가리킨다
-- **목차는 5칸이 한계**(WORKLOG). `경력 3` 이 두 칸을 가리킨다
-- 콘솔 오류 0 · 대비 AA 통과 · 보이는 글씨 6종 · 가로 스크롤 0 · 누르는 영역 44px
-  (≤1000px). 푸터 문장 속 링크만 28px(줄 벌어짐 방지, 의도)
+- 장(章) 사진 12장 = `<button class="shot" data-jump="키">`. 휴대폰은 `order:-1` 로
+  **사진이 제목보다 먼저**(첫 화면에 4장)
+- **목차는 5칸이 한계**(WORKLOG). `경력 3` 이 경력·활동 두 칸을 가리킨다
+- 지켜야 할 선 — 콘솔 오류 0 · 대비 AA · 보이는 글씨 6종 · 가로 스크롤 0 ·
+  누르는 영역 44px(≤1000px). 푸터 문장 속 링크만 28px(줄 벌어짐 방지, 의도)
 - **AI 배경 3개**(썸네일)는 작업 설명·경력란에 구분 표기(추가 시 동일) ·
   파나소닉 LX2 5묶음은 **의도적 무보정**이라 설명에 명시
 - ⚠️ **제목·설명은 사이트의 진짜 것.** `_sim/` 의 중립화본을 다시 들이지 말 것
-- ⚠️ 활동란 `55건·276장` 은 `DATA` 값 — 작업을 더 넣으면 **같이 고칠 것**. 단체는
-  **13곳을 이름으로 나열**(`DATA` 로는 11곳 — DECISIONS)
-- 검사 도구는 **`DATA` 를 읽는다** — 구조를 바꾸면 `check_images`·`check_covers` 도
-  고칠 것(안 고치면 0개를 센다). `check_images` 엔 Pillow
+- ⚠️ 활동란 `59건·274장` 은 **맥락 라벨에서 센 값**(외부+팀, 2023.05 이후).
+  단체는 **13곳을 이름으로 나열**. 작업을 더 넣으면 **같이 고칠 것**(DECISIONS)
 
 ## 남은 일
 
@@ -165,7 +142,7 @@ python3 tools/make_strip.py  # ← 띠 사진 240px (빠뜨리면 원본으로 �
 
 위계는 색이 아니라 **크기·굵기** — 회색을 늘리지 말 것.
 
-## 경력 · 활동 섹션 (완료)
+## 경력 · 활동 섹션
 
 `#career`(회사 1건) → `#activity`(팀·지역 2건) → `#contact`. 둘 다 `.career*` 를 쓴다
 (활동에 새 CSS 없음). 한 항목 = `.career-item`, 마크업은 기존 것 복사.
