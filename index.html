@@ -257,7 +257,12 @@ a{color:inherit}
 .ch-shots .shot:focus-visible{outline:2px solid var(--accent); outline-offset:3px}
 .ch-shots img{width:100%; height:auto; display:block}
 
-@media (max-width:1000px){ .ch-head{grid-template-columns:1fr; gap:20px} .ch-why{max-width:none} }
+/* 휴대폰에서는 사진이 제목보다 먼저 온다.
+   세로로 쌓이면 제목·설명 292px 이 사진 앞을 막아, 375x812 화면에서 첫 사진이
+   814px 에 시작했다 — 2px 차이로 첫 화면에 한 장도 안 걸렸다. 순서만 뒤집으면
+   사진 4장이 통째로 들어온다(584~801). 넓은 화면은 좌우로 나란히라 그대로 둔다. */
+@media (max-width:1000px){ .ch-head{grid-template-columns:1fr; gap:20px} .ch-why{max-width:none}
+  .ch-head .ch-shots{order:-1} }
 
 /* ============ 열람실 ============ */
 .room{padding:clamp(40px,6.5vh,80px) 0; border-top:1px solid var(--line)}
