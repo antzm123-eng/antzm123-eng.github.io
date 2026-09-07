@@ -325,6 +325,7 @@ a{color:inherit}
 .empty{padding:24px 20px; color:var(--ink-2); font-size:var(--fs-sub); text-align:center}
 .empty[hidden]{display:none}
 .chip{font-size:var(--fs-sub); color:var(--ink-2); background:transparent; border:1px solid var(--line);
+  font-variant-numeric:tabular-nums;
   border-radius:999px; padding:8px 16px; cursor:pointer;
   transition:color var(--t-fast) var(--ease), border-color var(--t-fast) var(--ease), background var(--t-fast) var(--ease), transform var(--t-fast) var(--ease)}
 .chip:hover{color:var(--ink); border-color:var(--ink-2)}
@@ -594,7 +595,7 @@ a{color:inherit}
     </nav>
 
     <div class="rail">
-      <div class="cap">해마다 남긴 작업</div>
+      <div class="cap" id="railCap">해마다 남긴 작업</div>
       <ol>
         <li><button type="button" data-f="2026" aria-pressed="false"><span class="y">2026</span><span class="bar"><i style="width:64%"></i></span><span class="n">18</span></button></li>
         <li><button type="button" data-f="2025" aria-pressed="false"><span class="y">2025</span><span class="bar"><i style="width:100%"></i></span><span class="n">28</span></button></li>
@@ -718,7 +719,7 @@ a{color:inherit}
       <div class="room-head">
         <div>
           <h2>작업 전체</h2>
-          <div class="c">작업 <span id="roomCount">73건</span> · 사진 338장 · 2023 부터 2026 까지</div>
+          <div class="c">작업 <span id="roomCount">73건</span> · 사진 <span id="roomShots">338장</span> · <span id="roomSpan">2023 부터 2026 까지</span></div>
         </div>
         <div class="filters">
           <div class="search">
@@ -727,9 +728,9 @@ a{color:inherit}
             <button class="clear" id="searchClear" data-on="0" aria-label="검색어 지우기">&times;</button>
           </div>
           <div class="chips" role="group" aria-label="분류">
-            <button class="chip" data-g="cat" data-f="all" aria-pressed="true">전체 73건</button>
-            <button class="chip" data-g="cat" data-f="visual" aria-pressed="false">촬영 39건</button>
-            <button class="chip" data-g="cat" data-f="design" aria-pressed="false">디자인 34건</button>
+            <button class="chip" data-g="cat" data-f="all" aria-pressed="true">전체 <span class="cnt">73</span>건</button>
+            <button class="chip" data-g="cat" data-f="visual" aria-pressed="false">촬영 <span class="cnt">39</span>건</button>
+            <button class="chip" data-g="cat" data-f="design" aria-pressed="false">디자인 <span class="cnt">34</span>건</button>
           </div>
           <div class="chips years" role="group" aria-label="연도">
             <button class="chip" data-g="year" data-f="all" aria-pressed="true">전체 연도</button>
@@ -1038,6 +1039,8 @@ a{color:inherit}
       back  = document.getElementById('back'),
       share = document.getElementById('share'),
       countEl = document.getElementById('roomCount'),
+      shotsEl = document.getElementById('roomShots'),
+      spanEl  = document.getElementById('roomSpan'),
       strip = document.getElementById('strip'),
       counter = document.getElementById('counter'),
       lb = document.getElementById('lb'),
@@ -1284,19 +1287,81 @@ a{color:inherit}
     return o;
   }
 
+  /* ---------- 옆 숫자들도 조건에 맞춰 다시 센다 ----------
+     예전에는 가운데 「작업 N건」 만 바뀌고 왼쪽 눈금·칩의 숫자는 HTML 에 박힌
+     고정값이었다. 목록엔 1건인데 옆에는 9 라고 적혀 "더 있는 건가?" 로 읽혔다.
+     이제 숫자의 뜻은 「그걸 누르면 실제로 나올 개수」다. */
+  var rowsAll = null, railBase = 0;
+  var shotsOf = Object.create(null);
+  DATA.forEach(function(d){ shotsOf[d.key] = d.shots || 0; });
+
+  function hit(r, cat, year, q){
+    return (cat === 'all' || r.dataset.cat === cat)
+        && (year === 'all' || r.dataset.year === year)
+        && (!q || (r.dataset.q || '').indexOf(q) !== -1);
+  }
+  function countIf(cat, year, q){
+    var n = 0;
+    for(var i = 0; i < rowsAll.length; i++) if(hit(rowsAll[i], cat, year, q)) n++;
+    return n;
+  }
+  /* 세는 규칙: 자기 자신은 조건에서 뺀다.
+     2023 을 고른 채 연도 숫자에까지 연도 조건을 걸면 나머지가 전부 0 이 되어
+     눈금이 텅 빈다. 「지금 분류·검색어에서 그 해를 누르면 몇 건」이 쓸모 있다. */
+  function syncCounts(q){
+    /* 사이드바는 걸러내는 칩에서 멀리 떨어져 있다. 조건이 걸린 줄 모르고 눈금만 보면
+       "2024 에 2건밖에 안 했나" 로 읽힌다 — 제목으로 지금 상태를 밝힌다. */
+    var cap = document.getElementById('railCap');
+    if(cap) cap.textContent = (fCat === 'all' && fYear === 'all' && !q)
+      ? '해마다 남긴 작업' : '고른 것만 · 해마다';
+    // 선언 순서에 기대지 않고 그때그때 찾는다(syncRail 과 같은 이유)
+    Array.prototype.forEach.call(document.querySelectorAll('.rail button'), function(b){
+      var n = countIf(fCat, b.dataset.f, q);
+      b.querySelector('.n').textContent = n;
+      b.querySelector('.bar i').style.width = (railBase ? Math.round(n / railBase * 100) : 0) + '%';
+    });
+    Array.prototype.forEach.call(document.querySelectorAll('.chip'), function(c){
+      var cnt = c.querySelector('.cnt');
+      if(!cnt) return;
+      cnt.textContent = c.dataset.g === 'year'
+        ? countIf(fCat, c.dataset.f, q)      // 연도 칩 — 연도 자신을 뺀다
+        : countIf(c.dataset.f, fYear, q);    // 분류 칩 — 분류 자신을 뺀다
+    });
+  }
+
   function applyFilter(){
     var shown = 0, first = null, q = fText.trim().toLowerCase();
-    Array.prototype.forEach.call(list.querySelectorAll('.row'), function(r){
-      var ok = (fCat === 'all' || r.dataset.cat === fCat)
-            && (fYear === 'all' || r.dataset.year === fYear)
-            && (!q || (r.dataset.q || '').indexOf(q) !== -1);
+    var shots = 0, yMin = null, yMax = null;
+    if(!rowsAll){
+      rowsAll = Array.prototype.slice.call(list.querySelectorAll('.row'));
+      // 눈금 막대의 기준 길이 — 조건이 없을 때 가장 많은 해(2025년 28건)
+      Array.prototype.forEach.call(document.querySelectorAll('.rail button'), function(b){
+        railBase = Math.max(railBase, countIf('all', b.dataset.f, ''));
+      });
+    }
+    rowsAll.forEach(function(r){
+      var ok = hit(r, fCat, fYear, q);
       r.hidden = !ok;
-      if(ok){ shown++; if(!first) first = r; }
+      if(ok){
+        shown++; if(!first) first = r;
+        shots += shotsOf[r.dataset.key] || 0;
+        var y = +r.dataset.year;
+        if(yMin === null || y < yMin) yMin = y;
+        if(yMax === null || y > yMax) yMax = y;
+      }
     });
+    syncCounts(q);
+    if(shotsEl) shotsEl.textContent = shots + '장';
+    if(spanEl) spanEl.textContent = yMin === null ? '\u2014'
+      : (yMin === yMax ? yMin + '년' : yMin + ' 부터 ' + yMax + ' 까지');
+    /* 목록 안 연도 머리글의 숫자도 그 아래 실제로 보이는 줄 수로 맞춘다.
+       안 맞추면 「2024 … 18」 바로 밑에 2줄만 있어서 16건이 사라진 것처럼 보인다. */
     Array.prototype.forEach.call(list.querySelectorAll('.yr'), function(h){
-      var any = false, el = h.nextElementSibling;
-      while(el && !el.classList.contains('yr')){ if(!el.hidden) any = true; el = el.nextElementSibling; }
-      h.hidden = !any;
+      var n = 0, el = h.nextElementSibling;
+      while(el && !el.classList.contains('yr')){ if(!el.hidden) n++; el = el.nextElementSibling; }
+      var nEl = h.querySelector('.n');
+      if(nEl) nEl.textContent = n;
+      h.hidden = n === 0;
     });
     countEl.textContent = shown + '건';
     emptyMsg.hidden = shown > 0;
