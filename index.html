@@ -265,6 +265,30 @@ a{color:inherit}
   .ch-head .ch-shots{order:-1} }
 
 /* ============ 열람실 ============ */
+.picks{padding:clamp(32px,6vh,80px) 0; border-top:1px solid var(--line)}
+.picks .ph-head{display:flex; align-items:baseline; justify-content:space-between; gap:16px; flex-wrap:wrap}
+.picks h2{font-size:var(--fs-h2); font-weight:700}
+.picks .lead{margin-top:8px; font-size:var(--fs-sub); color:var(--ink-2); line-height:1.72}
+.picks .all{font-size:var(--fs-sub); color:var(--ink-2); text-decoration:none;
+  border-bottom:1px solid var(--line); padding-bottom:4px;
+  transition:color var(--t-fast) var(--ease), border-color var(--t-fast) var(--ease)}
+.picks .all:hover{color:var(--accent); border-color:var(--accent)}
+.pick-grid{margin-top:24px; display:grid; grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:24px 16px; align-items:start}
+.pick{display:block; width:100%; margin:0; padding:0; border:0; background:none; color:inherit;
+  text-align:left; font:inherit; cursor:pointer; transition:transform var(--t) var(--ease)}
+.pick:hover{transform:translateY(-3px)}
+.pick:active{transform:translateY(0) scale(.99)}
+.pick:focus-visible{outline:2px solid var(--accent); outline-offset:3px}
+/* 칸은 정사각으로 통일한다. 비율이 제각각이면 짧은 사진 아래가 텅 빈다.
+   사진은 채우고(cover), 포스터는 글씨가 잘리면 안 되므로 통째로 넣는다(contain). */
+.pick-img{display:block; border-radius:var(--r); overflow:hidden; aspect-ratio:1/1}
+.pick-img img{width:100%; height:100%; display:block; object-fit:cover; object-position:center}
+.pick[data-kind="design"] .pick-img img{object-fit:contain}
+.pick-t{display:block; margin-top:8px; font-size:var(--fs-body); font-weight:600;
+  color:var(--ink); line-height:1.45; min-height:48px}
+.pick-m{display:block; margin-top:4px; font-size:var(--fs-label); color:var(--ink-2); letter-spacing:.02em}
+@media (max-width:1000px){ .pick-grid{grid-template-columns:1fr 1fr} }
 .room{padding:clamp(40px,6.5vh,80px) 0; border-top:1px solid var(--line)}
 .room-head{display:flex; justify-content:space-between; align-items:flex-end; gap:16px; flex-wrap:wrap; margin-bottom:20px}
 .room-head h2{font-size:var(--fs-h2); font-weight:700}
@@ -548,7 +572,7 @@ a{color:inherit}
     <p class="tag">좋아 보이면, <b>담습니다.</b><br>그게 전부입니다.</p>
 
     <nav class="nav" aria-label="섹션">
-      <ol><li><a href="#top"><span class="idx">01</span><span class="lbl">소개</span><span class="ct"></span></a></li><li><a href="#chapters"><span class="idx">02</span><span class="lbl">하는 일</span><span class="ct">3</span></a></li><li><a href="#room"><span class="idx">03</span><span class="lbl">작업</span><span class="ct">70</span></a></li><li><a href="#career"><span class="idx">04</span><span class="lbl">경력</span><span class="ct">3</span></a></li><li><a href="#contact"><span class="idx">05</span><span class="lbl">연락</span><span class="ct"></span></a></li></ol>
+      <ol><li><a href="#top"><span class="idx">01</span><span class="lbl">소개</span><span class="ct"></span></a></li><li><a href="#chapters"><span class="idx">02</span><span class="lbl">하는 일</span><span class="ct">3</span></a></li><li><a href="#picks"><span class="idx">03</span><span class="lbl">작업</span><span class="ct">70</span></a></li><li><a href="#career"><span class="idx">04</span><span class="lbl">경력</span><span class="ct">3</span></a></li><li><a href="#contact"><span class="idx">05</span><span class="lbl">연락</span><span class="ct"></span></a></li></ol>
     </nav>
 
     <div class="rail">
@@ -619,6 +643,58 @@ a{color:inherit}
     </div>
   </article>
     </div>
+
+    <section class="picks" id="picks">
+      <div class="ph-head">
+        <div>
+          <h2>대표작</h2>
+          <p class="lead"><span class="sent">일흔 건 중 여덟 건만 고르면 이렇습니다.</span><span class="sent">누르면 그 작업이 열립니다.</span></p>
+        </div>
+        <a class="all" href="#room">작업 전체 70건 보기</a>
+      </div>
+      <div class="pick-grid">
+        <button type="button" class="pick" data-jump="ocsu">
+          <span class="pick-img"><picture><source type="image/avif" srcset="images/thumb/ocsu_0.avif 700w, images/thumb/ocsu_0@2x.avif 1280w" sizes="(max-width:1000px) 45vw, 18vw"><img loading="lazy" decoding="async" width="700" height="433" src="images/thumb/ocsu_0.jpg" srcset="images/thumb/ocsu_0.jpg 700w, images/thumb/ocsu_0@2x.jpg 1280w" sizes="(max-width:1000px) 45vw, 18vw" alt="옥수중앙교회 청년부 저녁집회 스냅"></picture></span>
+          <span class="pick-t">옥수중앙교회 청년부 저녁집회 스냅</span>
+          <span class="pick-m">사진 · 2026.07 · 13장</span>
+        </button>
+        <button type="button" class="pick" data-jump="gwangeun3">
+          <span class="pick-img"><picture><source type="image/avif" srcset="images/thumb/gwangeun3_0.avif 700w, images/thumb/gwangeun3_0@2x.avif 1066w" sizes="(max-width:1000px) 45vw, 18vw"><img loading="lazy" decoding="async" width="700" height="977" src="images/thumb/gwangeun3_0.jpg" srcset="images/thumb/gwangeun3_0.jpg 700w, images/thumb/gwangeun3_0@2x.jpg 1066w" sizes="(max-width:1000px) 45vw, 18vw" alt="광은교회 수련회 연습 실황"></picture></span>
+          <span class="pick-t">광은교회 수련회 연습 실황</span>
+          <span class="pick-m">사진 · 2025.08 · 8장</span>
+        </button>
+        <button type="button" class="pick" data-jump="jeja1">
+          <span class="pick-img"><picture><source type="image/avif" srcset="images/thumb/jeja1_0.avif 700w, images/thumb/jeja1_0@2x.avif 1280w" sizes="(max-width:1000px) 45vw, 18vw"><img loading="lazy" decoding="async" width="700" height="466" src="images/thumb/jeja1_0.jpg" srcset="images/thumb/jeja1_0.jpg 700w, images/thumb/jeja1_0@2x.jpg 1280w" sizes="(max-width:1000px) 45vw, 18vw" alt="제자교회 청년부 여름 수련회 스냅"></picture></span>
+          <span class="pick-t">제자교회 청년부 여름 수련회 스냅</span>
+          <span class="pick-m">사진 · 2026.08 · 8장</span>
+        </button>
+        <button type="button" class="pick" data-kind="design" data-jump="lent_playlist">
+          <span class="pick-img"><picture><source type="image/avif" srcset="images/thumb/lent_playlist_0.avif 393w, images/thumb/lent_playlist_0@2x.avif 720w" sizes="(max-width:1000px) 45vw, 18vw"><img loading="lazy" decoding="async" width="393" height="700" src="images/thumb/lent_playlist_0.jpg" srcset="images/thumb/lent_playlist_0.jpg 393w, images/thumb/lent_playlist_0@2x.jpg 720w" sizes="(max-width:1000px) 45vw, 18vw" alt="사순절 플레이리스트 THE LENT"></picture></span>
+          <span class="pick-t">사순절 플레이리스트 THE LENT</span>
+          <span class="pick-m">디자인 · 2026.02 · 6장</span>
+        </button>
+        <button type="button" class="pick" data-kind="design" data-jump="ocsu_summer_thumb">
+          <span class="pick-img"><picture><source type="image/avif" srcset="images/thumb/ocsu_summer_thumb_0.avif 700w, images/thumb/ocsu_summer_thumb_0@2x.avif 1280w" sizes="(max-width:1000px) 45vw, 18vw"><img loading="lazy" decoding="async" width="700" height="393" src="images/thumb/ocsu_summer_thumb_0.jpg" srcset="images/thumb/ocsu_summer_thumb_0.jpg 700w, images/thumb/ocsu_summer_thumb_0@2x.jpg 1280w" sizes="(max-width:1000px) 45vw, 18vw" alt="옥수중앙교회 여름수련회 유튜브 썸네일"></picture></span>
+          <span class="pick-t">옥수중앙교회 여름수련회 유튜브 썸네일</span>
+          <span class="pick-m">디자인 · 2026.07 · 8종</span>
+        </button>
+        <button type="button" class="pick" data-kind="design" data-jump="na_magazine">
+          <span class="pick-img"><picture><source type="image/avif" srcset="images/thumb/na_magazine_0.avif 700w, images/thumb/na_magazine_0@2x.avif 1280w" sizes="(max-width:1000px) 45vw, 18vw"><img loading="lazy" decoding="async" width="700" height="990" src="images/thumb/na_magazine_0.jpg" srcset="images/thumb/na_magazine_0.jpg 700w, images/thumb/na_magazine_0@2x.jpg 1280w" sizes="(max-width:1000px) 45vw, 18vw" alt="NA 잡지 제작 시안"></picture></span>
+          <span class="pick-t">NA 잡지 제작 시안</span>
+          <span class="pick-m">디자인 · 2023.12 · 8장</span>
+        </button>
+        <button type="button" class="pick" data-jump="xmas">
+          <span class="pick-img"><picture><source type="image/avif" srcset="images/thumb/xmas_0.avif 700w, images/thumb/xmas_0@2x.avif 1280w" sizes="(max-width:1000px) 45vw, 18vw"><img loading="lazy" decoding="async" width="700" height="433" src="images/thumb/xmas_0.jpg" srcset="images/thumb/xmas_0.jpg 700w, images/thumb/xmas_0@2x.jpg 1280w" sizes="(max-width:1000px) 45vw, 18vw" alt="N/A Ministry 성탄절 현장 스케치"></picture></span>
+          <span class="pick-t">N/A Ministry 성탄절 현장 스케치</span>
+          <span class="pick-m">사진 · 2025.12 · 8장</span>
+        </button>
+        <button type="button" class="pick" data-kind="design" data-jump="aug_poster">
+          <span class="pick-img"><picture><source type="image/avif" srcset="images/thumb/aug_poster_0.avif 560w" sizes="(max-width:1000px) 45vw, 18vw"><img loading="lazy" decoding="async" width="560" height="700" src="images/thumb/aug_poster_0.jpg" srcset="images/thumb/aug_poster_0.jpg 560w" sizes="(max-width:1000px) 45vw, 18vw" alt="N/A Ministry 정기집회 8월 포스터"></picture></span>
+          <span class="pick-t">N/A Ministry 정기집회 8월 포스터</span>
+          <span class="pick-m">디자인 · 2025.08 · 3장</span>
+        </button>
+      </div>
+    </section>
 
     <section class="room" id="room">
       <div class="room-head">
