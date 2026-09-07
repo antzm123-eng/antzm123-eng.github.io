@@ -450,8 +450,22 @@ a{color:inherit}
 .chipset{display:flex; gap:4px; flex-wrap:wrap}
 .chipset span{font-size:var(--fs-sub); color:var(--ink-2); border:1px solid var(--line); border-radius:999px; padding:4px 12px}
 .tool-row.primary .chipset span{border-color:#4A423A; color:var(--ink)}
+.career-body{margin-top:20px}
+.career-body p{font-size:var(--fs-body); color:var(--ink-2); line-height:1.75; max-width:74ch}
+.career-body p+p{margin-top:12px}
 .career-note{margin-top:16px; font-size:var(--fs-sub); color:var(--ink-2); line-height:1.7; max-width:74ch}
 @media (max-width:1000px){ .career-item{grid-template-columns:1fr; gap:16px} .tool-row{grid-template-columns:1fr; gap:4px} }
+
+/* ============ 후기 ============ */
+.voices{padding:clamp(40px,6.5vh,80px) 0; border-top:1px solid var(--line)}
+.voices > h2{font-size:var(--fs-h2); font-weight:700}
+.voices-lead{margin-top:12px; font-size:var(--fs-sub); color:var(--ink-2); line-height:1.72}
+.voice-grid{margin-top:24px; padding:0; list-style:none;
+  display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:16px}
+.voice{padding:20px; background:var(--bg-soft); border:1px solid var(--line); border-radius:var(--r)}
+.voice blockquote{margin:0; font-size:var(--fs-body); color:var(--ink); line-height:1.75}
+.voice-by{margin-top:12px; font-size:var(--fs-label); color:var(--ink-2); letter-spacing:.02em}
+@media (max-width:1000px){ .voice-grid{grid-template-columns:1fr} }
 
 /* ============ 연락 ============ */
 .contact{padding:clamp(40px,7vh,88px) 0 clamp(40px,6vh,72px); border-top:1px solid var(--line)}
@@ -652,30 +666,30 @@ a{color:inherit}
       <div class="ph-head">
         <div>
           <h2>대표작</h2>
-          <p class="lead"><span class="sent">일흔세 건 중 여덟 건만 고르면 이렇습니다.</span><span class="sent">누르면 그 작업이 열립니다.</span></p>
+          <p class="lead"><span class="sent">일흔세 건 중 여덟 건만 고르면 이렇습니다.</span><span class="sent">위 네 칸은 사진, 아래 네 칸은 디자인입니다.</span><span class="sent">누르면 그 작업이 열립니다.</span></p>
         </div>
         <a class="all" href="#room">작업 전체 73건 보기</a>
       </div>
       <div class="pick-grid">
-        <button type="button" class="pick" data-kind="design" data-jump="analog_lent">
-          <span class="pick-img"><picture><source type="image/avif" srcset="images/thumb/analog_lent_0.avif 700w, images/thumb/analog_lent_0@2x.avif 1280w" sizes="(max-width:1000px) 45vw, 18vw"><img loading="lazy" decoding="async" width="700" height="488" src="images/thumb/analog_lent_0.jpg" srcset="images/thumb/analog_lent_0.jpg 700w, images/thumb/analog_lent_0@2x.jpg 1280w" sizes="(max-width:1000px) 45vw, 18vw" alt="analog — 사순절 플레이리스트"></picture></span>
-          <span class="pick-t">analog — 사순절 플레이리스트</span>
-          <span class="pick-m">디자인 · 2025.03 · 1장</span>
+        <button type="button" class="pick" data-jump="jeja1">
+          <span class="pick-img"><picture><source type="image/avif" srcset="images/thumb/jeja1_0.avif 700w, images/thumb/jeja1_0@2x.avif 1280w" sizes="(max-width:1000px) 45vw, 18vw"><img loading="lazy" decoding="async" width="700" height="466" src="images/thumb/jeja1_0.jpg" srcset="images/thumb/jeja1_0.jpg 700w, images/thumb/jeja1_0@2x.jpg 1280w" sizes="(max-width:1000px) 45vw, 18vw" alt="제자교회 청년부 여름 수련회 스냅"></picture></span>
+          <span class="pick-t">제자교회 청년부 여름 수련회 스냅</span>
+          <span class="pick-m">사진 · 2026.08 · 8장</span>
         </button>
         <button type="button" class="pick" data-jump="ocsu">
           <span class="pick-img"><picture><source type="image/avif" srcset="images/thumb/ocsu_0.avif 700w, images/thumb/ocsu_0@2x.avif 1280w" sizes="(max-width:1000px) 45vw, 18vw"><img loading="lazy" decoding="async" width="700" height="433" src="images/thumb/ocsu_0.jpg" srcset="images/thumb/ocsu_0.jpg 700w, images/thumb/ocsu_0@2x.jpg 1280w" sizes="(max-width:1000px) 45vw, 18vw" alt="옥수중앙교회 청년부 저녁집회 스냅"></picture></span>
           <span class="pick-t">옥수중앙교회 청년부 저녁집회 스냅</span>
           <span class="pick-m">사진 · 2026.07 · 13장</span>
         </button>
+        <button type="button" class="pick" data-jump="xmas">
+          <span class="pick-img"><picture><source type="image/avif" srcset="images/thumb/xmas_0.avif 700w, images/thumb/xmas_0@2x.avif 1280w" sizes="(max-width:1000px) 45vw, 18vw"><img loading="lazy" decoding="async" width="700" height="433" src="images/thumb/xmas_0.jpg" srcset="images/thumb/xmas_0.jpg 700w, images/thumb/xmas_0@2x.jpg 1280w" sizes="(max-width:1000px) 45vw, 18vw" alt="N/A Ministry 성탄절 현장 스케치"></picture></span>
+          <span class="pick-t">N/A Ministry 성탄절 현장 스케치</span>
+          <span class="pick-m">사진 · 2025.12 · 8장</span>
+        </button>
         <button type="button" class="pick" data-jump="gwangeun3">
           <span class="pick-img"><picture><source type="image/avif" srcset="images/thumb/gwangeun3_0.avif 700w, images/thumb/gwangeun3_0@2x.avif 1066w" sizes="(max-width:1000px) 45vw, 18vw"><img loading="lazy" decoding="async" width="700" height="977" src="images/thumb/gwangeun3_0.jpg" srcset="images/thumb/gwangeun3_0.jpg 700w, images/thumb/gwangeun3_0@2x.jpg 1066w" sizes="(max-width:1000px) 45vw, 18vw" alt="광은교회 수련회 연습 실황"></picture></span>
           <span class="pick-t">광은교회 수련회 연습 실황</span>
           <span class="pick-m">사진 · 2025.08 · 8장</span>
-        </button>
-        <button type="button" class="pick" data-jump="jeja1">
-          <span class="pick-img"><picture><source type="image/avif" srcset="images/thumb/jeja1_0.avif 700w, images/thumb/jeja1_0@2x.avif 1280w" sizes="(max-width:1000px) 45vw, 18vw"><img loading="lazy" decoding="async" width="700" height="466" src="images/thumb/jeja1_0.jpg" srcset="images/thumb/jeja1_0.jpg 700w, images/thumb/jeja1_0@2x.jpg 1280w" sizes="(max-width:1000px) 45vw, 18vw" alt="제자교회 청년부 여름 수련회 스냅"></picture></span>
-          <span class="pick-t">제자교회 청년부 여름 수련회 스냅</span>
-          <span class="pick-m">사진 · 2026.08 · 8장</span>
         </button>
         <button type="button" class="pick" data-kind="design" data-jump="ocsu_summer_thumb">
           <span class="pick-img"><picture><source type="image/avif" srcset="images/thumb/ocsu_summer_thumb_0.avif 700w, images/thumb/ocsu_summer_thumb_0@2x.avif 1280w" sizes="(max-width:1000px) 45vw, 18vw"><img loading="lazy" decoding="async" width="700" height="393" src="images/thumb/ocsu_summer_thumb_0.jpg" srcset="images/thumb/ocsu_summer_thumb_0.jpg 700w, images/thumb/ocsu_summer_thumb_0@2x.jpg 1280w" sizes="(max-width:1000px) 45vw, 18vw" alt="옥수중앙교회 여름수련회 유튜브 썸네일"></picture></span>
@@ -687,15 +701,15 @@ a{color:inherit}
           <span class="pick-t">사순절 플레이리스트 THE LENT</span>
           <span class="pick-m">디자인 · 2026.02 · 6장</span>
         </button>
-        <button type="button" class="pick" data-jump="xmas">
-          <span class="pick-img"><picture><source type="image/avif" srcset="images/thumb/xmas_0.avif 700w, images/thumb/xmas_0@2x.avif 1280w" sizes="(max-width:1000px) 45vw, 18vw"><img loading="lazy" decoding="async" width="700" height="433" src="images/thumb/xmas_0.jpg" srcset="images/thumb/xmas_0.jpg 700w, images/thumb/xmas_0@2x.jpg 1280w" sizes="(max-width:1000px) 45vw, 18vw" alt="N/A Ministry 성탄절 현장 스케치"></picture></span>
-          <span class="pick-t">N/A Ministry 성탄절 현장 스케치</span>
-          <span class="pick-m">사진 · 2025.12 · 8장</span>
-        </button>
         <button type="button" class="pick" data-kind="design" data-jump="aug_poster">
           <span class="pick-img"><picture><source type="image/avif" srcset="images/thumb/aug_poster_0.avif 560w" sizes="(max-width:1000px) 45vw, 18vw"><img loading="lazy" decoding="async" width="560" height="700" src="images/thumb/aug_poster_0.jpg" srcset="images/thumb/aug_poster_0.jpg 560w" sizes="(max-width:1000px) 45vw, 18vw" alt="N/A Ministry 정기집회 8월 포스터"></picture></span>
           <span class="pick-t">N/A Ministry 정기집회 8월 포스터</span>
           <span class="pick-m">디자인 · 2025.08 · 3장</span>
+        </button>
+        <button type="button" class="pick" data-kind="design" data-jump="analog_lent">
+          <span class="pick-img"><picture><source type="image/avif" srcset="images/thumb/analog_lent_0.avif 700w, images/thumb/analog_lent_0@2x.avif 1280w" sizes="(max-width:1000px) 45vw, 18vw"><img loading="lazy" decoding="async" width="700" height="488" src="images/thumb/analog_lent_0.jpg" srcset="images/thumb/analog_lent_0.jpg 700w, images/thumb/analog_lent_0@2x.jpg 1280w" sizes="(max-width:1000px) 45vw, 18vw" alt="analog — 사순절 플레이리스트"></picture></span>
+          <span class="pick-t">analog — 사순절 플레이리스트</span>
+          <span class="pick-m">디자인 · 2025.03 · 1장</span>
         </button>
       </div>
     </section>
@@ -841,24 +855,16 @@ a{color:inherit}
         <div class="career-when">
           <div class="period">2024.01 <span class="now">재직 중</span></div>
           <div class="dur">2년 8개월</div>
-          <div class="scope">기획·브랜딩 전담 1인</div>
+          <div class="scope">기획부서 대리</div>
         </div>
         <div class="career-what">
           <h3>식물 기반 사회적기업 <span class="hidden-chip">사명 비공개</span></h3>
-          <div class="career-role">공간 기획·조성 · 브랜드 마케팅 · 공간 운영
-            <span class="sub">비주얼 디자인 · 로컬 콘텐츠 기획 · 교육 프로그램 보조</span>
+          <div class="career-role">브랜드·홍보 콘텐츠 제작 · 교육 프로그램 운영 지원
+            <span class="sub">현장 기록 · 문서 정리</span>
           </div>
-          <ul class="tasks">
-            <li><b>공간 기획 · 조성</b><span class="cl">식물을 매개로 한 팝업과 테마 전시,</span> <span class="cl">로컬 축제의 공간을 기획·조성하고,</span> <span class="cl">카페 거점 공간의 리모델링을 맡았습니다.</span></li>
-            <li><b>브랜드 마케팅 · 디자인</b><span class="cl">거점 공간의 온·오프라인 브랜드 마케팅을 전담하고,</span> <span class="cl">브랜딩 시각물과 홍보 콘텐츠를 직접 제작했습니다.</span></li>
-            <li><b>교육 프로그램 보조 · 문서 행정</b><span class="cl">원예 교육과 지역 활성화 프로그램 운영을 보조하고,</span> <span class="cl">기획서 작성부터 성과 통계·보고서까지 문서 행정을 맡았습니다.</span></li>
-          </ul>
-          <div class="result">
-            <div class="cap">Result</div>
-            <p><span class="cl">카페 거점 공간의 <b>17일간 리모델링</b>을 주도했고,</span> <span class="cl">지역의 공간을 임차해 새로 꾸민 작업을 포함해 <b>포토존·공간 조성 10여 곳</b>을 맡았습니다.</span></p>
-            <p><span class="cl">로컬 팝업 전시와 축제 <b>15회 이상</b>의 기획과 현장 운영을 맡아 주요 행사 <b>누적 방문객 5,000여 명</b>을 맞았고,</span> <span class="cl">그중 외부 팝업 <b>1곳은 기획부터 운영까지 단독으로 주도</b>했습니다.</span></p>
-            <p><span class="cl">포스터·영상·디지털 사이니지 등 <b>브랜드 시각물 100여 종</b>을 외주 없이 직접 제작해 제작 비용과 기간을 줄이고,</span> <span class="cl">매장 비주얼 아이덴티티를 통일했습니다.</span></p>
-            <p><span class="cl">지역 주민·시니어 대상 원예 교육 <b>30여 회차</b>(누적 <b>500여 명</b>) 운영을 보조했고,</span> <span class="cl">설문 통계와 결과 보고서를 정리해 성과공유회 개최와 후속 사업의 기반을 마련했습니다.</span></p>
+          <div class="career-body">
+            <p><span class="cl">프로그램이 참여자에게 잘 전달되고</span> <span class="cl">운영 과정이 남을 수 있도록,</span> <span class="cl">홍보물과 기록 자료를 제작·정리합니다.</span></p>
+            <p><span class="cl">모집부터 현장 기록, 결과 정리까지</span> <span class="cl">필요한 자료를 일관된 흐름으로 제작합니다.</span></p>
           </div>
           <div class="tools">
             <div class="tool-row primary"><div class="cap">Design</div>
@@ -868,7 +874,7 @@ a{color:inherit}
             <div class="tool-row"><div class="cap">Doc · Data</div>
               <div class="chipset"><span>한글</span><span>Word</span><span>PowerPoint</span><span>Excel</span><span>Google Sheets</span></div></div>
           </div>
-          <p class="career-note"><span class="sent"><span class="cl">※ AI 도구는 회사 업무의 기획·홍보물 제작에 활용한 것으로,</span> <span class="cl">이 사이트에 게시된 사진과 디자인 작업물은 직접 촬영·제작한 결과물입니다.</span></span><span class="sent"><span class="cl">일부 유튜브 썸네일은 배경 이미지를 AI 툴로 제작하고 타이포그래피를 직접 얹었으며,</span> <span class="cl">해당 작업물에는 별도로 표기했습니다.</span></span><span class="sent"><span class="cl">기존 이미지를 가져와 콜라주로 편집한 작업도 마찬가지로,</span> <span class="cl">그 작업물의 설명에 밝혀두었습니다.</span></span></p>
+          <p class="career-note"><span class="sent"><span class="cl">※ 업무상 만든 자료와 현장 기록물은 회사의 자산이므로,</span> <span class="cl">이 사이트에는 게시하지 않습니다.</span></span><span class="sent"><span class="cl">AI 도구는 회사 업무의 기획·홍보물 제작에 활용한 것으로,</span> <span class="cl">이 사이트에 게시된 사진과 디자인 작업물은 직접 촬영·제작한 결과물입니다.</span></span><span class="sent"><span class="cl">일부 유튜브 썸네일은 배경 이미지를 AI 툴로 제작하고 타이포그래피를 직접 얹었으며,</span> <span class="cl">해당 작업물에는 별도로 표기했습니다.</span></span><span class="sent"><span class="cl">기존 이미지를 가져와 콜라주로 편집한 작업도 마찬가지로,</span> <span class="cl">그 작업물의 설명에 밝혀두었습니다.</span></span></p>
         </div>
       </div>
     </section>
@@ -929,6 +935,27 @@ a{color:inherit}
           </div>
         </div>
       </div>
+    </section>
+
+    <!-- 함께 일한 분들께 받은 말. 이름은 본인 요청에 따라 싣지 않는다.
+         새 CSS 는 .voices* 만 쓴다(경력·연락 것과 섞지 말 것). -->
+    <section class="voices" id="voices">
+      <h2>함께 일한 분들의 말</h2>
+      <p class="voices-lead"><span class="sent"><span class="cl">작업을 맡겨주신 분들께 받은 말입니다.</span> <span class="cl">이름은 밝히지 않았습니다.</span></span></p>
+      <ul class="voice-grid">
+        <li class="voice enter">
+          <blockquote><span class="cl">행사가 끝나자마자 작업해주셔서,</span> <span class="cl">사진을 빨리 받아볼 수 있어 좋았어요.</span></blockquote>
+          <div class="voice-by">함께 일한 담당자</div>
+        </li>
+        <li class="voice enter">
+          <blockquote><span class="cl">팀의 컬러와 컨셉이 그대로 녹아 있어서,</span> <span class="cl">현장감도 살고 팀의 개성도 잘 드러납니다.</span></blockquote>
+          <div class="voice-by">함께 일한 담당자</div>
+        </li>
+        <li class="voice enter">
+          <blockquote><span class="cl">사진을 찍어줄 사람이 없었는데</span> <span class="cl">대신 잘 담아주셔서,</span> <span class="cl">마음 편히 행사를 즐길 수 있었어요.</span></blockquote>
+          <div class="voice-by">함께 일한 담당자</div>
+        </li>
+      </ul>
     </section>
 
     <section class="contact" id="contact">
