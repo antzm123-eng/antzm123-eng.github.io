@@ -31,7 +31,8 @@ tools/  add_work·regen_covers·watermark·crop·to_avif·make_strip
         check_private·check_covers·check_images — 검사 3종은 **`DATA` 표를 읽는다**
 ```
 
-구조를 바꾸면 검사 3종도 같이 고칠 것(안 고치면 0개를 센다). `check_images` 엔 Pillow.
+구조를 바꾸면 검사 3종과 `/마무리` 안 `count_stats.py` 도 같이 고칠 것
+(안 고치면 0개를 센다). `check_images` 엔 Pillow.
 
 **문서 3단.** `CLAUDE.md` = 매 세션 읽힘, 상태 + 규칙만 **10KB 넘기지 말 것** ·
 `WORKLOG.md` = 이력(최신순) · `DECISIONS.md` = 이유. 측정값·근거는 이 둘에. **쌓지 말 것.**
@@ -131,9 +132,11 @@ tools/  add_work·regen_covers·watermark·crop·to_avif·make_strip
 ## 남은 일
 
 1. 🔴 `noindex` 차단 중. **퇴사 시점에 공개** — `index, follow` + Search Console 등록
-2. (보류) **퇴사 후** — 회사 작업물 업로드 · 사명 공개 재검토
+2. **후기 2~3개** — 함께 일한 담당자께 부탁해야 한다(사용자만 가능). 사이트에 후기가 0개
+3. (보류) **퇴사 후** — 회사 작업물 업로드 · 사명 공개 재검토 · 이력서 PDF
 
-포스터 3장 화질(44%)은 원본 소실로 확정.
+포스터 3장 화질(44%)은 원본 소실로 확정 · 대표작에 `analog_lent` 를 넣느라 `na_magazine`
+을 뺐다 — **편집디자인이 사이트에서 사라진 상태**(자리를 바꾸면 되돌아온다).
 
 ## 확정 디자인 (적용됨)
 
